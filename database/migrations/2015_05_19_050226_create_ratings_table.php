@@ -21,9 +21,7 @@ class CreateRatingsTable extends Migration {
                 ->onDelete('cascade');
             $table->unsignedInteger('hi_id');
             $table->foreign('hi_id')
-                ->references('id')->on('ratings')
-                ->onDelete('cascade')
-                ->nullable();
+                ->references('id')->on('ratings');
             $table->tinyInteger('votes')->default(0);
             $table->text('details');
             $table->softDeletes();

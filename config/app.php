@@ -78,7 +78,7 @@ return [
 	|
 	*/
 
-	'key' => env('APP_KEY', 'SomeRandomString'),
+	'key' => env('APP_KEY', 'UtySXIN1yeI8sNLVZQcYwlDifOhWe1lm'),
 
 	'cipher' => MCRYPT_RIJNDAEL_128,
 
@@ -145,6 +145,11 @@ return [
 		'App\Providers\EventServiceProvider',
 		'App\Providers\RouteServiceProvider',
 
+        /*
+         * OAuth 2.0
+         */
+        'Artdarek\OAuth\OAuthServiceProvider',
+
 	],
 
 	/*
@@ -192,7 +197,10 @@ return [
 		'URL'       => 'Illuminate\Support\Facades\URL',
 		'Validator' => 'Illuminate\Support\Facades\Validator',
 		'View'      => 'Illuminate\Support\Facades\View',
-
+        /*
+         * OAuth 2.0
+         */
+        'OAuth'     => 'Artdarek\OAuth\Facade\OAuth',
 	],
 
 ];

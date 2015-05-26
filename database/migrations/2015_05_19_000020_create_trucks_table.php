@@ -21,8 +21,7 @@ class CreateTrucksTable extends Migration {
                 ->onDelete('cascade');
             $table->unsignedInteger('truck_type_id');
             $table->foreign('truck_type_id')        //гражданство
-                ->references('id')->on('truck_types') 
-                ->onDelete('cascade');
+                ->references('id')->on('truck_types');
             $table->string('gos_number',16);        //гос.номер авто
             $table->string('brand',32);             //марка автомобиля
             $table->string('seria',16)->nullable(); //серия марки автомобиля

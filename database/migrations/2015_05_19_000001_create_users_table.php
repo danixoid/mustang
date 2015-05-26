@@ -22,16 +22,13 @@ class CreateUsersTable extends Migration {
             $table->string('father')->nullable();
 			$table->string('email')->unique();
 			$table->string('password', 60);
-            $table->unsignedInteger('country_id');
+            $table->unsignedInteger('country_id')->nullable();
             $table->foreign('country_id')               //гражданство
-                ->references('id')->on('countries') 
-                ->onDelete('cascade');
+                ->references('id')->on('countries');
             $table->boolean('resident')->default(0);
-            $table->unsignedInteger('legal_id');
+            $table->unsignedInteger('legal_id')->nullable();
             $table->foreign('legal_id')                 //страна регистрации автомобиля
-                ->references('id')->on('legals') 
-                ->onDelete('cascade')
-                ->nullable();
+                ->references('id')->on('legals');
 			$table->rememberToken();
 			$table->timestamps();
 		});

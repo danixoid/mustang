@@ -33,4 +33,15 @@ class HomeController extends Controller {
 		return view('home');
 	}
 
+    
+    public function distancecalc() 
+    {
+        return view('google/maps/distance');
+        //return view('google/maps/tempdist');
+    }
+    
+    public function findtruck() 
+    {
+        return view('google/maps/findtruck');
+    }
 }

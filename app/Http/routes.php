@@ -15,9 +15,12 @@
 
 Route::get('/', 'WelcomeController@index');
     
-Route::get('home', 'HomeController@index');
+Route::get('/home', 'HomeController@index');
+
+Route::get('distancecalc', 'HomeController@distancecalc');
+Route::get('findtruck', 'HomeController@findtruck');
 
 Route::controllers([
-	'auth' => 'Auth\AuthController',
-	'password' => 'Auth\PasswordController',
+	'auth'      => 'Auth\AuthController',
+	'password'  => 'Auth\PasswordController',
 ]);

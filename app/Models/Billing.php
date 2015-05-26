@@ -1,8 +1,8 @@
-<?php namespace App;
+<?php namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class File extends Model {
+class Billing extends Model {
 
 	//
     public function taggable()
