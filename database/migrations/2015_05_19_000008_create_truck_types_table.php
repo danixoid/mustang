@@ -16,7 +16,7 @@ class CreateTruckTypesTable extends Migration {
 		{
 			$table->increments('id');
             $table->string('code',8)->unique();
-            $table->string('description',125);
+            $table->text('description');
 		});
 	}
 
