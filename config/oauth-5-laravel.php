@@ -32,6 +32,11 @@ return [
             'scope'         => ['email','read_friendlists','user_online_presence'],
         ],
 
+        'Google' => [
+            'client_id'     => '794016713921-tiinncut6k3ondqk6spifqd3g04i2ru6.apps.googleusercontent.com',
+            'client_secret' => 'hrMRKQNT163tuvFamtVbgudw',
+            'scope'         => ['userinfo_email', 'userinfo_profile'],
+        ],
     ]
 
 ];
