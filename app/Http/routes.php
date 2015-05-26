@@ -24,3 +24,6 @@ Route::controllers([
 	'auth'      => 'Auth\AuthController',
 	'password'  => 'Auth\PasswordController',
 ]);
+
+Route::get('oauth/google', 'OAuthController@google');
+Route::get('oauth/facebook', 'OAuthController@facebook');
