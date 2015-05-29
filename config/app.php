@@ -144,12 +144,6 @@ return [
 		'App\Providers\ConfigServiceProvider',
 		'App\Providers\EventServiceProvider',
 		'App\Providers\RouteServiceProvider',
-
-        /*
-         * OAuth 2.0
-         */
-        'Artdarek\OAuth\OAuthServiceProvider',
-
 	],
 
 	/*
@@ -197,10 +191,6 @@ return [
 		'URL'       => 'Illuminate\Support\Facades\URL',
 		'Validator' => 'Illuminate\Support\Facades\Validator',
 		'View'      => 'Illuminate\Support\Facades\View',
-        /*
-         * OAuth 2.0
-         */
-        'OAuth'     => 'Artdarek\OAuth\Facade\OAuth',
 	],
 
 ];

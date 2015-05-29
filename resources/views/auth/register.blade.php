@@ -5,7 +5,7 @@
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
 			<div class="panel panel-default">
-				<div class="panel-heading">Register</div>
+				<div class="panel-heading">Регистрация</div>
 				<div class="panel-body">
 					@if (count($errors) > 0)
 						<div class="alert alert-danger">
@@ -50,12 +50,13 @@
 							</div>
 						</div>
 
+                        <!--
                         <div class="form-group">
                             <label class="col-md-4 control-label">Телефон</label>
                             <div class="col-md-6">
                                 <input type="text" class="form-control" name="phone" value="{{ old('phone') }}">
                             </div>
-                        </div>
+                        </div>-->
 
 						<div class="form-group">
 							<label class="col-md-4 control-label">Пароль</label>

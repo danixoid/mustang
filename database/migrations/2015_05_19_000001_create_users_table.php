@@ -16,12 +16,14 @@ class CreateUsersTable extends Migration {
 		{
 			$table->increments('id');
             $table->boolean('is_admin')->default(0);
-            $table->string('phone','12');
-			$table->string('name');
+            $table->string('name');
             $table->string('surname');
             $table->string('father')->nullable();
 			$table->string('email')->unique();
 			$table->string('password', 60);
+            $table->unsignedInteger('file_id')->nullable();
+            $table->foreign('file_id')              //Файл картинка
+                ->references('id')->on('files');
             $table->unsignedInteger('country_id')->nullable();
             $table->foreign('country_id')               //гражданство
                 ->references('id')->on('countries');

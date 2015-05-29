@@ -17,8 +17,7 @@ class CreateTruckTracksTable extends Migration {
 			$table->increments('id');
             $table->unsignedInteger('truck_id');
             $table->foreign('truck_id')
-                ->references('id')->on('trucks') 
-                ->onDelete('cascade');
+                ->references('id')->on('trucks');
             $table->string('lat');
             $table->string('long');
 			$table->timestamps();

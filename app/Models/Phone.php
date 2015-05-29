@@ -2,15 +2,12 @@
 
 use Illuminate\Database\Eloquent\Model;
 
-class File extends Model {
+class Phone extends Model {
 
 	//
-    public function taggable()
+    public function users()
     {
-        return $this->morphTo();
-    }
-
-    public function user() {
         return $this->belongsTo('App\Models\User');
     }
+
 }

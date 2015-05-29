@@ -7,6 +7,6 @@ class Legal extends Model {
 	//
     public function files()
     {
-        return $this->morphMany('File', 'taggable');
+        return $this->morphMany('App\Models\File', 'taggable');
     }
 }

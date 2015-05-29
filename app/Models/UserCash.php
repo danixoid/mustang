@@ -9,4 +9,9 @@ class UserCash extends Model {
     {
         return $this->morphMany('Billing', 'taggable');
     }
+
+    public function user()
+    {
+        return $this->belongsTo('User');
+    }
 }

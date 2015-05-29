@@ -7,39 +7,41 @@ class Truck extends Model {
 	//
     public function files()
     {
-        return $this->morphMany('File', 'taggable');
+        return $this->morphMany('App\Models\File', 'taggable');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User');
+    }
+
+    public function picture() {
+        return $this->hasOne('App\Models\File');
+    }
+
+    public function country()
+    {
+        return $this->hasOne('App\Models\Country');
+    }
+
+    public function status()
+    {
+        return $this->hasOne('App\Models\TruckStatus');
+    }
+
+    public function type()
+    {
+        return $this->hasOne('App\Models\TruckType');
     }
     
     public function tracks()
     {
-        return $this->hasMany('TruckTrack');
+        return $this->hasMany('App\Models\TruckTrack');
     }
-    
-    public function geoPosition()
+
+
+    public function track()
     {
-        return $this->tracks->max("created_at");
-    }
-    
-    // Найти грузовик по GPS и геолокации в базе
-    public function scopeTruckInRadius($query,$lat,$long,$radius) 
-    {
-        $query->whereExists(function($query)
-        {
-            $query
-                ->select(
-                    DB::raw("*,
-                    `truck_traces`.`long`,
-                    ( 6371 * acos( cos( radians(?) ) *
-                      cos( radians( `lat` ) )
-                      * cos( radians( `long` ) - radians(?)
-                      ) + sin( radians(?) ) *
-                      sin( radians( `lat` ) ) )
-                    ) AS `distance`"))
-                ->from('truck_traces')
-                ->having("distance", "<", "?")
-                ->orderBy("distance")
-                ->whereRaw('truck_traces.user_id = trucks.id')
-                ->setBindings([$lat, $long, $lat,  $radius]);
-        });
+        return $this->tracks->max('created_at');
     }
 }

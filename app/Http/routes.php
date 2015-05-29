@@ -19,11 +19,11 @@ Route::get('/home', 'HomeController@index');
 
 Route::get('distancecalc', 'HomeController@distancecalc');
 Route::get('findtruck', 'HomeController@findtruck');
+Route::post('findtruck', 'HomeController@findtruck');
+//Route::get('gettrucksinradius', 'HomeController@gettrucksinradius');
+
 
 Route::controllers([
 	'auth'      => 'Auth\AuthController',
 	'password'  => 'Auth\PasswordController',
 ]);
-
-Route::get('oauth/google', 'OAuthController@google');
-Route::get('oauth/facebook', 'OAuthController@facebook');

@@ -6,4 +6,9 @@ class TruckType extends Model {
 
 	//
     public $timestamps = false;
+
+    public function country()
+    {
+        return $this->hasOne('App\Models\Country');
+    }
 }

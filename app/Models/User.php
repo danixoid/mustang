@@ -32,9 +32,43 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 */
 	protected $hidden = ['password', 'remember_token'];
 
-    public function files()
-    {
-        return $this->morphMany('File', 'taggable');
+
+    public function picture() {
+        return $this->hasOne('App\Models\File');
     }
 
+    public function files()
+    {
+        return $this->morphMany('App\Models\File', 'taggable');
+    }
+
+    public function country()
+    {
+        return $this->hasOne('App\Models\Country');
+    }
+
+    public function legal()
+    {
+        return $this->hasOne('App\Models\Legal');
+    }
+
+    public function trucks()
+    {
+        return $this->hasMany('App\Models\Truck');
+    }
+
+    public function tracks()
+    {
+        return $this->hasManyThrough('App\Models\Track','App\Models\Truck');
+    }
+
+    public function phones()
+    {
+        return $this->hasMany('App\Models\Phone');
+    }
+
+    public function cashes()
+    {
+        return $this->hasMany('App\Models\UserCash');
+    }
 }

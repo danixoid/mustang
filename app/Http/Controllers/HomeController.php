@@ -1,5 +1,9 @@
 <?php namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
+use App\Models\TruckTrack;
+
 class HomeController extends Controller {
 
 	/*
@@ -37,11 +41,20 @@ class HomeController extends Controller {
     public function distancecalc() 
     {
         return view('google/maps/distance');
-        //return view('google/maps/tempdist');
     }
     
-    public function findtruck() 
+    public function findtruck(Request $request)
     {
-        return view('google/maps/findtruck');
+        if ($request->isMethod("POST") && $request->ajax()) {
+            $lat = Input::get('lat');
+            $long = Input::get('long');
+            $radius = Input::get('radius');
+            $trucks = TruckTrack::with('truck')->trackInRadius(array($lat,$long,$radius))->get()->toJson();
+            return $trucks;
+        }
+        else {
+            return view('google/maps/findtruck');
+        }
     }
 }
+

@@ -19,7 +19,7 @@
 	<![endif]-->
     
     @yield('javascript')
-    
+
     
 </head>
 <body>
