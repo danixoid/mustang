@@ -4,6 +4,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\Registrar;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use Illuminate\Http\Request;
 
 class AuthController extends Controller {
 
@@ -20,6 +21,8 @@ class AuthController extends Controller {
 
 	use AuthenticatesAndRegistersUsers;
 
+    protected $redirectPath = "userinfo";
+
 	/**
 	 * Create a new authentication controller instance.
 	 *
@@ -34,4 +37,38 @@ class AuthController extends Controller {
 
 		$this->middleware('guest', ['except' => 'getLogout']);
 	}
+
+    /**
+     * Handle a login request to the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function postLogin(Request $request)
+    {
+        $this->validate($request, [
+            'email' => 'required|email', 'password' => 'required',
+        ]);
+
+        $credentials = $request->only('email', 'password');
+
+        if ($this->auth->attempt($credentials, $request->has('remember')))
+        {
+            if($request->ajax()) {
+                return $this->auth->user()->where("email",$request->get("email"))->get()->toJson();
+            } else {
+                return redirect()->intended($this->redirectPath());
+            }
+        }
+
+        if($request->ajax()) {
+            return "[]";
+        } else {
+            return redirect($this->loginPath())
+                ->withInput($request->only('email', 'remember'))
+                ->withErrors([
+                    'email' => $this->getFailedLoginMessage(),
+                ]);
+        }
+    }
 }

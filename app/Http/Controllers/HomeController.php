@@ -45,16 +45,19 @@ class HomeController extends Controller {
     
     public function findtruck(Request $request)
     {
-        if ($request->isMethod("POST") && $request->ajax()) {
+        if ($request->isMethod("POST") && $request->ajax())
+        {
             $lat = Input::get('lat');
             $long = Input::get('long');
             $radius = Input::get('radius');
             $trucks = TruckTrack::with('truck')->trackInRadius(array($lat,$long,$radius))->get()->toJson();
             return $trucks;
         }
-        else {
+        else
+        {
             return view('google/maps/findtruck');
         }
     }
+
 }
 

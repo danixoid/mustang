@@ -1,5 +1,7 @@
 <?php namespace App\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
+
 class WelcomeController extends Controller {
 
 	/*
@@ -32,5 +34,10 @@ class WelcomeController extends Controller {
 	{
 		return view('welcome');
 	}
+
+    public function getuser()
+    {
+        return view('auth/getuser');
+    }
 
 }

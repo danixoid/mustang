@@ -16,6 +16,7 @@
 Route::get('/', 'WelcomeController@index');
     
 Route::get('/home', 'HomeController@index');
+#Route::get('/getuser', 'WelcomeController@getuser');
 
 Route::get('distancecalc', 'HomeController@distancecalc');
 Route::get('findtruck', 'HomeController@findtruck');
