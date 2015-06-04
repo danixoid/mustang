@@ -248,7 +248,7 @@
 @section('content')
 <div class="container">
     <div class="panel panel-default">
-        <div class="panel-heading">Поиска грузовика в радиусе</div>
+        <div class="panel-heading">Поиск грузовика в радиусе</div>
 
         <div class="panel-body">
 

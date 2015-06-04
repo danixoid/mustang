@@ -135,6 +135,8 @@ return [
 		'Illuminate\Translation\TranslationServiceProvider',
 		'Illuminate\Validation\ValidationServiceProvider',
 		'Illuminate\View\ViewServiceProvider',
+        #Agent User
+        'Jenssegers\Agent\AgentServiceProvider',
 
 		/*
 		 * Application Service Providers...
@@ -191,6 +193,8 @@ return [
 		'URL'       => 'Illuminate\Support\Facades\URL',
 		'Validator' => 'Illuminate\Support\Facades\Validator',
 		'View'      => 'Illuminate\Support\Facades\View',
+        #agent user
+        'Agent'     => 'Jenssegers\Agent\Facades\Agent',
 	],
 
 ];
