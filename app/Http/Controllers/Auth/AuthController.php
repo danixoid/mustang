@@ -5,7 +5,8 @@ use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\Registrar;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Http\Request;
-use Jenssegers\Agent\Agent;
+use Jenssegers\Agent\Facades\Agent;
+
 
 class AuthController extends Controller {
 
@@ -21,8 +22,6 @@ class AuthController extends Controller {
 	*/
 
 	use AuthenticatesAndRegistersUsers;
-
-    protected $redirectPath = "userinfo";
 
 	/**
 	 * Create a new authentication controller instance.
