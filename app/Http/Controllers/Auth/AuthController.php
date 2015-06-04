@@ -54,14 +54,14 @@ class AuthController extends Controller {
 
         if ($this->auth->attempt($credentials, $request->has('remember')))
         {
-            if(Agent::is("Mustang_App")) {
+            if(Agent::match("Mustang_App")) {
                 return $this->auth->user()->where("email",$request->get("email"))->get()->toJson();
             } else {
                 return redirect()->intended($this->redirectPath());
             }
         }
 
-        if(Agent::is("Mustang_App")) {
+        if(Agent::match("Mustang_App")) {
             return "[]";
         } else {
             return redirect($this->loginPath())
