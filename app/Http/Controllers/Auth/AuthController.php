@@ -5,6 +5,7 @@ use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\Registrar;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Http\Request;
+use Jenssegers\Agent\Agent;
 
 class AuthController extends Controller {
 
@@ -54,14 +55,14 @@ class AuthController extends Controller {
 
         if ($this->auth->attempt($credentials, $request->has('remember')))
         {
-            if($request->ajax()) {
+            if(Agent::isMobile()) {
                 return $this->auth->user()->where("email",$request->get("email"))->get()->toJson();
             } else {
                 return redirect()->intended($this->redirectPath());
             }
         }
 
-        if($request->ajax()) {
+        if(Agent::isMobile()) {
             return "[]";
         } else {
             return redirect($this->loginPath())
