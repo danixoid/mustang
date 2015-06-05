@@ -5,6 +5,7 @@ use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\Registrar;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Jenssegers\Agent\Facades\Agent;
 
 
@@ -37,6 +38,14 @@ class AuthController extends Controller {
 
 		$this->middleware('guest', ['except' => 'getLogout']);
 	}
+
+    public function getLogin() {
+        if(Agent::match("Mustang_App")) {
+            return array("_token" => csrf_token());
+        } else {
+            return view("auth.login");
+        }
+    }
 
     /**
      * Handle a login request to the application.
