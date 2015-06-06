@@ -64,14 +64,14 @@ class AuthController extends Controller {
         if ($this->auth->attempt($credentials, $request->has('remember')))
         {
             if(Agent::match("Mustang_App")) {
-                return $this->auth->user()->where("email",$request->get("email"))->get()->toJson();
+                return $this->auth->user()->where("email",$request->get("email"))->firstOrFail()->toJson();
             } else {
                 return redirect()->intended($this->redirectPath());
             }
         }
 
         if(Agent::match("Mustang_App")) {
-            return "[]";
+            return "{}";
         } else {
             return redirect($this->loginPath())
                 ->withInput($request->only('email', 'remember'))
