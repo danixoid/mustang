@@ -34,7 +34,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
 
     public function picture() {
-        return $this->hasOne('App\Models\File');
+        return $this->hasOne('App\Models\File','id','file_id');
     }
 
     public function files()
@@ -44,12 +44,12 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
     public function country()
     {
-        return $this->hasOne('App\Models\Country');
+        return $this->hasOne('App\Models\Country','id','country_id');
     }
 
     public function legal()
     {
-        return $this->hasOne('App\Models\Legal');
+        return $this->hasOne('App\Models\Legal','id','legal_id');
     }
 
     public function trucks()
@@ -59,7 +59,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
     public function tracks()
     {
-        return $this->hasManyThrough('App\Models\Track','App\Models\Truck');
+        return $this->hasManyThrough('App\Models\TruckTrack','App\Models\Truck');
     }
 
     public function phones()

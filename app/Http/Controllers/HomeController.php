@@ -1,8 +1,11 @@
 <?php namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use App\Models\TruckTrack;
+use Jenssegers\Agent\Facades\Agent;
 
 class HomeController extends Controller {
 
@@ -34,7 +37,21 @@ class HomeController extends Controller {
 	 */
 	public function index()
 	{
-		return view('home');
+        if(Agent::match("Mustang_App")) {
+            $user = User::where("id",Auth::user()->id)
+                ->with('picture')
+                ->with('country')
+                ->with('legal')
+                ->with('trucks')
+                ->with('tracks')
+                ->with('phones')
+                ->with('cashes')
+                ->firstOrFail()
+                ->toJson();
+            return $user;
+        } else {
+            return view('home');
+        }
 	}
 
     
@@ -45,7 +62,7 @@ class HomeController extends Controller {
     
     public function findtruck(Request $request)
     {
-        if ($request->isMethod("POST") && $request->ajax())
+        if (($request->isMethod("POST") && $request->ajax()) || Agent::match("Mustang_App"))
         {
             $lat = Input::get('lat');
             $long = Input::get('long');
