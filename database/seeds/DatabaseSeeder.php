@@ -20,9 +20,6 @@ class DatabaseSeeder extends Seeder {
 	{
 		Model::unguard();
         $this->call('DBTableSeeder');
-        
-        
-		// $this->call('UserTableSeeder');
 	}
 
 }
@@ -181,15 +178,15 @@ class DBTableSeeder extends Seeder {
          */
 
         $country = Country::create(array(
-            'country_name'  => 'Республика Казахстан',
-            'short_name'    => 'Казахстан',
-            'country_code'  => 'KZ',
+            'name'  => 'Республика Казахстан',
+            'short'    => 'Казахстан',
+            'code'  => 'KZ',
         ));
 
         Country::create(array(
-            'country_name'  => 'Российская Федерация',
-            'short_name'    => 'Россия',
-            'country_code'  => 'RU',
+            'name'  => 'Российская Федерация',
+            'short'    => 'Россия',
+            'code'  => 'RU',
         ));
 
         $cnt = 5;   //количество пользователей

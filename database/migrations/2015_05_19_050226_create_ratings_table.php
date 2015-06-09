@@ -19,6 +19,10 @@ class CreateRatingsTable extends Migration {
             $table->foreign('user_id')
                 ->references('id')->on('users')
                 ->onDelete('cascade');
+            $table->unsignedInteger('posted_user_id');
+            $table->foreign('posted_user_id')
+                ->references('id')->on('users')
+                ->onDelete('cascade');
             $table->unsignedInteger('hi_id');
             $table->foreign('hi_id')
                 ->references('id')->on('ratings');

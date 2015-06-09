@@ -17,6 +17,7 @@ class CreateFilesTable extends Migration {
 			$table->increments('id');
             $table->morphs('taggable');
             $table->string('filename',125);
+            $table->string('uri');
             $table->string('filetype',10)->nullable();
             $table->string('title',125)->nullable();
             $table->text('description')->nullable();
