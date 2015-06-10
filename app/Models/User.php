@@ -52,9 +52,9 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return $this->hasOne('App\Models\Legal','id','legal_id');
     }
 
-    public function trucks()
+    public function truck()
     {
-        return $this->hasMany('App\Models\Truck');
+        return $this->hasOne('App\Models\Truck','id','truck_id');
     }
 
     public function tracks()

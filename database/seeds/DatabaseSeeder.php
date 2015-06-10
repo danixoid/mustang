@@ -31,8 +31,8 @@ class DBTableSeeder extends Seeder {
     public function run()
     {
         DB::table('truck_tracks')->delete();
-        DB::table('trucks')->delete();
         DB::table('users')->delete();
+        DB::table('trucks')->delete();
         DB::table('countries')->delete();
         DB::table('truck_types')->delete();
 
@@ -189,33 +189,16 @@ class DBTableSeeder extends Seeder {
             'code'  => 'RU',
         ));
 
+
+
         $cnt = 5;   //количество пользователей
         $user_ids = array();
         $truck_ids = array();
         /*
-         *              Пользователи
-         */
-        for($i = 0; $i < $cnt; $i++) {
-            $user = User::create(array(
-                'is_admin'  => TRUE,
-                'name'      => 'Данияр' . $i,
-                'surname'   => 'Саумбаев' . $i,
-                'father'    => 'Карияевич' . $i,
-                'email'     => 'danixoid' . $i . '@gmail.com',
-                'password'  => Hash::make('Roamer'),
-                'country_id'=> $country->id,
-                'resident'  => TRUE,
-            ));
-            array_push($user_ids,$user->id);
-        }
-
-
-        /*
          *              Грузовики пользователей
          */
-        foreach($user_ids as $user_id) {
+        for($i = 0; $i < $cnt; $i++) {
             $truck = Truck::create(array(
-                'user_id'       => $user_id,
                 'truck_type_id' => $truck_type->id,
                 'gos_number'    => 'F154AAA',
                 'brand'         => 'Мерседес',
@@ -227,13 +210,34 @@ class DBTableSeeder extends Seeder {
             ));
             array_push($truck_ids,$truck->id);
         }
+        /*
+         *              Пользователи
+         */
+
+        for($i = 0; $i < $cnt; $i++) {
+            $user = User::create(array(
+                'is_admin'  => TRUE,
+                'name'      => 'Данияр' . $i,
+                'surname'   => 'Саумбаев' . $i,
+                'father'    => 'Карияевич' . $i,
+                'email'     => 'danixoid' . $i . '@gmail.com',
+                'password'  => Hash::make('Roamer'),
+                'truck_id'  => $truck_ids[$i],
+                'country_id'=> $country->id,
+                'resident'  => TRUE,
+            ));
+            array_push($user_ids,$user->id);
+        }
+
+
+
 
         /*
          *              Лог Геолокации Грузовиков
          */
 
-        $lat = 43.241485;
-        $lng = 76.876108;
+        $lat = 50.41667938232422;
+        $lng = 80.26166534423828;
 
         foreach($truck_ids as $truck_id) {
 
@@ -252,8 +256,8 @@ class DBTableSeeder extends Seeder {
 
     private function randomCoord($l) {
         $step = 10000;
-        $min = ($l - 0.02) * $step;
-        $max = ($l + 0.02) * $step;
+        $min = ($l - 0.03) * $step;
+        $max = ($l + 0.03) * $step;
         return (mt_rand($min, $max)) / $step;
     }
 }

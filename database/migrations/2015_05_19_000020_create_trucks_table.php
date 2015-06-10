@@ -15,9 +15,6 @@ class CreateTrucksTable extends Migration {
 		Schema::create('trucks', function(Blueprint $table)
 		{
 			$table->increments('id');
-            $table->unsignedInteger('user_id')->nullable();
-            $table->foreign('user_id')              //принадлежность пользователю
-                ->references('id')->on('users');
             $table->unsignedInteger('country_id')->nullable();
             $table->foreign('country_id')           //страна регистрации автомобиля
                 ->references('id')->on('countries');

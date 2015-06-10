@@ -21,6 +21,9 @@ class CreateUsersTable extends Migration {
             $table->string('father')->nullable();
 			$table->string('email')->unique();
 			$table->string('password', 60);
+            $table->unsignedInteger('truck_id')->nullable();
+            $table->foreign('truck_id')              //Грузовик
+                ->references('id')->on('trucks');
             $table->unsignedInteger('file_id')->nullable();
             $table->foreign('file_id')              //Файл картинка
                 ->references('id')->on('files');

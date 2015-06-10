@@ -64,13 +64,23 @@ class HomeController extends Controller {
     
     public function findtruck(Request $request)
     {
-        if (($request->isMethod("POST") && $request->ajax()) || Agent::match("Mustang_App"))
+        if ($request->isMethod("POST") && ($request->ajax() || Agent::match("Mustang_App")))
         {
             $lat = Input::get('lat');
-            $long = Input::get('long');
+            $lng = Input::get('lng');
             $radius = Input::get('radius');
-            $trucks = TruckTrack::with('truck')->trackInRadius(array($lat,$long,$radius))->get()->toJson();
-            return $trucks;
+            $tracks = TruckTrack::trackInRadius(array($lat,$lng,$radius))->get();
+            $truckIds = [];
+
+            foreach($tracks as $track) {
+                array_push($truckIds, $track->truck_id);
+            }
+
+            $user = User::with('truck')
+                ->whereIn('truck_id',$truckIds)
+                ->get()
+                ->toJson();
+            return $user;
         }
         else
         {

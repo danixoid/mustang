@@ -17,7 +17,7 @@ class TruckTrack extends Model {
                             MAX(`truck_tracks`.`created_at`) created_at,
                             ( 6371 * acos( cos( radians(" . $binds[0] . ") ) *
                               cos( radians( `lat` ) )
-                              * cos( radians( `long` ) - radians(" . $binds[1] . ")
+                              * cos( radians( `lng` ) - radians(" . $binds[1] . ")
                               ) + sin( radians(" . $binds[0] . " ) ) *
                               sin( radians( `lat` ) ) )
                             ) AS `distance`")

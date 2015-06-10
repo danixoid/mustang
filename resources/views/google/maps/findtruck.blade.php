@@ -14,11 +14,11 @@
     var timeout = setTimeout(null);
     
 
-    var mapCenter = new google.maps.LatLng(43.241485, 76.876108);
+    var mapCenter = new google.maps.LatLng(50.41667938232422, 80.26166534423828);
     var map;
     var content = '';
     var infowindow = null;
-    var markerCenter = null;
+    var markerCenter = new google.maps.Marker(null);
     var markerTrucks = [];
     var circleRadius = new google.maps.Circle(null);
     var radius = 0;
@@ -49,6 +49,7 @@
             navigator.geolocation.getCurrentPosition(function (position) {
                 mapCenter = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
                 content = mapCenter.toString();
+                markerCenter.setPosition(mapCenter);
                 showlog('Мое местоположение!', content)
             }, function () {
                 content = 'Геолокация не работает.';
@@ -60,7 +61,6 @@
             showlog('Ошибка!', content);
         }
 
-        markerCenter.latLng = mapCenter;
 
         map.panTo(mapCenter);
     }
@@ -99,8 +99,6 @@
 
         clearTimeout(timeout);
 
-        findTrucksHere();
-
         timeout = setTimeout(findTrucksHere(),timelong);
     }
 
@@ -132,14 +130,14 @@
             'dataType' : 'json',
             'data' : {
                 'lat': mapCenter.lat(),
-                'long': mapCenter.lng(),
+                'lng': mapCenter.lng(),
                 'radius': radius / 1000
             },
             'success' : function (data) {
                 trucks = data;
+                //alert(JSON.stringify(trucks));
                 showTrucks(trucks);
                 drawTableTrucks(trucks);
-                //alert(JSON.stringify(trucks));
             },
             'error' : function (error) {
                 showlog('Ошибка!', JSON.stringify(error));
@@ -157,10 +155,10 @@
 
         trucks.forEach(function (item, i, arr) {
             
-            var truckLatlng = new google.maps.LatLng(item.lat,item.long);
+            var truckLatlng = new google.maps.LatLng(item.truck.track.lat,item.truck.track.lng);
 
-            var aboutTruck = item.truck.user.name + ' ' + item.truck.gos_number + ' ' + item.truck.brand
-                    + ' ' + item.truck.seria + '<br />Последнее обновление ' + item.created_at;
+            var aboutTruck = item.name + ' ' + item.truck.gos_number + ' ' + item.truck.brand
+                    + ' ' + item.truck.seria + '<br />Последнее обновление ' + item.truck.track.created_at;
 
             var image = {
                 url: 'img/truck_map.png',
@@ -208,8 +206,8 @@
             trucks.forEach(function (item, i, arr) {
                 str += '<tr>';
                 str += '<td>' + (i+++1) + '</td>';
-                str += '<td>' + item.truck.user.surname + ' ' + item.truck.user.name + ' '
-                    + item.truck.user.father + '</td>';
+                str += '<td>' + item.surname + ' ' + item.name + ' '
+                    + item.father + '</td>';
                 str += '<td>' + item.truck.gos_number + ' ' + item.truck.brand + ' '
                     + item.truck.seria + ' ' + '</td>';
                 str += '<td></td>';
