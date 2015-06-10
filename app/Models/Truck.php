@@ -46,6 +46,6 @@ class Truck extends Model {
     {
         $track = TruckTrack::where("truck_id",$this->id);
         $createdDate = $track->max("created_at","updated_at");
-        return $track->where("created_at",$createdDate)->get();
+        return $track->where("created_at",$createdDate)->firstOrFail();
     }
 }
