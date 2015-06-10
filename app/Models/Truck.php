@@ -4,6 +4,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Truck extends Model {
 
+    protected $appends = array('track');
+
 	//
     public function files()
     {
@@ -40,8 +42,10 @@ class Truck extends Model {
     }
 
 
-    public function track()
+    public function getTrackAttribute()
     {
-        return $this->tracks->max('created_at');
+        $track = TruckTrack::where("truck_id",$this->id);
+        $createdDate = $track->max("created_at","updated_at");
+        return $track->where("created_at",$createdDate)->get();
     }
 }

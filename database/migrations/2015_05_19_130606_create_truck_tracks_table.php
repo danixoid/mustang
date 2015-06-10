@@ -19,7 +19,7 @@ class CreateTruckTracksTable extends Migration {
             $table->foreign('truck_id')
                 ->references('id')->on('trucks');
             $table->string('lat');
-            $table->string('long');
+            $table->string('lng');
 			$table->timestamps();
 		});
 	}

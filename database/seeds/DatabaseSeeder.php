@@ -233,7 +233,7 @@ class DBTableSeeder extends Seeder {
          */
 
         $lat = 43.241485;
-        $long = 76.876108;
+        $lng = 76.876108;
 
         foreach($truck_ids as $truck_id) {
 
@@ -244,7 +244,7 @@ class DBTableSeeder extends Seeder {
                 TruckTrack::create(array(
                     'truck_id' => $truck_id,
                     'lat' => $this->randomCoord($lat),
-                    'long' => $this->randomCoord($long),
+                    'lng' => $this->randomCoord($lng),
                 ));
             }
         }
