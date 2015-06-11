@@ -44,7 +44,6 @@ class HomeController extends Controller {
                 ->with('country')
                 ->with('legal')
                 ->with('truck')
-                ->with('tracks')
                 ->with('phones')
                 ->with('cashes')
                 ->firstOrFail()

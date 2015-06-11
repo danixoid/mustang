@@ -57,11 +57,6 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return $this->hasOne('App\Models\Truck','id','truck_id');
     }
 
-    public function tracks()
-    {
-        return $this->hasManyThrough('App\Models\TruckTrack','App\Models\Truck');
-    }
-
     public function phones()
     {
         return $this->hasMany('App\Models\Phone');
