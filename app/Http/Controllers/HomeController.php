@@ -43,7 +43,7 @@ class HomeController extends Controller {
                 ->with('picture')
                 ->with('country')
                 ->with('legal')
-                ->with('trucks')
+                ->with('truck')
                 ->with('tracks')
                 ->with('phones')
                 ->with('cashes')
@@ -92,4 +92,3 @@ class HomeController extends Controller {
     }
 
 }
-
