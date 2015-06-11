@@ -12,11 +12,6 @@ class Truck extends Model {
         return $this->morphMany('App\Models\File', 'taggable');
     }
 
-    public function user()
-    {
-        return $this->belongsTo('App\Models\User');
-    }
-
     public function picture() {
         return $this->hasOne('App\Models\File');
     }
