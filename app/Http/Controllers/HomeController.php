@@ -66,6 +66,9 @@ class HomeController extends Controller {
     {
         if ($request->isMethod("POST") && ($request->ajax() || Agent::match("Mustang_App")))
         {
+            if (!(Input::has('lat') && Input::has('lng') && Input::has('radius'))) {
+                return array("lat lng radius not found");
+            }
             $lat = Input::get('lat');
             $lng = Input::get('lng');
             $radius = Input::get('radius');
