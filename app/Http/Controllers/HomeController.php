@@ -65,14 +65,14 @@ class HomeController extends Controller {
     
     public function findtruck(Request $request)
     {
-        if ($request->isMethod("POST") && ($request->ajax() || Agent::match("Mustang_App")))
+        if (($request->isMethod("POST") && $request->ajax()) || Agent::match("Mustang_App"))
         {
-            if (!(Input::has('lat') && Input::has('lng') && Input::has('radius'))) {
+            /*if (!(Input::has('lat') && Input::has('lng') && Input::has('radius'))) {
                 return array("lat lng radius not found");
-            }
-            $lat = Input::get('lat');
-            $lng = Input::get('lng');
-            $radius = Input::get('radius');
+            }*/
+            $lat = '50.41667938232422';//Input::get('lat');
+            $lng = '80.26166534423828';//Input::get('lng');
+            $radius = 4000;//Input::get('radius');
             $tracks = TruckTrack::trackInRadius(array($lat,$lng,$radius))->get();
             $truckIds = [];
 
@@ -86,9 +86,8 @@ class HomeController extends Controller {
                         'picture',
                         'country',
                         'legal',
-                        'truck',
-                        'truck.track',
                         'truck.picture',
+                        'truck.track',
                         'phones',
                         'cashes'
                     )
