@@ -241,16 +241,21 @@ class DBTableSeeder extends Seeder {
 
         foreach($truck_ids as $truck_id) {
 
+            $track = null;
+
             $track_cnt = mt_rand(4,10);
 
             for ($i = 0; $i < $track_cnt; $i++) {
 
-                TruckTrack::create(array(
+                $track = TruckTrack::create(array(
                     'truck_id' => $truck_id,
                     'lat' => $this->randomCoord($lat),
                     'lng' => $this->randomCoord($lng),
                 ));
             }
+
+            $truck = TruckTrack::where('id',$truck_id);
+            $truck->track_id = $track->id;
         }
     }
 

@@ -18,6 +18,9 @@ class CreateTrucksTable extends Migration {
             $table->unsignedInteger('country_id')->nullable();
             $table->foreign('country_id')           //страна регистрации автомобиля
                 ->references('id')->on('countries');
+            $table->unsignedInteger('track_id')->nullable();
+            $table->foreign('track_id')             //Местоположение
+                ->references('id')->on('truck_tracks');
             $table->unsignedInteger('truck_status_id')->nullable();
             $table->foreign('truck_status_id')      //статус авто
                 ->references('id')->on('truck_statuses');
@@ -37,6 +40,13 @@ class CreateTrucksTable extends Migration {
             $table->float('capacity')->default(0);  //грузоподъемность в тоннах
             $table->timestamps();                   //время создания записи и обновления
 		});
+
+
+        Schema::table('truck_tracks', function($table)
+        {
+            $table->foreign('truck_id')
+                ->references('id')->on('trucks');
+        });
 	}
 
 	/**
@@ -46,6 +56,11 @@ class CreateTrucksTable extends Migration {
 	 */
 	public function down()
 	{
+        Schema::table('truck_tracks', function($table)
+        {
+            $table->dropForeign('truck_tracks_truck_id_foreign');
+        });
+
 		Schema::drop('trucks');
 	}
 

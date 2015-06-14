@@ -4,8 +4,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Truck extends Model {
 
-    protected $appends = array('track');
-
 	//
     public function files()
     {
@@ -31,6 +29,11 @@ class Truck extends Model {
         return $this->hasOne('App\Models\TruckType');
     }
     
+    public function track()
+    {
+        return $this->hasOne('App\Models\TruckTrack');
+    }
+
     public function tracks()
     {
         return $this->hasMany('App\Models\TruckTrack');

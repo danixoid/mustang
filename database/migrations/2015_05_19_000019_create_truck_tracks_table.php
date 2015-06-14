@@ -14,10 +14,8 @@ class CreateTruckTracksTable extends Migration {
 	{
 		Schema::create('truck_tracks', function(Blueprint $table)
 		{
-			$table->increments('id');
             $table->unsignedInteger('truck_id');
-            $table->foreign('truck_id')
-                ->references('id')->on('trucks');
+            $table->increments('id');
             $table->string('lat');
             $table->string('lng');
 			$table->timestamps();
