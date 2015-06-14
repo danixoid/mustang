@@ -40,12 +40,14 @@ class HomeController extends Controller {
 	{
         if(Agent::match("Mustang_App")) {
             $user = User::where("id",Auth::user()->id)
-                ->with('picture')
-                ->with('country')
-                ->with('legal')
-                ->with('truck')
-                ->with('phones')
-                ->with('cashes')
+                ->with(array(
+                    'picture',
+                    'country',
+                    'legal',
+                    'truck',
+                    'truck.track',
+                    'phones',
+                    'cashes'))
                 ->firstOrFail()
                 ->toJson();
             //dd($user->trucks);
@@ -78,7 +80,19 @@ class HomeController extends Controller {
                 array_push($truckIds, $track->truck_id);
             }
 
-            $user = User::with('truck')
+            $user =
+                User::with(
+                    array(
+                        'picture',
+                        'country',
+                        'legal',
+                        'truck',
+                        'truck.track',
+                        'truck.picture',
+                        'phones',
+                        'cashes'
+                    )
+                )
                 ->whereIn('truck_id',$truckIds)
                 ->get()
                 ->toJson();
