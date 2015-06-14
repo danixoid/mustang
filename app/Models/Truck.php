@@ -4,7 +4,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Truck extends Model {
 
-	//
+    protected $appends = array('track');
+
+    //
     public function files()
     {
         return $this->morphMany('App\Models\File', 'taggable');
@@ -29,7 +31,7 @@ class Truck extends Model {
         return $this->hasOne('App\Models\TruckType');
     }
     
-    public function track()
+    public function getTrackAttribute()
     {
         return $this->hasOne('App\Models\TruckTrack');
     }
@@ -38,12 +40,12 @@ class Truck extends Model {
     {
         return $this->hasMany('App\Models\TruckTrack');
     }
-
+/*
 
     public function getTrackAttribute()
     {
         $track = TruckTrack::where("truck_id",$this->id);
         $createdDate = $track->max("created_at","updated_at");
         return $track->where("created_at",$createdDate)->firstOrFail();
-    }
+    }*/
 }
