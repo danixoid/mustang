@@ -31,7 +31,7 @@ class Truck extends Model {
         return $this->hasOne('App\Models\TruckType');
     }
     
-    public function getTrackAttribute()
+    public function track()
     {
         return $this->hasOne('App\Models\TruckTrack');
     }
@@ -40,12 +40,14 @@ class Truck extends Model {
     {
         return $this->hasMany('App\Models\TruckTrack');
     }
-/*
+
 
     public function getTrackAttribute()
     {
+        return $this->track();
+        /*
         $track = TruckTrack::where("truck_id",$this->id);
         $createdDate = $track->max("created_at","updated_at");
-        return $track->where("created_at",$createdDate)->firstOrFail();
-    }*/
+        return $track->where("created_at",$createdDate)->firstOrFail();*/
+    }
 }
