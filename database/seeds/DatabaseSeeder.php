@@ -254,8 +254,9 @@ class DBTableSeeder extends Seeder {
                 ));
             }
 
-            $truck = TruckTrack::where('id',$truck_id);
+            $truck = Truck::where('id',$truck_id)->firstOrFail();
             $truck->track_id = $track->id;
+            $truck->save();
         }
     }
 
