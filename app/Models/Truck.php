@@ -18,7 +18,7 @@ class Truck extends Model {
 
     public function country()
     {
-        return $this->hasOne('App\Models\Country');
+        return $this->hasOne('App\Models\Country','id','country_id');
     }
 
     public function status()

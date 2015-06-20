@@ -3,6 +3,7 @@
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\RedirectResponse;
+use Jenssegers\Agent\Facades\Agent;
 
 class RedirectIfAuthenticated {
 
@@ -35,6 +36,10 @@ class RedirectIfAuthenticated {
 	{
 		if ($this->auth->check())
 		{
+            if(Agent::match("Mustang_App")) {
+                return new RedirectResponse(url('/profile'));
+            }
+
             return new RedirectResponse(url('/home'));
 		}
 

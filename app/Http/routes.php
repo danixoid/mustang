@@ -11,20 +11,24 @@
 |
 */
 
-#Route::get('/', array('https','WelcomeController@index'));
-
 Route::get('/', 'WelcomeController@index');
-    
-Route::get('/home', 'HomeController@index');
-#Route::get('/getuser', 'WelcomeController@getuser');
+Route::get('distance', 'WelcomeController@distance');
 
-Route::get('distancecalc', 'HomeController@distancecalc');
-Route::get('findtruck', 'HomeController@findtruck');
-Route::post('findtruck', 'HomeController@findtruck');
-//Route::get('gettrucksinradius', 'HomeController@gettrucksinradius');
+Route::get('home', 'HomeController@index');
+Route::get('map', 'HomeController@map');
 
 
+//USER PROFILE
+Route::post('profile','JsonController@index');
+Route::post('findtruck','JsonController@inRadius');
+
+
+//AUTENTIFICATION
 Route::controllers([
 	'auth'      => 'Auth\AuthController',
 	'password'  => 'Auth\PasswordController',
 ]);
+
+//TESTING
+#Route::get('/getuser', 'WelcomeController@getuser');
+#Route::get('/', array('https','WelcomeController@index'));

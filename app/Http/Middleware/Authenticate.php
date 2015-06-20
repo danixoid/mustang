@@ -2,6 +2,7 @@
 
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
+use Jenssegers\Agent\Facades\Agent;
 
 class Authenticate {
 
@@ -34,9 +35,9 @@ class Authenticate {
 	{
 		if ($this->auth->guest())
 		{
-			if ($request->ajax())
+			if ($request->ajax() || Agent::match('Mustang_App'))
 			{
-				return response('Unauthorized.', 401);
+				return array('auth' => null);
 			}
 			else
 			{
