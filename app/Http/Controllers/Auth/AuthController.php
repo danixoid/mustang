@@ -4,6 +4,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\Registrar;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use Illuminate\Http\Request;
 use Jenssegers\Agent\Facades\Agent;
 
 
@@ -43,4 +44,29 @@ class AuthController extends Controller {
             return view("auth.login");
         }
     }
+
+    public function postLogin(Request $request)
+    {
+        $this->validate($request, [
+            'email' => 'required|email', 'password' => 'required',
+        ]);
+
+        $credentials = $request->only('email', 'password');
+
+        if ($this->auth->attempt($credentials, $request->has('remember')))
+        {
+            return redirect()->action("WelcomeController@index");
+        }
+
+        if (Agent::match("Mustang_App")) {
+            return ["error" => "email or password is incorrect"];
+        } else {
+            return redirect($this->loginPath())
+                ->withInput($request->only('email', 'remember'))
+                ->withErrors([
+                    'email' => $this->getFailedLoginMessage(),
+                ]);
+        }
+    }
+
 }
