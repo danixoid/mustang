@@ -2,6 +2,8 @@
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Jenssegers\Agent\Facades\Agent;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
 class Handler extends ExceptionHandler {
 
@@ -36,6 +38,23 @@ class Handler extends ExceptionHandler {
 	 */
 	public function render($request, Exception $e)
 	{
+        if (Agent::match('Mustang_App')) {
+            $json = [
+                'success' => false,
+                'error' => [
+                    'code' => $e->getCode(),
+                    'message' => $e->getMessage(),
+                ],
+            ];
+
+            return response()->json($json, 400);
+        }
+
+        if ($e instanceof MethodNotAllowedHttpException)
+        {
+            abort(404);
+        }
+
 		return parent::render($request, $e);
 	}
 

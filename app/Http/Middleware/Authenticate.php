@@ -2,6 +2,7 @@
 
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Http\RedirectResponse;
 use Jenssegers\Agent\Facades\Agent;
 
 class Authenticate {
@@ -13,12 +14,11 @@ class Authenticate {
 	 */
 	protected $auth;
 
-	/**
-	 * Create a new filter instance.
-	 *
-	 * @param  Guard  $auth
-	 * @return void
-	 */
+    /**
+     * Create a new filter instance.
+     *
+     * @param  Guard $auth
+     */
 	public function __construct(Guard $auth)
 	{
 		$this->auth = $auth;
@@ -44,6 +44,11 @@ class Authenticate {
 				return redirect()->guest('auth/login');
 			}
 		}
+
+        if($this->auth->user()->country_id == null)
+        {
+            return new RedirectResponse(url('/profile'));
+        }
 
 		return $next($request);
 	}

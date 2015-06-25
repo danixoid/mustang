@@ -10,20 +10,22 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-
+//ДЛЯ ГОСТЕЙ
 Route::get('/', 'WelcomeController@index');
 Route::get('distance', 'WelcomeController@distance');
 
+
+//ДЛЯ ПОЛЬЗОВАТЕЛЕЙ
 Route::get('home', 'HomeController@index');
 Route::get('map', 'HomeController@map');
 
 
-//USER PROFILE
+//ДЛЯ МОБИЛЬНОГО ПРИЛОЖЕНИЯ И AJAX-ЗАПРОСОВ
 Route::post('profile','JsonController@index');
 Route::post('findtruck','JsonController@inRadius');
 
 
-//AUTENTIFICATION
+//АВТОРИЗАЦИЯ
 Route::controllers([
 	'auth'      => 'Auth\AuthController',
 	'password'  => 'Auth\PasswordController',

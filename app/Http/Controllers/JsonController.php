@@ -11,8 +11,22 @@ class JsonController extends Controller {
     /**
      * Create a new controller instance.
      *
-     * @return void
      */
+
+    private $usersRels = array(
+            'country',
+            'picture',
+            'files',
+            'country',
+            'legal',
+            'truck.country',
+            'truck.picture',
+            'truck.files',
+            'truck.track',
+            'phones',
+            'cashes');
+
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -29,18 +43,7 @@ class JsonController extends Controller {
         $id = Auth::user()->id;
 
         $user = User::where("id", $id)
-            ->with(array(
-                'country',
-                'picture',
-                'files',
-                'country',
-                'legal',
-                'truck.country',
-                'truck.picture',
-                'truck.files',
-                'truck.track',
-                'phones',
-                'cashes'))
+            ->with($this->usersRels)
             ->firstOrFail()
             ->toJson();
 
@@ -62,19 +65,7 @@ class JsonController extends Controller {
             array_push($truckIds, $track->truck_id);
         }
 
-        $user = User::with([
-                    'country',
-                    'picture',
-                    'files',
-                    'country',
-                    'legal',
-                    'truck.country',
-                    'truck.picture',
-                    'truck.files',
-                    'truck.track',
-                    'phones',
-                    'cashes'
-                ])
+        $user = User::with($this->usersRels)
                 ->whereIn('truck_id',$truckIds)
                 ->get()
                 ->toJson();
