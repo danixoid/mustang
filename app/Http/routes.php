@@ -21,6 +21,7 @@ Route::get('map', 'HomeController@map');
 
 
 //ДЛЯ МОБИЛЬНОГО ПРИЛОЖЕНИЯ И AJAX-ЗАПРОСОВ
+Route::post('home', 'JsonController@index');
 Route::post('profile','JsonController@index');
 Route::post('findtruck','JsonController@inRadius');
 

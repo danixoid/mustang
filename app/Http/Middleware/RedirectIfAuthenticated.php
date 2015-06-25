@@ -36,10 +36,12 @@ class RedirectIfAuthenticated {
 		if ($this->auth->check())
 		{
             if(Agent::match("Mustang_App")) {
-                return new RedirectResponse(url('/profile'));
-            }
 
-            return new RedirectResponse(url('/home'));
+                return new RedirectResponse(url('/profile'));
+            } else {
+
+                return new RedirectResponse(url('/home'));
+            }
 		}
 
 		return $next($request);

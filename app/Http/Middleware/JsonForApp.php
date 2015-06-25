@@ -14,11 +14,12 @@ class JsonForApp {
 	 */
 	public function handle($request, Closure $next)
 	{
-        if($request->ajax() || Agent::match("Mustang_App")) {
-            return $next($request);
+        if(!($request->ajax() || Agent::match("Mustang_App"))) {
+
+            return view("errors/404");
         }
 
-        return view("errors/404");
+        return $next($request);
 	}
 
 }
