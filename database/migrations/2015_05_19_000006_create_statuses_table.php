@@ -15,7 +15,7 @@ class CreateStatusesTable extends Migration {
 		Schema::create('statuses', function(Blueprint $table)
 		{
             $table->increments('id');
-            $table->string('code',16)->unique(); //TYPE_CODE, TRUCK_SOS
+            $table->string('code',64)->unique(); //TYPE_CODE, TRUCK_SOS
             $table->string('description',125)->nullable();
 		});
 	}
