@@ -22,21 +22,23 @@ class CreateUsersTable extends Migration {
 			$table->string('email')->unique();
 			$table->string('password', 60);
             $table->unsignedInteger('truck_id')->nullable();
+            $table->unsignedInteger('file_id')->nullable();
+            $table->unsignedInteger('country_id')->nullable();
+            $table->unsignedInteger('legal_id')->nullable();
+            $table->boolean('resident')->default(0);
+            $table->boolean('activated')->default(0);
+            $table->rememberToken();
+			$table->timestamps();
+
             $table->foreign('truck_id')                 //Грузовик
                 ->references('id')->on('trucks');
-            $table->unsignedInteger('file_id')->nullable();
             $table->foreign('file_id')                  //Файл картинка
                 ->references('id')->on('files');
-            $table->unsignedInteger('country_id')->nullable();
             $table->foreign('country_id')               //гражданство
                 ->references('id')->on('countries');
-            $table->boolean('resident')->default(0);
-            $table->unsignedInteger('legal_id')->nullable();
             $table->foreign('legal_id')                 //страна регистрации автомобиля
                 ->references('id')->on('legals');
-			$table->rememberToken();
-			$table->timestamps();
-		});
+        });
 	}
 
 	/**

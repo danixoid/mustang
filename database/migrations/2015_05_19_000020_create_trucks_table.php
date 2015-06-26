@@ -16,20 +16,10 @@ class CreateTrucksTable extends Migration {
 		{
 			$table->increments('id');
             $table->unsignedInteger('country_id')->nullable();
-            $table->foreign('country_id')           //страна регистрации автомобиля
-                ->references('id')->on('countries');
             $table->unsignedInteger('track_id')->nullable();
-            $table->foreign('track_id')             //Местоположение
-                ->references('id')->on('truck_tracks');
-            $table->unsignedInteger('truck_status_id')->nullable();
-            $table->foreign('truck_status_id')      //статус авто
-                ->references('id')->on('truck_statuses');
+            $table->unsignedInteger('status_id')->nullable();
             $table->unsignedInteger('truck_type_id');
-            $table->foreign('truck_type_id')        //гражданство
-                ->references('id')->on('truck_types');
             $table->unsignedInteger('file_id')->nullable();
-            $table->foreign('file_id')              //Файл картинка
-                ->references('id')->on('files');
             $table->string('gos_number',16);        //гос.номер авто
             $table->string('brand',32);             //марка автомобиля
             $table->string('seria',16)->nullable(); //серия марки автомобиля
@@ -39,6 +29,17 @@ class CreateTrucksTable extends Migration {
             $table->float('length')->default(0);    //длина в метрах
             $table->float('capacity')->default(0);  //грузоподъемность в тоннах
             $table->timestamps();                   //время создания записи и обновления
+
+            $table->foreign('country_id')           //страна регистрации автомобиля
+                ->references('id')->on('countries');
+            $table->foreign('track_id')             //Местоположение
+                ->references('id')->on('truck_tracks');
+            $table->foreign('status_id')            //статус авто
+                ->references('id')->on('statuses');
+            $table->foreign('truck_type_id')        //гражданство
+                ->references('id')->on('truck_types');
+            $table->foreign('file_id')              //Файл картинка
+                ->references('id')->on('files');
 		});
 
 

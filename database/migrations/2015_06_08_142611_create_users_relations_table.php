@@ -15,15 +15,16 @@ class CreateUsersRelationsTable extends Migration {
 		Schema::create('users_relations', function(Blueprint $table)
 		{
             $table->unsignedInteger('user_id');
+            $table->unsignedInteger('friend_user_id');
+            $table->timestamps();
+
+            $table->index(["user_id", "friend_user_id"]);
             $table->foreign('user_id')                  //пользователь
                 ->references('id')->on('users')
                 ->onDelete('cascade');
-            $table->unsignedInteger('friend_user_id');
             $table->foreign('friend_user_id')           //пользователь
                 ->references('id')->on('users')
                 ->onDelete('cascade');
-			$table->index(["user_id", "friend_user_id"]);
-            $table->timestamps();
 		});
 	}
 

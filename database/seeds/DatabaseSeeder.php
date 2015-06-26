@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\TruckType;
 use App\Models\Truck;
 use App\Models\TruckTrack;
+use App\Models\Status;
 
 class DatabaseSeeder extends Seeder {
 
@@ -30,11 +31,80 @@ class DBTableSeeder extends Seeder {
 
     public function run()
     {
+        DB::table('statuses')->delete();
         DB::table('truck_tracks')->delete();
         DB::table('users')->delete();
         DB::table('trucks')->delete();
         DB::table('countries')->delete();
         DB::table('truck_types')->delete();
+
+        /*
+         *              СТАТУСЫ ГРУЗОВИКОВ
+         */
+
+        $truck_status = Status::create(array(
+            'code' => 'TRUCK_FREE',
+            'description' => 'Свободен'
+        ));
+
+        Status::create(array(
+            'code' => 'TRUCK_LOADING',
+            'description' => 'Загружается'
+        ));
+
+        Status::create(array(
+            'code' => 'TRUCK_LOADED',
+            'description' => 'Загружен'
+        ));
+
+        Status::create(array(
+            'code' => 'TRUCK_SOS',
+            'description' => 'Нужна помощь!'
+        ));
+
+        Status::create(array(
+            'code' => 'TRUCK_UNLOADING',
+            'description' => 'Разгружается'
+        ));
+
+        Status::create(array(
+            'code' => 'TRUCK_EMPTY',
+            'description' => 'Пустой'
+        ));
+
+        /*
+         *          СТАТУСЫ НАЗНАЧЕНИЯ ПЕРЕВОЗЧИКОВ
+         */
+
+        Status::create(array(
+            'code' => 'CARGO_TRUCK_ASK',
+            'description' => 'Перевозчик готов к работе'
+        ));
+
+        Status::create(array(
+            'code' => 'CARGO_CLIENT_ASK',
+            'description' => 'Отправитель назначил перевозчика'
+        ));
+
+        Status::create(array(
+            'code' => 'CARGO_TRUCK_CONFIRMED',
+            'description' => 'Перевозчик подтвердил согласие'
+        ));
+
+        Status::create(array(
+            'code' => 'CARGO_CLIENT_CONFIRMED',
+            'description' => 'Отправитель подтвердил согласие'
+        ));
+
+        Status::create(array(
+            'code' => 'CARGO_TRUCK_CANCELED',
+            'description' => 'Перевозчик отменил согласие'
+        ));
+
+        Status::create(array(
+            'code' => 'CARGO_CLIENT_CANCELED',
+            'description' => 'Отправитель отменил согласие'
+        ));
 
         /*
          *              Типы грузовиков
@@ -191,6 +261,7 @@ class DBTableSeeder extends Seeder {
         for($i = 0; $i < $cnt; $i++) {
             $truck = Truck::create(array(
                 'truck_type_id' => $truck_type->id,
+                'status_id'     => $truck_status->id,
                 'gos_number'    => 'F154AAA',
                 'brand'         => 'Мерседес',
                 'seria'         => 'С230',
@@ -201,6 +272,7 @@ class DBTableSeeder extends Seeder {
             ));
             array_push($truck_ids,$truck->id);
         }
+
         /*
          *              Пользователи
          */
@@ -213,6 +285,8 @@ class DBTableSeeder extends Seeder {
                 'father'    => 'Карияевич' . $i,
                 'email'     => 'danixoid' . $i . '@gmail.com',
                 'password'  => Hash::make('Roamer'),
+                'activated' => 1,
+                'resident'  => 1,
                 'truck_id'  => $truck_ids[$i],
                 'country_id'=> $country->id,
                 'resident'  => TRUE,

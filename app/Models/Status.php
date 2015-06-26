@@ -2,8 +2,7 @@
 
 use Illuminate\Database\Eloquent\Model;
 
-class TruckStatus extends Model {
+class Status extends Model {
 
-	//
     public $timestamps = false;
 }

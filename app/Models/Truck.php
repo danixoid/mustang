@@ -23,17 +23,17 @@ class Truck extends Model {
 
     public function status()
     {
-        return $this->hasOne('App\Models\TruckStatus');
+        return $this->hasOne('App\Models\Status','id','status_id');
     }
 
     public function type()
     {
-        return $this->hasOne('App\Models\TruckType');
+        return $this->hasOne('App\Models\TruckType','id','truck_type_id');
     }
     
     public function track()
     {
-        return $this->hasOne('App\Models\TruckTrack');
+        return $this->hasOne('App\Models\TruckTrack','id','track_id');
     }
 
     public function tracks()

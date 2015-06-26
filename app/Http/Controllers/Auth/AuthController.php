@@ -23,6 +23,9 @@ class AuthController extends Controller {
 
 	use AuthenticatesAndRegistersUsers;
 
+
+    protected $redirectTo = '/';
+
     /**
      * Create a new authentication controller instance.
      *
@@ -37,13 +40,14 @@ class AuthController extends Controller {
 		$this->middleware('guest', ['except' => 'getLogout']);
 	}
 
+    /*
     public function getLogin() {
         if(Agent::match("Mustang_App")) {
             return array("_token" => csrf_token());
         } else {
             return view("auth.login");
         }
-    }
+    }*/
 
     public function postLogin(Request $request)
     {
@@ -59,8 +63,10 @@ class AuthController extends Controller {
         }
 
         if (Agent::match("Mustang_App")) {
+
             return ["error" => "email or password is incorrect"];
         } else {
+
             return redirect($this->loginPath())
                 ->withInput($request->only('email', 'remember'))
                 ->withErrors([

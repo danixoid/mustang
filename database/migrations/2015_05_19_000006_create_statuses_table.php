@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTruckStatusesTable extends Migration {
+class CreateStatusesTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,10 +12,10 @@ class CreateTruckStatusesTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('truck_statuses', function(Blueprint $table)
+		Schema::create('statuses', function(Blueprint $table)
 		{
-			$table->increments('id');
-            $table->string('code',16)->unique();
+            $table->increments('id');
+            $table->string('code',16)->unique(); //TYPE_CODE, TRUCK_SOS
             $table->string('description',125)->nullable();
 		});
 	}
@@ -27,7 +27,7 @@ class CreateTruckStatusesTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('truck_statuses');
+		Schema::drop('statuses');
 	}
 
 }

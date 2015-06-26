@@ -45,11 +45,6 @@ class Authenticate {
 			}
 		}
 
-        if($this->auth->user()->country_id == null)
-        {
-            return new RedirectResponse(url('/profile'));
-        }
-
 		return $next($request);
 	}
 
