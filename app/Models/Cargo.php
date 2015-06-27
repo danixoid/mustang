@@ -5,8 +5,10 @@ use Illuminate\Database\Eloquent\Model;
 class Cargo extends Model {
 
 	//
-    public function status() {
-        return $this->morphOne('App\Models\Status','taggable');
+    protected $fillable = ['user_id','capacity','weight','budget','load','descriptions','from','to'];
+
+    public function user () {
+        return $this->hasOne('App\Models\User','id','user_id');
     }
 
     public function transporters () {

@@ -13,4 +13,11 @@ class Transporter extends Model {
         return $this->hasOne('App\Models\Cargo','id','cargo_id');
     }
 
+    public function status() {
+        return $this->hasOne('App\Models\Status','id','status_id');
+    }
+
+    public function statuses() {
+        return Status::where('code','like','CARGO_%')->get();
+    }
 }

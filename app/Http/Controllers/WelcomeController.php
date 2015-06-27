@@ -34,11 +34,6 @@ class WelcomeController extends Controller {
 		return view('welcome');
 	}
 
-    public function distance()
-    {
-        return view('google/maps/distance');
-    }
-
     public function getuser()
     {
         return view('auth/getuser');

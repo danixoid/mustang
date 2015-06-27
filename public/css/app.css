@@ -4301,6 +4301,108 @@ fieldset[disabled] .navbar-inverse .btn-link:hover,
 fieldset[disabled] .navbar-inverse .btn-link:focus {
   color: #444444;
 }
+.navbar-mustang {
+  background-color: #0085FF;
+  border-color: #000080;
+}
+.navbar-mustang .navbar-brand {
+  color: #9d9d9d;
+}
+.navbar-mustang .navbar-brand:hover,
+.navbar-mustang .navbar-brand:focus {
+  color: #ffffff;
+  background-color: transparent;
+}
+.navbar-mustang .navbar-text {
+  color: #9d9d9d;
+}
+.navbar-mustang .navbar-nav > li > a {
+  color: #FFFFFF;
+}
+.navbar-mustang .navbar-nav > li > a:hover,
+.navbar-mustang .navbar-nav > li > a:focus {
+  color: #ffffff;
+  background-color: transparent;
+}
+.navbar-mustang .navbar-nav > .active > a,
+.navbar-mustang .navbar-nav > .active > a:hover,
+.navbar-mustang .navbar-nav > .active > a:focus {
+  color: #ffffff;
+  background-color: #080808;
+}
+.navbar-mustang .navbar-nav > .disabled > a,
+.navbar-mustang .navbar-nav > .disabled > a:hover,
+.navbar-mustang .navbar-nav > .disabled > a:focus {
+  color: #444444;
+  background-color: transparent;
+}
+.navbar-mustang .navbar-toggle {
+  border-color: #333333;
+}
+.navbar-mustang .navbar-toggle:hover,
+.navbar-mustang .navbar-toggle:focus {
+  background-color: #333333;
+}
+.navbar-mustang .navbar-toggle .icon-bar {
+  background-color: #ffffff;
+}
+.navbar-mustang .navbar-collapse,
+.navbar-mustang .navbar-form {
+  border-color: #101010;
+}
+.navbar-mustang .navbar-nav > .open > a,
+.navbar-mustang .navbar-nav > .open > a:hover,
+.navbar-mustang .navbar-nav > .open > a:focus {
+  background-color: #080808;
+  color: #ffffff;
+}
+@media (max-width: 767px) {
+  .navbar-mustang .navbar-nav .open .dropdown-menu > .dropdown-header {
+    border-color: #080808;
+  }
+  .navbar-mustang .navbar-nav .open .dropdown-menu .divider {
+    background-color: #080808;
+  }
+  .navbar-mustang .navbar-nav .open .dropdown-menu > li > a {
+    color: #9d9d9d;
+  }
+  .navbar-mustang .navbar-nav .open .dropdown-menu > li > a:hover,
+  .navbar-mustang .navbar-nav .open .dropdown-menu > li > a:focus {
+    color: #ffffff;
+    background-color: transparent;
+  }
+  .navbar-mustang .navbar-nav .open .dropdown-menu > .active > a,
+  .navbar-mustang .navbar-nav .open .dropdown-menu > .active > a:hover,
+  .navbar-mustang .navbar-nav .open .dropdown-menu > .active > a:focus {
+    color: #ffffff;
+    background-color: #080808;
+  }
+  .navbar-mustang .navbar-nav .open .dropdown-menu > .disabled > a,
+  .navbar-mustang .navbar-nav .open .dropdown-menu > .disabled > a:hover,
+  .navbar-mustang .navbar-nav .open .dropdown-menu > .disabled > a:focus {
+    color: #444444;
+    background-color: transparent;
+  }
+}
+.navbar-mustang .navbar-link {
+  color: #9d9d9d;
+}
+.navbar-mustang .navbar-link:hover {
+  color: #ffffff;
+}
+.navbar-mustang .btn-link {
+  color: #9d9d9d;
+}
+.navbar-mustang .btn-link:hover,
+.navbar-mustang .btn-link:focus {
+  color: #ffffff;
+}
+.navbar-mustang .btn-link[disabled]:hover,
+fieldset[disabled] .navbar-mustang .btn-link:hover,
+.navbar-mustang .btn-link[disabled]:focus,
+fieldset[disabled] .navbar-mustang .btn-link:focus {
+  color: #444444;
+}
 .breadcrumb {
   padding: 8px 15px;
   margin-bottom: 20px;
@@ -6231,3 +6333,5 @@ label,
 .checkbox label {
   font-weight: 300;
 }
+
+/*# sourceMappingURL=app.css.map */

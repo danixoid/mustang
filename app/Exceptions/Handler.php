@@ -1,6 +1,7 @@
 <?php namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Jenssegers\Agent\Facades\Agent;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
@@ -50,7 +51,8 @@ class Handler extends ExceptionHandler {
             return response()->json($json, 400);
         }
 
-        if ($e instanceof MethodNotAllowedHttpException)
+        if ($e instanceof MethodNotAllowedHttpException
+            /*|| $e instanceof ModelNotFoundException*/)
         {
             abort(404);
         }

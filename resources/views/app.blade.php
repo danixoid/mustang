@@ -9,9 +9,9 @@
 	<link href="{{ asset('/css/app.css') }}" rel="stylesheet">
 
 	<!-- Fonts -->
-	<link href='//fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
+	<link href='//fonts.googleapis.com/css?family=Roboto:400,300&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
 
-	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 	<!--[if lt IE 9]>
 		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -23,8 +23,8 @@
     
 </head>
 <body>
-	<nav class="navbar navbar-default">
-		<div class="container-fluid">
+	<nav class="navbar navbar-mustang">
+		<div class="container">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
 					<span class="sr-only">Навигация</span>
@@ -32,12 +32,23 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#">На канале</a>
+				<a class="pull-left" href="#">
+                    <input type="image" height="50px" src="{{url('/img/mustang.png')}}" />
+                </a>
 			</div>
 
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
-					<li><a href="{{ url('/') }}">Главная</a></li>
+                    @if (Auth::guest())
+                        <li><a href="{{ url('/') }}">Главная</a></li>
+                    @else
+                        <li><a href="{{ url('/') }}">Профиль</a></li>
+                        <li><a href="{{ url('/distance') }}">Рассчет расстояний</a></li>
+                        <li><a href="{{ url('/map') }}">Найти перевозчика</a></li>
+                        <li><a href="{{ url('/cargo') }}">Найти груз</a></li>
+                    @endif
+
+                    <li><a href="{{ url('/rules') }}">Соглашение</a></li>
 				</ul>
 
 				<ul class="nav navbar-nav navbar-right">

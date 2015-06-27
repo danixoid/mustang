@@ -12,17 +12,30 @@
 */
 //ДЛЯ ГОСТЕЙ
 Route::get('/', 'WelcomeController@index');
-Route::get('distance', 'WelcomeController@distance');
+
 
 
 //ДЛЯ ПОЛЬЗОВАТЕЛЕЙ
 Route::get('home', 'HomeController@index');
-Route::get('map', 'HomeController@map');
+
+//ДЛЯ АКТИВИРОВАННЫХ ПОЛЬЗОВАТЕЛЕЙ
+Route::get('map', 'WorkController@getMap');
+
+Route::get('cargo', ['as' => 'cargo.list', 'uses' => 'CargoController@index']);
+Route::get('cargo/add', ['as' => 'cargo.add', 'uses' => 'CargoController@create']);
+Route::get('cargo/{id}', ['as' => 'cargo.show', 'uses' => 'CargoController@show']);
+Route::get('cargo/{id}/edit', ['as' => 'cargo.edit', 'uses' => 'CargoController@edit']);
+
+Route::post('cargo/{id}/update', ['as' => 'cargo.update', 'uses' => 'CargoController@update']);
+Route::post('cargo/{id}/delete', ['as' => 'cargo.delete', 'uses' => 'CargoController@destroy']);
+
+
+
+Route::get('distance', 'WorkController@getDistance');
 
 
 //ДЛЯ МОБИЛЬНОГО ПРИЛОЖЕНИЯ И AJAX-ЗАПРОСОВ
-Route::get('profile','JsonController@index');
-Route::post('profile','JsonController@index');
+Route::any('profile','JsonController@index');
 Route::post('findtruck','JsonController@inRadius');
 
 

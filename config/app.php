@@ -146,6 +146,10 @@ return [
 		'App\Providers\ConfigServiceProvider',
 		'App\Providers\EventServiceProvider',
 		'App\Providers\RouteServiceProvider',
+        /*
+         * Forms and HTML
+         */
+        'Collective\Html\HtmlServiceProvider'
 	],
 
 	/*
@@ -195,6 +199,8 @@ return [
 		'View'      => 'Illuminate\Support\Facades\View',
         #agent user
         'Agent'     => 'Jenssegers\Agent\Facades\Agent',
+        'Form' => 'Collective\Html\FormFacade',
+        'Html' => 'Collective\Html\HtmlFacade',
 	],
 
 ];

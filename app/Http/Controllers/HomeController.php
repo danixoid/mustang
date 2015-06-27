@@ -33,9 +33,4 @@ class HomeController extends Controller {
         return view('home');
 	}
 
-    public function map()
-    {
-        return view('google/maps/in_radius');
-    }
-
 }
