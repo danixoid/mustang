@@ -6,6 +6,8 @@ class Truck extends Model {
 
     //protected $appends = array('track');
 
+    protected $guarded = ['id'];
+
     //
     public function files()
     {

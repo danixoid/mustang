@@ -7,72 +7,72 @@ return [
 	| Validation Language Lines
 	|--------------------------------------------------------------------------
 	|
-	| The following language lines contain the default error messages used by
+	| Значение following language lines contain the default error messages used by
 	| the validator class. Some of these rules have multiple versions such
 	| as the size rules. Feel free to tweak each of these messages here.
 	|
 	*/
 
-	"accepted"             => "The :attribute must be accepted.",
-	"active_url"           => "The :attribute is not a valid URL.",
-	"after"                => "The :attribute must be a date after :date.",
-	"alpha"                => "The :attribute may only contain letters.",
-	"alpha_dash"           => "The :attribute may only contain letters, numbers, and dashes.",
-	"alpha_num"            => "The :attribute may only contain letters and numbers.",
-	"array"                => "The :attribute must be an array.",
-	"before"               => "The :attribute must be a date before :date.",
+	"accepted"             => "Значение :attribute должно быть принятым.",
+	"active_url"           => "Значение :attribute имеет не верный формат URL.",
+	"after"                => "Дата :attribute должна быть после даты :date.",
+	"alpha"                => "Значение :attribute может содержать только буквы.",
+	"alpha_dash"           => "Значение :attribute может содержать только буквы, цыфры и тире.",
+	"alpha_num"            => "Значение :attribute может содержать только буквы и цыфры.",
+	"array"                => "Значение :attribute должно быть массивом.",
+	"before"               => "Дата :attribute должна быть до начала даты :date.",
 	"between"              => [
-		"numeric" => "The :attribute must be between :min and :max.",
-		"file"    => "The :attribute must be between :min and :max kilobytes.",
-		"string"  => "The :attribute must be between :min and :max characters.",
-		"array"   => "The :attribute must have between :min and :max items.",
+		"numeric" => "Значение :attribute должно быть в диапазоне :min и :max.",
+		"file"    => "Значение :attribute должно быть в диапазоне :min и :max килобайт.",
+		"string"  => "Значение :attribute должно быть в диапазоне :min и :max символов.",
+		"array"   => "Значение :attribute должно быть в диапазоне :min и :max элементов.",
 	],
-	"boolean"              => "The :attribute field must be true or false.",
-	"confirmed"            => "The :attribute confirmation does not match.",
-	"date"                 => "The :attribute is not a valid date.",
-	"date_format"          => "The :attribute does not match the format :format.",
-	"different"            => "The :attribute and :other must be different.",
-	"digits"               => "The :attribute must be :digits digits.",
-	"digits_between"       => "The :attribute must be between :min and :max digits.",
-	"email"                => "The :attribute must be a valid email address.",
-	"filled"               => "The :attribute field is required.",
-	"exists"               => "The selected :attribute is invalid.",
-	"image"                => "The :attribute must be an image.",
-	"in"                   => "The selected :attribute is invalid.",
-	"integer"              => "The :attribute must be an integer.",
-	"ip"                   => "The :attribute must be a valid IP address.",
+	"boolean"              => "Значение поля :attribute должно быть true или false.",
+	"confirmed"            => "Значение :attribute не совпадает.",
+	"date"                 => "Значение :attribute имеет неверный формат даты.",
+	"date_format"          => "Значение :attribute не соответствует формату :format.",
+	"different"            => "Значение :attribute и :other должны быть разными.",
+	"digits"               => "Значение :attribute должно быть :digits digits.",
+	"digits_between"       => "Значение :attribute должно быть between :min and :max digits.",
+	"email"                => "Значение :attribute должно быть a valid email address.",
+	"filled"               => "Значение поля :attribute обязательно для заполнения.",
+	"exists"               => "Значение selected :attribute is invalid.",
+	"image"                => "Значение :attribute должно быть an image.",
+	"in"                   => "Значение selected :attribute is invalid.",
+	"integer"              => "Значение :attribute должно быть an integer.",
+	"ip"                   => "Значение :attribute должно быть a valid IP address.",
 	"max"                  => [
-		"numeric" => "The :attribute may not be greater than :max.",
-		"file"    => "The :attribute may not be greater than :max kilobytes.",
-		"string"  => "The :attribute may not be greater than :max characters.",
-		"array"   => "The :attribute may not have more than :max items.",
+		"numeric" => "Значение :attribute may not be greater than :max.",
+		"file"    => "Значение :attribute may not be greater than :max kilobytes.",
+		"string"  => "Значение :attribute may not be greater than :max characters.",
+		"array"   => "Значение :attribute may not have more than :max items.",
 	],
-	"mimes"                => "The :attribute must be a file of type: :values.",
+	"mimes"                => "Значение :attribute должно быть a file of type: :values.",
 	"min"                  => [
-		"numeric" => "The :attribute must be at least :min.",
-		"file"    => "The :attribute must be at least :min kilobytes.",
-		"string"  => "The :attribute must be at least :min characters.",
-		"array"   => "The :attribute must have at least :min items.",
+		"numeric" => "Значение :attribute должно быть at least :min.",
+		"file"    => "Значение :attribute должно быть at least :min kilobytes.",
+		"string"  => "Значение :attribute должно быть at least :min characters.",
+		"array"   => "Значение :attribute must have at least :min items.",
 	],
-	"not_in"               => "The selected :attribute is invalid.",
-	"numeric"              => "The :attribute must be a number.",
-	"regex"                => "The :attribute format is invalid.",
-	"required"             => "The :attribute field is required.",
-	"required_if"          => "The :attribute field is required when :other is :value.",
-	"required_with"        => "The :attribute field is required when :values is present.",
-	"required_with_all"    => "The :attribute field is required when :values is present.",
-	"required_without"     => "The :attribute field is required when :values is not present.",
-	"required_without_all" => "The :attribute field is required when none of :values are present.",
-	"same"                 => "The :attribute and :other must match.",
+	"not_in"               => "Значение selected :attribute is invalid.",
+	"numeric"              => "Значение :attribute должно быть a number.",
+	"regex"                => "Значение :attribute format is invalid.",
+	"required"             => "Значение поля :attribute обязательно для заполнения.",
+	"required_if"          => "Значение поля :attribute обязательно для заполнения, когда :other is :value.",
+	"required_with"        => "Значение поля :attribute обязательно для заполнения, когда :values представлен.",
+	"required_with_all"    => "Значение поля :attribute обязательно для заполнения, когда :values представлен.",
+	"required_without"     => "Значение поля :attribute обязательно для заполнения, когда :values не представлен.",
+	"required_without_all" => "Значение поля :attribute обязательно для заполнения, когда ничего из :values не представлено.",
+	"same"                 => "Значение :attribute и :other должны соответствовать.",
 	"size"                 => [
-		"numeric" => "The :attribute must be :size.",
-		"file"    => "The :attribute must be :size kilobytes.",
-		"string"  => "The :attribute must be :size characters.",
-		"array"   => "The :attribute must contain :size items.",
+		"numeric" => "Значение :attribute должно быть :size.",
+		"file"    => "Значение :attribute должно быть :size kilobytes.",
+		"string"  => "Значение :attribute должно быть :size characters.",
+		"array"   => "Значение :attribute должно содержать :size элементов.",
 	],
-	"unique"               => "The :attribute has already been taken.",
-	"url"                  => "The :attribute format is invalid.",
-	"timezone"             => "The :attribute must be a valid zone.",
+	"unique"               => "Значение :attribute уже используется.",
+	"url"                  => "Значение :attribute не по формату.",
+	"timezone"             => "Значение :attribute должно быть соответствовать зоне.",
 
 	/*
 	|--------------------------------------------------------------------------
@@ -96,7 +96,7 @@ return [
 	| Custom Validation Attributes
 	|--------------------------------------------------------------------------
 	|
-	| The following language lines are used to swap attribute place-holders
+	| Значение following language lines are used to swap attribute place-holders
 	| with something more reader friendly such as E-Mail Address instead
 	| of "email". This simply helps us make messages a little cleaner.
 	|

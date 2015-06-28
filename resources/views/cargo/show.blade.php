@@ -50,35 +50,22 @@
 @endsection
 
 @section('content')
-    <div class="container">
-        <div class="row">
-            <div class="col-md-10 col-md-offset-1">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        Погрузка
-                        {!! link_to_route('cargo.add','Добавить',[],['class' => 'pull-right btn btn-link']); !!}
-                        {!! link_to_route('cargo.list','Список',[],['class' => 'pull-right btn btn-link']); !!}
-                    </div>
 
-                    <div class="panel-body">
+    {!! link_to_route('cargo.create','Добавить',[],['class' => 'pull-right btn btn-link']); !!}
+    {!! link_to_route('cargo.list','Список',[],['class' => 'pull-right btn btn-link']); !!}
 
-                        <div class="row">
+    <div class="row">
 
-                            <div class="col-sm-2">
-                            {!! link_to_route('cargo.edit','Правка',['id' => $cargo->id],['class' => 'btn btn-link']); !!}
-                            </div>
-                            <div class="col-sm-1">{{ $cargo->capacity }}</div>
-                            <div class="col-sm-1">{{ $cargo->weight }}</div>
-                            <div class="col-sm-1">{{ $cargo->budget }}</div>
-                            <div class="col-sm-1">{{ $cargo->user->name }}</div>
-                            <div class="col-sm-3">{{ $cargo->load }}</div>
-                            <div class="col-sm-3">{{ $cargo->descriptions }}</div>
-
-                        </div>
-
-                    </div>
-                </div>
-            </div>
+        <div class="col-sm-2">
+        {!! link_to_route('cargo.edit','Правка',['id' => $cargo->id],['class' => 'btn btn-link']); !!}
         </div>
+        <div class="col-sm-1">{{ $cargo->capacity }}</div>
+        <div class="col-sm-1">{{ $cargo->weight }}</div>
+        <div class="col-sm-1">{{ $cargo->budget }}</div>
+        <div class="col-sm-1">{{ $cargo->user->name }}</div>
+        <div class="col-sm-3">{{ $cargo->load }}</div>
+        <div class="col-sm-3">{{ $cargo->descriptions }}</div>
+
     </div>
+
 @endsection

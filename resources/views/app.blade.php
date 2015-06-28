@@ -39,10 +39,9 @@
 
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
-                    @if (Auth::guest())
-                        <li><a href="{{ url('/') }}">Главная</a></li>
-                    @else
-                        <li><a href="{{ url('/') }}">Профиль</a></li>
+
+                    <li><a href="{{ url('/') }}">Главная</a></li>
+                    @if (!Auth::guest())
                         <li><a href="{{ url('/distance') }}">Рассчет расстояний</a></li>
                         <li><a href="{{ url('/map') }}">Найти перевозчика</a></li>
                         <li><a href="{{ url('/cargo') }}">Найти груз</a></li>
@@ -59,6 +58,7 @@
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ Auth::user()->name }} <span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
+                                <li><a href="{{ route('user.profile') }}">Профиль</a></li>
 								<li><a href="{{ url('/auth/logout') }}">Выйти</a></li>
 							</ul>
 						</li>
@@ -68,7 +68,33 @@
 		</div>
 	</nav>
 
-	@yield('content')
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Главная</div>
+
+                    <div class="panel-body">
+
+                        @if (count($errors) > 0)
+                            <div class="alert alert-danger">
+                                <strong>Ой!</strong> Какие-то проблемы с вводом.<br><br>
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+
+                        @yield('content')
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 	<!-- Scripts -->
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>

@@ -4,7 +4,7 @@ use Closure;
 use Illuminate\Auth\Guard;
 use Illuminate\Http\RedirectResponse;
 
-class Activate {
+class Administrate {
 
     /**
      * The Guard implementation.
@@ -23,7 +23,7 @@ class Activate {
         $this->auth = $auth;
     }
 
-    /**
+	/**
 	 * Handle an incoming request.
 	 *
 	 * @param  \Illuminate\Http\Request  $request
@@ -32,10 +32,9 @@ class Activate {
 	 */
 	public function handle($request, Closure $next)
 	{
+        if($this->auth->user()->is_admin < 1) {
 
-        if ($this->auth->user()->activated == 0) {
-
-            return new RedirectResponse(route('user.profile'));
+            abort(404);
         }
 
 		return $next($request);

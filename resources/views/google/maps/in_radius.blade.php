@@ -244,36 +244,30 @@
 
 
 @section('content')
-<div class="container">
-    <div class="panel panel-default">
-        <div class="panel-heading">Поиск грузовика в радиусе</div>
 
-        <div class="panel-body">
-
-            <div class="row">
-                <div class="col-md-9">
-                    <div id="map-canvas" style="height:400px"></div>
-                </div>
-                <div class="col-md-3">
-                    <div id="logplace" class="form-group"></div>
-                    <div class="form-group">
-                        <label for="radius">Искать в радиусе (в метрах)</label>
-                        <input type="number" id="radius" placeholder="Радиус в метрах"
-                            onkeyup="monitoring();" class="form-control" value="4000"/>
-                    </div>
-                    <div class="form-group">
-                        <label for="radius">Обновление (в секундах)</label>
-                        <input type="number" id="timelong" placeholder="в секундах"
-                            onkeyup="monitoring();" class="form-control" value="60"/>
-                    </div>
-                    <button class="btn btn-danger" onclick="monitoring();">Обновить</button>
-                    <button class="btn btn-primary" onclick="getPositionCenter();">Моя геолокация</button>
-                </div>
-            </div>
+    <div class="row">
+        <div class="col-md-9">
+            <div id="map-canvas" style="height:400px"></div>
         </div>
-	</div>
-    <div class="col-md-offset-1 col-md-10">
-        <div id="table_trucks" class="panel panel-default"></div>
+        <div class="col-md-3">
+            <div id="logplace" class="form-group"></div>
+            <div class="form-group">
+                <label for="radius">Искать в радиусе (в метрах)</label>
+                <input type="number" id="radius" placeholder="Радиус в метрах"
+                    onkeyup="monitoring();" class="form-control" value="4000"/>
+            </div>
+            <div class="form-group">
+                <label for="radius">Обновление (в секундах)</label>
+                <input type="number" id="timelong" placeholder="в секундах"
+                    onkeyup="monitoring();" class="form-control" value="60"/>
+            </div>
+            <button class="btn btn-danger" onclick="monitoring();">Обновить</button>
+            <button class="btn btn-primary" onclick="getPositionCenter();">Моя геолокация</button>
+        </div>
     </div>
-</div>
+    <div class="row">
+        <div class="col-md-offset-1 col-md-10">
+            <div id="table_trucks" class="panel panel-default"></div>
+        </div>
+    </div>
 @endsection

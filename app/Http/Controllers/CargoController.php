@@ -3,10 +3,12 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use App\Http\Requests\StoreCargoRequest;
 use App\Models\Cargo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Validator;
 
 class CargoController extends Controller {
 
@@ -39,18 +41,30 @@ class CargoController extends Controller {
 	 */
 	public function create()
 	{
-
-        return view('cargo/edit', ['cargo' => null]);
+        return view('cargo/create');
 	}
 
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
-	public function store()
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param StoreCargoRequest $request
+     * @return Response
+     */
+	public function store(StoreCargoRequest $request)
 	{
-		//
+        $data = Input::all();
+
+        $data["user_id"] = Auth::user()->id;
+
+        $cargo = Cargo::create($data);
+
+        if (!$cargo) {
+            return redirect()->back()
+                ->with('message', 'Почему-то модель не записалась.')
+                ->withInput();
+        }
+
+        return redirect()->route('cargo.show',array('id' => $cargo->id));
 	}
 
 	/**
@@ -61,7 +75,7 @@ class CargoController extends Controller {
 	 */
 	public function show($id)
 	{
-        $cargo = Cargo::where('id', $id)->firstOrFail();
+        $cargo = Cargo::find($id);
 
         return view('cargo/show', ['cargo' => $cargo]);
 	}
@@ -74,52 +88,36 @@ class CargoController extends Controller {
 	 */
 	public function edit($id)
 	{
-        $cargo = Cargo::where('id', $id)->firstOrFail();
+
+        if ($id > 0) {
+            $cargo = Cargo::find($id);
+        } else {
+            $cargo = null;
+        }
+
 
         return view('cargo/edit', ['cargo' => $cargo]);
 	}
 
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id)
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param StoreCargoRequest $request
+     * @param  int $id
+     * @return Response
+     */
+	public function update(StoreCargoRequest $request, $id)
 	{
-        $data = Input::all();
+        $cargo = Cargo::find($id);
 
-
-        //dd($data);
-
-        if ($id < 1) {
-            $cargo = Cargo::create(array(
-                'user_id'       =>  Auth::user()->id,
-                'capacity'      =>  $data['capacity'],
-                'weight'        =>  $data['weight'],
-                'budget'        =>  $data['budget'],
-                'load'          =>  $data['load'],
-                'descriptions'  =>  $data['descriptions'],
-                'from'          =>  $data['from'],
-                'to'            =>  $data['to'],
-            ));
-        } else {
-
-            $cargo = Cargo::where('id',$id)->firstOrFail();
-
-            $cargo->user_id     = Auth::user()->id;
-            $cargo->capacity    = $data['capacity'];
-            $cargo->weight      = $data['weight'];
-            $cargo->budget      = $data['budget'];
-            $cargo->load        = $data['load'];
-            $cargo->descriptions= $data['descriptions'];
-            $cargo->from        = $data['from'];
-            $cargo->to          = $data['to'];
-
-            $cargo->save();
+        if (!$cargo->update(Input::all())) {
+            return redirect()->back()
+                ->with('message', 'Почему-то модель не записалась.')
+                ->withInput();
         }
 
-        return redirect()->route('cargo.show',$cargo->id);
+        return redirect()->route('cargo.show',$cargo->id)
+            ->with('message', 'Обновлено.');;
 	}
 
 	/**

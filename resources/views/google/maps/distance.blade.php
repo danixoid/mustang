@@ -132,32 +132,23 @@
 
 
 @section('content')
-<div class="container">
-    <div class="panel panel-default">
-        <div class="panel-heading">Home</div>
-
-        <div class="panel-body">
-
-            <div class="row" style="height:400px">
-                <div class="col-md-9" id="map-canvas" style="height:100%"></div>
-                <div class="col-md-3">
-                    <div id="Distance" name="Distance" class="group">
-                        <div class="form-group" id="FromFormGroup">
-                            <label for="From">Пункт загрузки:</label>
-                            <input type="text" id="From" name="From" class="form-control"/>
-                        </div>
-                        <div class="form-group" id="ToFormGroup">
-                            <label for="To">Пункт разгрузки:</label>
-                            <input type="text" id="To" name="To" class="form-control"/>
-                        </div>
-                        <button class="btn btn-primary" onclick="calcRoute();return false;">Расчитать</button>
-                        <button class="btn btn-primary" onclick="addWayPoint();return false;">Через пункты</button>
-                    </div>
-                    <div id="total"></div>
-                    <div id="directionsPanel" style="height:100%"></div>
+    <div class="row" style="height:400px">
+        <div class="col-md-9" id="map-canvas" style="height:100%"></div>
+        <div class="col-md-3">
+            <div id="Distance" name="Distance" class="group">
+                <div class="form-group" id="FromFormGroup">
+                    <label for="From">Пункт загрузки:</label>
+                    <input type="text" id="From" name="From" class="form-control"/>
                 </div>
+                <div class="form-group" id="ToFormGroup">
+                    <label for="To">Пункт разгрузки:</label>
+                    <input type="text" id="To" name="To" class="form-control"/>
+                </div>
+                <button class="btn btn-primary" onclick="calcRoute();return false;">Расчитать</button>
+                <button class="btn btn-primary" onclick="addWayPoint();return false;">Через пункты</button>
             </div>
+            <div id="total"></div>
+            <div id="directionsPanel" style="height:100%"></div>
         </div>
-	</div>
-</div>
+    </div>
 @endsection
