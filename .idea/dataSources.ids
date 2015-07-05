@@ -62,6 +62,7 @@
       <column name="filetype" sqlType="VARCHAR" precision="10" scale="0" nullable="true" jdbcType="12"/>
       <column name="title" sqlType="VARCHAR" precision="125" scale="0" nullable="true" jdbcType="12"/>
       <column name="description" sqlType="TEXT" precision="65535" scale="0" nullable="true" jdbcType="-1"/>
+      <column name="deleted_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="true" jdbcType="93"/>
       <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
       <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
       <primary-key name="PRIMARY" columns="id"/>
@@ -104,28 +105,9 @@
       <index name="phones_phone_number_unique" unique="true" columns="phone_number"/>
       <index name="phones_user_id_foreign" unique="false" columns="user_id"/>
     </table>
-    <table name="ratings" schema="" catalog="mustang" type="TABLE">
-      <column name="id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="user_id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <column name="posted_user_id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <column name="hi_id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <column name="votes" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6" def="MA=="/>
-      <column name="details" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
-      <column name="deleted_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="true" jdbcType="93"/>
-      <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
-      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
-      <primary-key name="PRIMARY" columns="id"/>
-      <foreign-key name="ratings_hi_id_foreign" columns="hi_id" ref-table="ratings" ref-schema="" ref-catalog="mustang" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <foreign-key name="ratings_posted_user_id_foreign" columns="posted_user_id" ref-table="users" ref-schema="" ref-catalog="mustang" ref-columns="id" update-rule="3" delete-rule="0" deferrability="2"/>
-      <foreign-key name="ratings_user_id_foreign" columns="user_id" ref-table="users" ref-schema="" ref-catalog="mustang" ref-columns="id" update-rule="3" delete-rule="0" deferrability="2"/>
-      <exported-key name="ratings_hi_id_foreign" table="ratings" schema="" catalog="mustang" columns="hi_id"/>
-      <index name="ratings_hi_id_foreign" unique="false" columns="hi_id"/>
-      <index name="ratings_posted_user_id_foreign" unique="false" columns="posted_user_id"/>
-      <index name="ratings_user_id_foreign" unique="false" columns="user_id"/>
-    </table>
     <table name="statuses" schema="" catalog="mustang" type="TABLE">
       <column name="id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="code" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12"/>
+      <column name="code" sqlType="VARCHAR" precision="64" scale="0" nullable="false" jdbcType="12"/>
       <column name="description" sqlType="VARCHAR" precision="125" scale="0" nullable="true" jdbcType="12"/>
       <primary-key name="PRIMARY" columns="id"/>
       <exported-key name="transporters_status_id_foreign" table="transporters" schema="" catalog="mustang" columns="status_id"/>
@@ -237,17 +219,16 @@
       <column name="resident" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6" def="MA=="/>
       <column name="activated" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6" def="MA=="/>
       <column name="remember_token" sqlType="VARCHAR" precision="100" scale="0" nullable="true" jdbcType="12"/>
+      <column name="deleted_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="true" jdbcType="93"/>
       <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
       <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
       <primary-key name="PRIMARY" columns="id"/>
-      <foreign-key name="users_legal_id_foreign" columns="legal_id" ref-table="legals" ref-schema="" ref-catalog="mustang" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <foreign-key name="users_country_id_foreign" columns="country_id" ref-table="countries" ref-schema="" ref-catalog="mustang" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <foreign-key name="users_file_id_foreign" columns="file_id" ref-table="files" ref-schema="" ref-catalog="mustang" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <foreign-key name="users_truck_id_foreign" columns="truck_id" ref-table="trucks" ref-schema="" ref-catalog="mustang" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="users_legal_id_foreign" columns="legal_id" ref-table="legals" ref-schema="" ref-catalog="mustang" ref-columns="id" update-rule="3" delete-rule="2" deferrability="2"/>
+      <foreign-key name="users_country_id_foreign" columns="country_id" ref-table="countries" ref-schema="" ref-catalog="mustang" ref-columns="id" update-rule="3" delete-rule="2" deferrability="2"/>
+      <foreign-key name="users_file_id_foreign" columns="file_id" ref-table="files" ref-schema="" ref-catalog="mustang" ref-columns="id" update-rule="3" delete-rule="2" deferrability="2"/>
+      <foreign-key name="users_truck_id_foreign" columns="truck_id" ref-table="trucks" ref-schema="" ref-catalog="mustang" ref-columns="id" update-rule="3" delete-rule="2" deferrability="2"/>
       <exported-key name="cargos_user_id_foreign" table="cargos" schema="" catalog="mustang" columns="user_id"/>
       <exported-key name="phones_user_id_foreign" table="phones" schema="" catalog="mustang" columns="user_id"/>
-      <exported-key name="ratings_posted_user_id_foreign" table="ratings" schema="" catalog="mustang" columns="posted_user_id"/>
-      <exported-key name="ratings_user_id_foreign" table="ratings" schema="" catalog="mustang" columns="user_id"/>
       <exported-key name="transporters_user_id_foreign" table="transporters" schema="" catalog="mustang" columns="user_id"/>
       <exported-key name="user_accounts_user_id_foreign" table="user_accounts" schema="" catalog="mustang" columns="user_id"/>
       <exported-key name="user_cashes_user_id_foreign" table="user_cashes" schema="" catalog="mustang" columns="user_id"/>
@@ -257,7 +238,7 @@
       <index name="users_country_id_foreign" unique="false" columns="country_id"/>
       <index name="users_file_id_foreign" unique="false" columns="file_id"/>
       <index name="users_legal_id_foreign" unique="false" columns="legal_id"/>
-      <index name="users_truck_id_foreign" unique="false" columns="truck_id"/>
+      <index name="users_truck_id_index" unique="false" columns="truck_id"/>
     </table>
     <table name="users_relations" schema="" catalog="mustang" type="TABLE">
       <column name="user_id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>

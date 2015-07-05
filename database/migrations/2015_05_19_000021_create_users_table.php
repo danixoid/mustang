@@ -28,16 +28,22 @@ class CreateUsersTable extends Migration {
             $table->boolean('resident')->default(0);
             $table->boolean('activated')->default(0);
             $table->rememberToken();
+            $table->softDeletes();
 			$table->timestamps();
 
+            $table->index('truck_id');
             $table->foreign('truck_id')                 //Грузовик
-                ->references('id')->on('trucks');
+                ->references('id')->on('trucks')
+                ->onDelete('set null');
             $table->foreign('file_id')                  //Файл картинка
-                ->references('id')->on('files');
+                ->references('id')->on('files')
+                ->onDelete('set null');
             $table->foreign('country_id')               //гражданство
-                ->references('id')->on('countries');
+                ->references('id')->on('countries')
+                ->onDelete('set null');
             $table->foreign('legal_id')                 //страна регистрации автомобиля
-                ->references('id')->on('legals');
+                ->references('id')->on('legals')
+                ->onDelete('set null');
         });
 	}
 

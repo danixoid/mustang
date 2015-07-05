@@ -1,12 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Requests;
-use App\Http\Controllers\Controller;
 
-use App\Models\Cargo;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Input;
 
 class WorkController extends Controller {
 
@@ -17,6 +12,7 @@ class WorkController extends Controller {
     public function __construct()
     {
         $this->middleware('auth');
+        //$this->middleware('admin');
         $this->middleware('active');
     }
 
@@ -37,5 +33,6 @@ class WorkController extends Controller {
     {
         return view('google/maps/distance');
     }
+
 
 }

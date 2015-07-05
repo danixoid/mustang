@@ -1,17 +1,19 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Requests;
-use App\Http\Controllers\Controller;
-
 use App\Http\Requests\StorePhoneRequest;
 use App\Http\Requests\StoreTruckRequest;
 use App\Http\Requests\StoreUserRequest;
 use App\Models\Phone;
 use App\Models\Truck;
 use App\Models\User;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
+
+
 
 class UserController extends Controller {
 
@@ -22,7 +24,7 @@ class UserController extends Controller {
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('admin', ['only' => ['create', 'destroy']]);
+        $this->middleware('admin', ['only' => ['create', 'store', 'destroy']]);
     }
 
 
@@ -35,7 +37,7 @@ class UserController extends Controller {
 	{
 		$id = Auth::user()->id;
 
-        return redirect()->route('user.show',array('id' => $id));
+        return redirect()->route('user.show',$id);
 	}
 
     /**
@@ -49,7 +51,7 @@ class UserController extends Controller {
         $user->activated = 1;
         $user->save();
 
-        return redirect()->route('user.show',array('id' => $id));
+        return redirect()->back();
 	}
 
     /**
@@ -59,11 +61,11 @@ class UserController extends Controller {
 	 */
 	public function deactivate($id)
 	{
-		$user = User::find($id);
+        $user = User::find($id);
         $user->activated = 0;
         $user->save();
 
-        return redirect()->route('user.show',array('id' => $id));
+        return redirect()->back();
 	}
 
     /**
@@ -73,7 +75,7 @@ class UserController extends Controller {
      */
     public function getList()
     {
-        $users = User::all();
+        $users = User::paginate(2);
 
         return view('user/list',array('users' => $users));
     }
@@ -85,7 +87,7 @@ class UserController extends Controller {
 	 */
 	public function create()
 	{
-		return view('user/create');
+        return view('user/create');
 	}
 
     /**
@@ -96,7 +98,7 @@ class UserController extends Controller {
      */
 	public function store(StoreUserRequest $request)
 	{
-		$data = Input::all();
+        $data = Input::all();
 
         $user = User::create($data);
 
@@ -122,12 +124,13 @@ class UserController extends Controller {
         return view('user/profile', ['user' => $user]);
 	}
 
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int $id
+     * @return Response
+     * @internal param StoreUserRequest $request
+     */
 	public function edit($id)
 	{
         if ($id != Auth::user()->id &&
@@ -144,15 +147,27 @@ class UserController extends Controller {
     /**
      * Update the specified resource in storage.
      *
-     * @param StoreUserRequest $request
      * @param  int $id
      * @return Response
+     * @internal param StoreUserRequest $request
      */
-	public function update(StoreUserRequest $request, $id)
+	public function update($id)
 	{
-        $data = Input::all();
+        if ($id != Auth::user()->id &&
+            Auth::user()->is_admin == 0) {
+
+            return redirect()->route('user.profile')
+                ->with('warning','Не сохранено! Нет доступа.')
+                ->withInput();
+        }
 
         $user = User::find($id);
+
+        $data = Input::all();
+
+        $data = array_map(function($val){
+            return $val == "" ? null : $val;
+        }, $data);
 
         if (!$user->update($data)) {
             return redirect()->back()
@@ -186,7 +201,15 @@ class UserController extends Controller {
     {
         $phone = Phone::create(Input::all());
 
-        return redirect()->route('user.show',array('id' => $phone->user_id));
+        if ($phone->user_id != Auth::user()->id &&
+            Auth::user()->is_admin == 0) {
+
+            return redirect()->back()
+                ->with('message','Запрещено!')
+                ->withInput();
+        }
+
+        return redirect()->back();
     }
 
     /**
@@ -199,9 +222,17 @@ class UserController extends Controller {
     {
         $phone = Phone::find($id);
 
+        if ($phone->user_id != Auth::user()->id &&
+            Auth::user()->is_admin == 0) {
+
+            return redirect()->back()
+                ->with('message','Запрещено!')
+                ->withInput();
+        }
+
         if(!$phone->update(Input::all()))
 
-        return redirect()->route('user/profile',array('id' => $phone->user_id));
+        return redirect()->back();
     }
 
     /**
@@ -213,56 +244,120 @@ class UserController extends Controller {
     public function phoneDestroy($id)
     {
         $phone = Phone::find($id);
-        $id = $phone->user_id;
+
+        if ($phone->user_id != Auth::user()->id &&
+            Auth::user()->is_admin == 0) {
+
+            return redirect()->back()
+                ->with('message','Нет доступа')
+                ->withInput();
+        }
+
         $phone->delete();
 
-        return redirect()->route('user.show',array('id' => $id));
+        return redirect()->back();
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param StoreTruckRequest $request
-     * @return Response
-     */
-    public function truckStore(StoreTruckRequest $request, $id)
-    {
-        $user = User::find($id);
-
-        $truck = $user->truck;
-
-        if ($truck == null) {
-
-            $user->truck_id = Truck::create(Input::all())->id;
-        }
-        else {
-
-            $truck->update(Input::all());
-        }
-
-        $user->save();
-
-        return redirect()->route('user.show',array('id' => $user->id));
-    }
-
-    /**
-     * Remove the specified resource from storage.
+     * Store the specified resource to storage.
      *
      * @param  int  $id
      * @return Response
      */
-    public function truckDestroy($id)
-    {
+    public function filesStore($id) {
+
+        if ($id != Auth::user()->id &&
+            Auth::user()->is_admin == 0) {
+
+            return redirect()->route('user.profile');
+        }
+
         $user = User::find($id);
 
-        $truck = $user->truck;
+        $files = Input::file('images');
 
-        $user->truck_id = null;
-        $user->save();
+        $counter = 0;
 
-        $truck->delete();
+        foreach($files as $file) {
 
+            $rules = array('file' => 'required'); //'required|mimes:png,gif,jpeg,txt,pdf,doc'
+            $validator = Validator::make(array('file'=> $file), $rules);
 
-        return redirect()->route('user.show',array('id' => $id));
+            if($validator->passes()){
+
+                $extension = $file->getClientOriginalExtension();
+                $filename = $file->getFilename() . '.' . $extension;
+                Storage::disk('local')->put($filename, File::get($file));
+
+                $user->files()->create([
+                    'filename'  => $filename,
+                    'uri'       => $file->getClientOriginalName(),
+                    'filetype'  => $file->getClientMimeType()
+                ]);
+
+            } else {
+                $counter++;
+            }
+        }
+
+        if($counter > 0) {
+
+            return redirect()->back()
+                ->withInput()
+                ->withErrors($validator);
+
+        } else {
+            return redirect()->back();
+        }
     }
+
+
+    /**
+     * Store the specified resource to storage.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function fileStore($id) {
+
+        if ($id != Auth::user()->id &&
+            Auth::user()->is_admin == 0) {
+
+            return redirect()->route('user.profile')
+                ->with('message','Запрещено!')
+                ->withInput();
+        }
+
+        $file = Input::file('image');
+
+        $rules = array('file' => 'required|mimes:png,gif,jpeg,jpg'); //'required|mimes:png,gif,jpeg,txt,pdf,doc'
+        $validator = Validator::make(array('file'=> $file), $rules);
+
+        if($validator->passes()){
+
+            $extension = $file->getClientOriginalExtension();
+            $filename = $file->getFilename() . '.' . $extension;
+            Storage::disk('local')->put($filename, File::get($file));
+
+            $user = User::find($id);
+
+            $image_id = $user->files()->create([
+                'filename'  => $filename,
+                'uri'       => $file->getClientOriginalName(),
+                'filetype'  => $file->getClientMimeType()
+            ])->id;
+
+            $user->file_id = $image_id;
+
+            $user->save();
+
+        } else {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors($validator);
+        }
+
+        return redirect()->back();
+    }
+
 }

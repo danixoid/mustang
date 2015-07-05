@@ -15,22 +15,15 @@ class CreateRatingsTable extends Migration {
 		Schema::create('ratings', function(Blueprint $table)
 		{
 			$table->increments('id');
-            $table->unsignedInteger('user_id');
-            $table->foreign('user_id')
-                ->references('id')->on('users')
-                ->onDelete('cascade');
-            $table->unsignedInteger('posted_user_id');
-            $table->foreign('posted_user_id')
-                ->references('id')->on('users')
-                ->onDelete('cascade');
-            $table->unsignedInteger('hi_id');
-            $table->foreign('hi_id')
-                ->references('id')->on('ratings');
+            $table->unsignedInteger('transporter_id');
             $table->tinyInteger('votes')->default(0);
             $table->text('details');
             $table->softDeletes();
 			$table->timestamps();
-		});
+
+            $table->foreign('transporter_id')
+                ->references('id')->on('transporters');
+        });
 	}
 
 	/**

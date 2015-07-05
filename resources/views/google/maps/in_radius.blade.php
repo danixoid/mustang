@@ -1,9 +1,10 @@
 @extends('app')
 
-@section('javascript')
+@section('meta')
     <meta name="_token" content="{{ csrf_token() }}"/>
+@endsection
 
-
+@section('javascript')
     <!--JavaScript-->
 
     <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
@@ -126,7 +127,7 @@
 
         $.ajax({
             'method' : 'POST',
-            'url' : '{{ url('/findtruck') }}',
+            'url' : '{{ route('json.find.trucks') }}',
             'dataType' : 'json',
             'data' : {
                 'lat': mapCenter.lat(),

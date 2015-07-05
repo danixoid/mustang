@@ -8,9 +8,11 @@ class Truck extends Model {
 
     protected $guarded = ['id'];
 
-    //
-    public function files()
-    {
+    public function user() {
+        return $this->belongsTo('App\Models\User', 'id', 'truck_id');
+    }
+
+    public function files() {
         return $this->morphMany('App\Models\File', 'taggable');
     }
 

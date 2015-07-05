@@ -9,6 +9,10 @@ class Transporter extends Model {
         return $this->hasOne('App\Models\User','id','user_id');
     }
 
+    public function rating() {
+        return $this->hasOne('App\Models\Rating','id','rating_id');
+    }
+
     public function cargo() {
         return $this->hasOne('App\Models\Cargo','id','cargo_id');
     }

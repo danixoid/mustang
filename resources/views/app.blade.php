@@ -17,8 +17,10 @@
 		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
 		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 	<![endif]-->
-    
-    @yield('javascript')
+
+
+    @yield('meta')
+
 
     
 </head>
@@ -77,6 +79,24 @@
 
                     <div class="panel-body">
 
+                        @if(Session::has('success'))
+                            <div class="alert-box alert-success">
+                                <h3>{{ Session::get('success') }}</h3>
+                            </div>
+                        @endif
+
+                        @if(Session::has('warning'))
+                            <div class="alert-box alert-warning">
+                                <h3>{{ Session::get('warning') }}</h3>
+                            </div>
+                        @endif
+
+                        @if(Session::has('message'))
+                            <div class="alert-box alert-info">
+                                <h3>{{ Session::get('message') }}</h3>
+                            </div>
+                        @endif
+
                         @if (count($errors) > 0)
                             <div class="alert alert-danger">
                                 <strong>Ой!</strong> Какие-то проблемы с вводом.<br><br>
@@ -99,5 +119,7 @@
 	<!-- Scripts -->
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+    @yield('javascript')
 </body>
 </html>

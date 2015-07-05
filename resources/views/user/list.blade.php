@@ -10,10 +10,13 @@
             <th>Фамилия</th>
             <th>Имя</th>
             <th>Отчество</th>
-            <th>Операция</th>
+            <th></th>
         </tr>
 
-        <?php $i = 1; ?>
+        <?php
+            $page = $users->currentPage();
+            $i = 1 + ((int)$page - 1) * $users->perPage();
+        ?>
 
         @foreach($users as $user)
             <tr>
@@ -23,16 +26,21 @@
                 <td>{{ $user->name }}</td>
                 <td>{{ $user->father }}</td>
                 <td>
-                    {!! link_to_route('user.show','Профиль',array('id' => $user->id),
-                    array('class' => 'btn btn-link')) !!}
                     @if (Auth::user()->is_admin == 1)
-                        {!! link_to_route('user.destroy','Удалить',array('id' => $user->id),
-                        array('class' => 'btn btn-link')) !!}
+                        {!! Form::model($user,array('route' => array('user.destroy',$user->id),
+                            'class' => 'form-inline', 'method' => 'POST'))!!}
+                        {!! link_to_route('user.show','Профиль',array('id' => $user->id),
+                            array('class' => 'btn btn-link')) !!}
+                        {!! Form::submit('Удалить',
+                            array('class' => 'btn btn-link')) !!}
+                        {!! Form::close() !!}
                     @endif
                 </td>
             </tr>
         @endforeach
 
     </table>
+
+    {!! $users->render() !!}
 
 @endsection

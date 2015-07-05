@@ -35,7 +35,9 @@ class Activate {
 
         if ($this->auth->user()->activated == 0) {
 
-            return new RedirectResponse(route('user.profile'));
+            return redirect()->route('user.show',$this->auth->user()->id)
+                ->with('warning','Ваш профиль не активирован!')
+                ->withInput();
         }
 
 		return $next($request);

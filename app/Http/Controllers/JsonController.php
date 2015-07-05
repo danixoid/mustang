@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 
+use App\Models\Legal;
 use App\Models\TruckTrack;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -30,7 +31,6 @@ class JsonController extends Controller {
     public function __construct()
     {
         $this->middleware('auth');
-
         $this->middleware('mobile');
     }
 	/**
@@ -71,6 +71,20 @@ class JsonController extends Controller {
                 ->toJson();
 
         return $user;
+    }
+
+
+    public function autocompleteLegals() {
+
+        $search = Input::get('search');
+
+        $legals = Legal::select('id','name')
+            ->where('name', 'like', $search . '%')
+            ->orWhere('name', 'like', '%' . $search)
+            ->orWhere('name', 'like', '%' . $search . '%')
+            ->get();
+
+        return $legals->toJson();
     }
 
 	/**
