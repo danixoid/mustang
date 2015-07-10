@@ -298,7 +298,6 @@ class DBTableSeeder extends Seeder {
                 'father'    => 'Карияевич' . $i,
                 'email'     => 'danixoid' . $i . '@gmail.com',
                 'password'  => Hash::make('Roamer'),
-                'activated' => TRUE,
                 'truck_id'  => $truck_ids[$i],
                 'country_id'=> $country->id,
                 'resident'  => TRUE,
