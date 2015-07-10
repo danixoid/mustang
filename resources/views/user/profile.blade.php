@@ -100,7 +100,7 @@
                     {{ $user->truck->brand }} / {{ $user->truck->seria }} / {{ $user->truck->gos_number }}
                     {!! link_to_route('truck.show', '[Просмотр]', ['id' => $user->truck_id], ['class' => 'btn btn-link']); !!}
                 @else
-                    Нет автоомбиля
+                    Нет автомобиля
                     {!! link_to_route('truck.create','[Добавить автомобиль]',['id' => $user->id],
                         ['class' => 'btn btn-link']); !!}
                 @endif

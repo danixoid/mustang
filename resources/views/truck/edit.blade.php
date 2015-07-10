@@ -158,7 +158,7 @@
         {!! Form::label('height', 'Высота',
         array('class' => 'col-md-4 control-label')) !!}
         <div class="col-md-2">
-            {!! Form::text('height', @$truck->width, array('class' => 'form-control')) !!}
+            {!! Form::text('height', @$truck->height, array('class' => 'form-control')) !!}
         </div>
         <div class="col-md-2">
             {!! Form::label('height', 'метров',
@@ -170,7 +170,7 @@
         {!! Form::label('length', 'Длина',
         array('class' => 'col-md-4 control-label')) !!}
         <div class="col-md-2">
-            {!! Form::text('length', @$truck->width, array('class' => 'form-control')) !!}
+            {!! Form::text('length', @$truck->length, array('class' => 'form-control')) !!}
         </div>
         <div class="col-md-2">
             {!! Form::label('length', 'метров',

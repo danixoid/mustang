@@ -20,6 +20,8 @@ class JsonController extends Controller {
             'files',
             'country',
             'legal',
+            'truck.status',
+            'truck.type',
             'truck.country',
             'truck.picture',
             'truck.files',
@@ -33,6 +35,7 @@ class JsonController extends Controller {
         $this->middleware('auth');
         $this->middleware('mobile');
     }
+
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -66,6 +69,7 @@ class JsonController extends Controller {
         }
 
         $user = User::with($this->usersRels)
+                ->has('phones')
                 ->whereIn('truck_id',$truckIds)
                 ->get()
                 ->toJson();

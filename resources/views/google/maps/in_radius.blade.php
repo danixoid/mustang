@@ -2,6 +2,20 @@
 
 @section('meta')
     <meta name="_token" content="{{ csrf_token() }}"/>
+
+    <style>
+
+        #map-canvas {
+            height: 500px;
+        }
+
+        #form-inline {
+            margin: 4px;
+            padding: 4px;
+            background-color: #FFFFFF;
+        }
+
+    </style>
 @endsection
 
 @section('javascript')
@@ -17,6 +31,7 @@
 
     var mapCenter = new google.maps.LatLng(50.41667938232422, 80.26166534423828);
     var map;
+    var host = '{!! url('/') !!}';
     var content = '';
     var infowindow = null;
     var markerCenter = new google.maps.Marker(null);
@@ -33,7 +48,59 @@
             mapTypeId: google.maps.MapTypeId.ROADMAP,
         };
 
+
         map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+        // Create a div to hold everything else
+        var controlDiv = document.createElement('DIV');
+        controlDiv.id = "form-inline";
+
+        // Create a label1
+        var controlLabelRadius = document.createElement('label');
+        controlLabelRadius.innerHTML = 'Радиус (в м)';
+        controlLabelRadius.setAttribute("for","radius");
+
+        // Create an input field1
+        var controlInputRadius = document.createElement('input');
+        controlInputRadius.id = "radius";
+        controlInputRadius.type = "number";
+        controlInputRadius.value = "4000";
+        controlInputRadius.setAttribute('placeholder', 'Радиус в метрах');
+        controlInputRadius.setAttribute('onkeyup', 'monitoring();');
+
+
+        // Create a label2
+        var controlLabelRefresh = document.createElement('label');
+        controlLabelRefresh.innerHTML = 'Обновление (в сек)!';
+        controlLabelRefresh.setAttribute("for","timelong");
+
+        // Create an input field2
+        var controlInputRefresh = document.createElement('input');
+        controlInputRefresh.id = "timelong";
+        controlInputRefresh.type = "number";
+        controlInputRefresh.value = "60";
+        controlInputRefresh.setAttribute('placeholder', 'в секундах');
+        controlInputRefresh.setAttribute('onkeyup', 'monitoring();');
+
+        // Create a button to send the information
+        var controlButtonRefresh = document.createElement('button');
+        controlButtonRefresh.innerHTML = 'Обновить';
+
+        var controlButtonGeo = document.createElement('button');
+        controlButtonGeo.innerHTML = 'Сброс';
+
+        // Append everything to the wrapper div
+        controlDiv.appendChild(controlLabelRadius);
+        controlDiv.appendChild(controlInputRadius);
+        controlDiv.appendChild(controlLabelRefresh);
+        controlDiv.appendChild(controlInputRefresh);
+        controlDiv.appendChild(controlButtonRefresh);
+        controlDiv.appendChild(controlButtonGeo);
+
+        google.maps.event.addDomListener(controlButtonRefresh, 'click', monitoring);
+        google.maps.event.addDomListener(controlButtonGeo, 'click', getPositionCenter);
+
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(controlDiv);
 
         myPlace();
 
@@ -49,7 +116,7 @@
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function (position) {
                 mapCenter = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-                content = mapCenter.toString();
+                content = 'Мое местоположение: ' + mapCenter.toString();
                 markerCenter.setPosition(mapCenter);
                 showlog('Мое местоположение!', content)
             }, function () {
@@ -67,7 +134,18 @@
     }
 
     function myPlace() {
-        content = content;
+
+        var image = {
+            url: host + '/img/MY_LOCATION.png',
+            size: new google.maps.Size(50, 64),
+            origin: new google.maps.Point(0,0),
+            anchor: new google.maps.Point(25, 64)
+        };
+
+        var shape = {
+            coords: [1, 1, 1, 50, 50, 50, 50, 1],
+            type: 'poly'
+        };
 
         infowindow = new google.maps.InfoWindow({
             content: content
@@ -76,6 +154,8 @@
         markerCenter = new google.maps.Marker({
             position: mapCenter,
             map: map,
+            icon: image,
+            shape: shape,
             draggable: true
         });
 
@@ -138,7 +218,6 @@
                 trucks = data;
                 //alert(JSON.stringify(trucks));
                 showTrucks(trucks);
-                drawTableTrucks(trucks);
             },
             'error' : function (error) {
                 showlog('Ошибка!', JSON.stringify(error));
@@ -150,22 +229,71 @@
     
     function showTrucks(trucks) {
 
+        if (trucks.length > 0)
+        {
+            $('#table_trucks .panel-heading').text('Найдено ' + trucks.length + ' грузовиков');
+        }
+        else
+        {
+            $('#table_trucks .panel-heading').text('Ничего не найдено!');
+
+            return false;
+        }
+
         markerTrucks.forEach(function(item, i, arr) {
             item.setMap(null);
         });
 
+        $('#table_trucks .panel-body').html('');
+
         trucks.forEach(function (item, i, arr) {
-            
+
             var truckLatlng = new google.maps.LatLng(item.truck.track.lat,item.truck.track.lng);
 
-            var aboutTruck = item.name + ' ' + item.truck.gos_number + ' ' + item.truck.brand
-                    + ' ' + item.truck.seria + '<br />Последнее обновление ' + item.truck.track.created_at;
+            var imgSrc = item.picture == null
+                    ? host + '/img/NO_FACE.png'
+                    : host + '/file/' + item.picture.id;
+
+            var phones = [];
+
+            for (var i = 0; i < item.phones.length; i++) {
+                phones.push(item.phones[i].phone_number);
+            }
+
+            var status_desc = item.truck.status == null ? 'Свободен'
+                    : item.truck.status.description;
+
+            var aboutTruck =
+                    '<div class="container-fluid">' +
+                    '<div class="row">' +
+                    '<div class="col-xs-3">' +
+                    '<input type="image" src="' + imgSrc + '" height="80px" />' +
+                    '</div>' +
+                    '<div class="col-xs-9">' +
+                    '<table class="table">' +
+                    '<tr><th colspan="2"><h4><a href="' + host + '/user/' +
+                    item.id + '/show">' + item.name +
+                    '</a>' + '</h4></th></tr>' +
+                    '<tr><th>Статус</th><td>' + status_desc + '</td></tr>' +
+                    '<tr><th>Марка</th><td>' + item.truck.brand + ' ' + item.truck.seria + '</td></tr>' +
+                    '<tr><th>Гос.номер</th><td>' + item.truck.gos_number + '</td></tr>' +
+                    '<tr><th>Телефоны</th><td>' + phones.join() + '</td></tr>' +
+                    '<tr><th>Простаивает с </th><td>' + item.truck.track.created_at + '</td></tr>' +
+                    '</table>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>';
+
+            var truck_status = item.truck.status == null ? 'TRUCK_FREE' : item.truck.status.code;
+            var title = item.truck.gos_number + ' ' + item.truck.brand + ' / ' + item.truck.seria;
+
+            showlog(title,aboutTruck);
 
             var image = {
-                url: 'img/truck_map.png',
-                size: new google.maps.Size(50, 32),
+                url: host + '/img/' + truck_status + '.png',
+                size: new google.maps.Size(50, 64),
                 origin: new google.maps.Point(0,0),
-                anchor: new google.maps.Point(0, 32)
+                anchor: new google.maps.Point(25, 64)
             };
 
             var shape = {
@@ -178,51 +306,31 @@
                 map: map,
                 icon: image,
                 shape: shape,
-                title: aboutTruck
+                title: title
             });
 
-            google.maps.event.addListener(markerTruck, 'click', function() {
+            var showWindow = function() {
                 if (infowindow) {
                     infowindow.close();
                 }
                 infowindow = new google.maps.InfoWindow({
-                    content: aboutTruck
+                    content: title
                 });
                 infowindow.open(map,markerTruck);
-            });
+            };
+
+            var $newLi = jQuery('<a/>', {
+                html: item.truck.gos_number + ' ' + item.truck.brand + ' / ' + item.truck.seria,
+                css : {"cursor" : "pointer"},
+                click : showWindow
+            }).appendTo('#table_trucks .panel-body');
+
+            google.maps.event.addListener(markerTruck, 'click', showWindow);
 
             markerTrucks.push(markerTruck);
         });
     }
 
-    function drawTableTrucks (trucks) {
-
-        var tb = document.getElementById("table_trucks");
-        var title = 'Ничего не найдено!';
-        var str = '';
-
-        if (trucks.length > 0) {
-            title = 'Найдено ' + trucks.length + ' грузовиков';
-
-            trucks.forEach(function (item, i, arr) {
-                str += '<tr>';
-                str += '<td>' + (i+++1) + '</td>';
-                str += '<td>' + item.surname + ' ' + item.name + ' '
-                    + item.father + '</td>';
-                str += '<td>' + item.truck.gos_number + ' ' + item.truck.brand + ' '
-                    + item.truck.seria + ' ' + '</td>';
-                str += '<td></td>';
-                str += '</tr>';
-            });
-        }
-
-        tb.innerHTML = '<div class="panel-heading">' + title + '</div>' +
-        '<table class="table table-striped table-hover">' +
-        '<tr>' +
-        '<th>№ п/п</th><th>Водитель</th><th>Автомобиль</th><th>Статус</th>' +
-        '</tr>' + str +
-        '</table>';
-    }
 
     function showlog(title,text) {
 
@@ -246,29 +354,22 @@
 
 @section('content')
 
+
     <div class="row">
-        <div class="col-md-9">
-            <div id="map-canvas" style="height:400px"></div>
+
+        <div class="col-md-7">
+            <div id="map-canvas"></div>
         </div>
-        <div class="col-md-3">
-            <div id="logplace" class="form-group"></div>
-            <div class="form-group">
-                <label for="radius">Искать в радиусе (в метрах)</label>
-                <input type="number" id="radius" placeholder="Радиус в метрах"
-                    onkeyup="monitoring();" class="form-control" value="4000"/>
+
+        <div id="logplace" class="col-md-5"></div>
+
+        <div class="col-md-5">
+            <div id="table_trucks" class="panel panel-default">
+                <div class="panel-heading"></div>
+                <div class="panel-body"></div>
             </div>
-            <div class="form-group">
-                <label for="radius">Обновление (в секундах)</label>
-                <input type="number" id="timelong" placeholder="в секундах"
-                    onkeyup="monitoring();" class="form-control" value="60"/>
-            </div>
-            <button class="btn btn-danger" onclick="monitoring();">Обновить</button>
-            <button class="btn btn-primary" onclick="getPositionCenter();">Моя геолокация</button>
         </div>
+
     </div>
-    <div class="row">
-        <div class="col-md-offset-1 col-md-10">
-            <div id="table_trucks" class="panel panel-default"></div>
-        </div>
-    </div>
+
 @endsection

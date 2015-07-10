@@ -3,15 +3,13 @@
 
 @section('content')
 
-    {!! link_to_route('user.trash','Удалённые',array('class' => 'btn btn-link')) !!}
-
     <table class="table table-condensed">
         <tr>
             <th>№ п.п</th>
             <th>E-Mail</th>
             <th>Ф.И.О.</th>
             <th>Телефоны</th>
-            <th></th>
+            <th>Восстановить</th>
         </tr>
 
         <?php
@@ -34,15 +32,9 @@
                     @endif
                 </td>
                 <td>
-                    @if (Auth::user()->is_admin == 1)
-                        {!! Form::model($user,array('route' => array('user.destroy',$user->id),
-                            'class' => 'form-inline', 'method' => 'POST'))!!}
-                        {!! link_to_route('user.show','Профиль',array('id' => $user->id),
-                            array('class' => 'btn btn-link')) !!}
-                        {!! Form::submit('Удалить',
-                            array('class' => 'btn btn-link')) !!}
-                        {!! Form::close() !!}
-                    @endif
+                    {!! Form::open(array('route' => array('user.restore', $user->id))) !!}
+                    {!! Form::submit('Восстановить',array('class' => 'btn btn-success')) !!}
+                    {!! Form::close() !!}
                 </td>
             </tr>
         @endforeach

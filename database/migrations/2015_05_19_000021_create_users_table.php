@@ -25,8 +25,7 @@ class CreateUsersTable extends Migration {
             $table->unsignedInteger('file_id')->nullable();
             $table->unsignedInteger('country_id')->nullable();
             $table->unsignedInteger('legal_id')->nullable();
-            $table->boolean('resident')->default(0);
-            $table->boolean('activated')->default(0);
+            $table->boolean('resident')->default(FALSE);
             $table->rememberToken();
             $table->softDeletes();
 			$table->timestamps();

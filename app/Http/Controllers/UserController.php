@@ -24,7 +24,7 @@ class UserController extends Controller {
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('admin', ['only' => ['create', 'store', 'destroy']]);
+        $this->middleware('admin', ['only' => ['create', 'store', 'restore', 'destroy']]);
     }
 
 
@@ -41,43 +41,27 @@ class UserController extends Controller {
 	}
 
     /**
-	 * Activate user profile.
-	 *
-	 * @return Response
-	 */
-	public function activate($id)
-	{
-		$user = User::find($id);
-        $user->activated = 1;
-        $user->save();
-
-        return redirect()->back();
-	}
-
-    /**
-	 * Deactivate user profile.
-	 *
-	 * @return Response
-	 */
-	public function deactivate($id)
-	{
-        $user = User::find($id);
-        $user->activated = 0;
-        $user->save();
-
-        return redirect()->back();
-	}
-
-    /**
      * Display a listing of the resource.
      *
      * @return Response
      */
     public function getList()
     {
-        $users = User::paginate(2);
+        $users = User::paginate(10);
 
         return view('user/list',array('users' => $users));
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
+    public function getTrash()
+    {
+        $users = User::onlyTrashed()->paginate(10);
+
+        return view('user/trashed',array('users' => $users));
     }
 
 	/**
@@ -143,6 +127,38 @@ class UserController extends Controller {
 
         return view('user/edit', ['user' => $user]);
 	}
+
+    /**
+     * Restore the specified resource in storage.
+     *
+     * @param  int $id
+     * @return Response
+     * @internal param StoreUserRequest $request
+     */
+	public function restore($id)
+	{
+        $user = User::withTrashed()->find($id);
+
+        if(!$user)
+        {
+            return redirect()->route('user.trash')
+                ->with('warning', 'Пользователь не найден!')
+                ->withInput();
+        }
+
+        $user->deleted_at = null;
+
+        if(!$user->save())
+        {
+            return redirect()->route('user.trash')
+                ->with('warning', 'Невозможно восстановить пользователя!')
+                ->withInput();
+        }
+
+        return redirect()->route('user.list')
+            ->with('success', 'Успешно восстановлен!')
+            ->withInput();
+    }
 
     /**
      * Update the specified resource in storage.

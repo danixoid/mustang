@@ -26,24 +26,6 @@
       <primary-key name="PRIMARY" columns="id"/>
       <index name="billings_taggable_id_taggable_type_index" unique="false" columns="taggable_id,taggable_type"/>
     </table>
-    <table name="cargos" schema="" catalog="mustang" type="TABLE">
-      <column name="id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="user_id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <column name="capacity" sqlType="DOUBLE" precision="8" scale="2" nullable="false" jdbcType="8"/>
-      <column name="weight" sqlType="DOUBLE" precision="8" scale="2" nullable="false" jdbcType="8"/>
-      <column name="budget" sqlType="DOUBLE" precision="8" scale="2" nullable="false" jdbcType="8"/>
-      <column name="load" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
-      <column name="descriptions" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
-      <column name="from" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
-      <column name="to" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
-      <column name="deleted_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="true" jdbcType="93"/>
-      <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
-      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
-      <primary-key name="PRIMARY" columns="id"/>
-      <foreign-key name="cargos_user_id_foreign" columns="user_id" ref-table="users" ref-schema="" ref-catalog="mustang" ref-columns="id" update-rule="3" delete-rule="0" deferrability="2"/>
-      <exported-key name="transporters_cargo_id_foreign" table="transporters" schema="" catalog="mustang" columns="cargo_id"/>
-      <index name="cargos_user_id_foreign" unique="false" columns="user_id"/>
-    </table>
     <table name="countries" schema="" catalog="mustang" type="TABLE">
       <column name="id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
       <column name="name" sqlType="VARCHAR" precision="64" scale="0" nullable="false" jdbcType="12"/>
@@ -110,24 +92,24 @@
       <column name="code" sqlType="VARCHAR" precision="64" scale="0" nullable="false" jdbcType="12"/>
       <column name="description" sqlType="VARCHAR" precision="125" scale="0" nullable="true" jdbcType="12"/>
       <primary-key name="PRIMARY" columns="id"/>
-      <exported-key name="transporters_status_id_foreign" table="transporters" schema="" catalog="mustang" columns="status_id"/>
+      <exported-key name="trackings_status_id_foreign" table="trackings" schema="" catalog="mustang" columns="status_id"/>
       <exported-key name="trucks_status_id_foreign" table="trucks" schema="" catalog="mustang" columns="status_id"/>
       <index name="statuses_code_unique" unique="true" columns="code"/>
     </table>
-    <table name="transporters" schema="" catalog="mustang" type="TABLE">
-      <column name="id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="cargo_id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+    <table name="trackings" schema="" catalog="mustang" type="TABLE">
       <column name="user_id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <column name="status_id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="track_user_id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="status_id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="votes" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6" def="MA=="/>
+      <column name="details" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
       <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
       <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
-      <primary-key name="PRIMARY" columns="id"/>
-      <foreign-key name="transporters_status_id_foreign" columns="status_id" ref-table="statuses" ref-schema="" ref-catalog="mustang" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <foreign-key name="transporters_cargo_id_foreign" columns="cargo_id" ref-table="cargos" ref-schema="" ref-catalog="mustang" ref-columns="id" update-rule="3" delete-rule="0" deferrability="2"/>
-      <foreign-key name="transporters_user_id_foreign" columns="user_id" ref-table="users" ref-schema="" ref-catalog="mustang" ref-columns="id" update-rule="3" delete-rule="0" deferrability="2"/>
-      <index name="transporters_cargo_id_user_id_index" unique="false" columns="cargo_id,user_id"/>
-      <index name="transporters_status_id_foreign" unique="false" columns="status_id"/>
-      <index name="transporters_user_id_foreign" unique="false" columns="user_id"/>
+      <foreign-key name="trackings_status_id_foreign" columns="status_id" ref-table="statuses" ref-schema="" ref-catalog="mustang" ref-columns="id" update-rule="3" delete-rule="0" deferrability="2"/>
+      <foreign-key name="trackings_track_user_id_foreign" columns="track_user_id" ref-table="users" ref-schema="" ref-catalog="mustang" ref-columns="id" update-rule="3" delete-rule="0" deferrability="2"/>
+      <foreign-key name="trackings_user_id_foreign" columns="user_id" ref-table="users" ref-schema="" ref-catalog="mustang" ref-columns="id" update-rule="3" delete-rule="0" deferrability="2"/>
+      <index name="trackings_status_id_foreign" unique="false" columns="status_id"/>
+      <index name="trackings_track_user_id_foreign" unique="false" columns="track_user_id"/>
+      <index name="trackings_user_id_track_user_id_index" unique="false" columns="user_id,track_user_id"/>
     </table>
     <table name="truck_tracks" schema="" catalog="mustang" type="TABLE">
       <column name="truck_id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
@@ -227,28 +209,16 @@
       <foreign-key name="users_country_id_foreign" columns="country_id" ref-table="countries" ref-schema="" ref-catalog="mustang" ref-columns="id" update-rule="3" delete-rule="2" deferrability="2"/>
       <foreign-key name="users_file_id_foreign" columns="file_id" ref-table="files" ref-schema="" ref-catalog="mustang" ref-columns="id" update-rule="3" delete-rule="2" deferrability="2"/>
       <foreign-key name="users_truck_id_foreign" columns="truck_id" ref-table="trucks" ref-schema="" ref-catalog="mustang" ref-columns="id" update-rule="3" delete-rule="2" deferrability="2"/>
-      <exported-key name="cargos_user_id_foreign" table="cargos" schema="" catalog="mustang" columns="user_id"/>
       <exported-key name="phones_user_id_foreign" table="phones" schema="" catalog="mustang" columns="user_id"/>
-      <exported-key name="transporters_user_id_foreign" table="transporters" schema="" catalog="mustang" columns="user_id"/>
+      <exported-key name="trackings_track_user_id_foreign" table="trackings" schema="" catalog="mustang" columns="track_user_id"/>
+      <exported-key name="trackings_user_id_foreign" table="trackings" schema="" catalog="mustang" columns="user_id"/>
       <exported-key name="user_accounts_user_id_foreign" table="user_accounts" schema="" catalog="mustang" columns="user_id"/>
       <exported-key name="user_cashes_user_id_foreign" table="user_cashes" schema="" catalog="mustang" columns="user_id"/>
-      <exported-key name="users_relations_friend_user_id_foreign" table="users_relations" schema="" catalog="mustang" columns="friend_user_id"/>
-      <exported-key name="users_relations_user_id_foreign" table="users_relations" schema="" catalog="mustang" columns="user_id"/>
       <index name="users_email_unique" unique="true" columns="email"/>
       <index name="users_country_id_foreign" unique="false" columns="country_id"/>
       <index name="users_file_id_foreign" unique="false" columns="file_id"/>
       <index name="users_legal_id_foreign" unique="false" columns="legal_id"/>
       <index name="users_truck_id_index" unique="false" columns="truck_id"/>
-    </table>
-    <table name="users_relations" schema="" catalog="mustang" type="TABLE">
-      <column name="user_id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <column name="friend_user_id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
-      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
-      <foreign-key name="users_relations_friend_user_id_foreign" columns="friend_user_id" ref-table="users" ref-schema="" ref-catalog="mustang" ref-columns="id" update-rule="3" delete-rule="0" deferrability="2"/>
-      <foreign-key name="users_relations_user_id_foreign" columns="user_id" ref-table="users" ref-schema="" ref-catalog="mustang" ref-columns="id" update-rule="3" delete-rule="0" deferrability="2"/>
-      <index name="users_relations_friend_user_id_foreign" unique="false" columns="friend_user_id"/>
-      <index name="users_relations_user_id_friend_user_id_index" unique="false" columns="user_id,friend_user_id"/>
     </table>
   </data-source>
 </component>

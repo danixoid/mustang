@@ -3,34 +3,6 @@
 @section('content')
 
     <div class="form-horizontal">
-        <div class="form-group">
-
-            {!! Form::label('email', 'Активация аккаунта',
-                array('class' => 'col-md-4 control-label')) !!}
-
-            <div class="col-md-6">
-
-                @if ($user->activated == 0)
-                    <p class="bg-danger">Профиль не активирован</p>
-                @else
-                    <p class="bg-success">Профиль активирован</p>
-                @endif
-
-                @if (Auth::user()->is_admin > 0)
-
-                    @if ($user->activated == 0)
-                        {!! Form::open(array('route' => array('user.activate', $user->id))) !!}
-                        {!! Form::submit('Активировать',array('class' => 'btn btn-success')) !!}
-                        {!! Form::close() !!}
-                    @else
-                        {!! Form::open(array('route' => array('user.deactivate', $user->id))) !!}
-                        {!! Form::submit('Деактивировать',array('class' => 'btn btn-danger')) !!}
-                        {!! Form::close() !!}
-                    @endif
-
-                @endif
-            </div>
-        </div>
 
         <div class="form-group">
 
@@ -39,16 +11,18 @@
 
             <div class="col-sm-6">
 
-                @if ($user->picture != null)
-                    <input type="image" src="{{ route('file.show',$user->picture->id) }}" height="80px" />
+                <input type="image" @if ($user->picture != null)
+                    src="{{ route('file.show',$user->picture->id) }}"
                 @else
-                    Нет изображения
+                    src="{{ asset('/img/NO_FACE.png') }}"
                 @endif
+                    height="80px" onClick= "$('#file_pict').click()" />
 
                 {!! Form::open(array('route' => array('user.file.store', $user->id),
-                    'files' => 'true', 'class' => 'form-inline')) !!}
-                {!! Form::file('image',array('class' => 'file' )) !!}
-                {!! Form::submit('Загрузить файлы',array('class' => 'btn btn-primary')) !!}
+                    'files' => 'true', 'id' => 'form_pict')) !!}
+                {!! Form::file('image',array('class' => 'hide', 'id' => 'file_pict',
+                    'onChange' => '$(\'#form_pict\').submit();')) !!}
+                {!! Form::submit('Загрузить фото',array('class' => 'hide btn btn-primary')) !!}
                 {!! Form::close() !!}
 
             </div>
@@ -69,7 +43,7 @@
                                 <input type="image" src="{{ route('file.show',$file->id) }}"
                                        height="60px" class="left"/>
                             @else
-                                <input type="image" src="{{ url('/img/TRACKTOR.png') }}"
+                                <input type="image" src="{{ asset('/img/NO_FACE.png') }}"
                                        height="60px" class="left" />
                             @endif
 
@@ -85,9 +59,11 @@
                 @endif
 
                 {!! Form::open(array('route' => array('user.files.store', $user->id),
-                'files' => 'true')) !!}
-                {!! Form::file('images[]',array('multiple' => true, 'class' => 'file' )) !!}
-                {!! Form::submit('Загрузить файлы',array('class' => 'btn btn-primary')) !!}
+                'files' => 'true', 'id' => 'form_picts')) !!}
+                {!! Form::file('images[]',array('multiple' => true, 'class' => 'hide',
+                    'id' => 'file_picts', 'onChange' => '$(\'#form_picts\').submit();' )) !!}
+                {!! Form::submit('Загрузить файлы',array('class' => 'btn btn-primary',
+                    'onClick' => '$(\'#file_picts\').click();return false;')) !!}
                 {!! Form::close() !!}
 
             </div>
@@ -117,7 +93,7 @@
     {!! Form::open(array('route' => 'phone.store',
         'method' => 'POST', 'class' => 'form-horizontal'))!!}
     <div class="form-group">
-        {!! Form::label('father', 'Добавить телефон',
+        {!! Form::label('phone_number', 'Добавить телефон',
             array('class' => 'col-md-4 control-label')) !!}
         <div class="col-md-4">
             {!! Form::text('phone_number','',array('class' => 'form-control',
@@ -138,7 +114,7 @@
     <div class="form-group">
         {!! Form::label('email', 'E-Mail',
         array('class' => 'col-md-4 control-label')) !!}
-        <div class="col-md-6">
+        <div class="col-md-4">
             {!! Form::text('email', @$email, array('class' => 'form-control',
             'readonly' => 'true', 'placeholder' => 'john@example.com')) !!}
         </div>
@@ -147,7 +123,7 @@
     <div class="form-group">
         {!! Form::label('surname', 'Фамилия',
         array('class' => 'col-md-4 control-label')) !!}
-        <div class="col-md-6">
+        <div class="col-md-4">
             {!! Form::text('surname', @$surname, array('class' => 'form-control',
                 'placeholder' => 'Smith')) !!}
         </div>
@@ -156,7 +132,7 @@
     <div class="form-group">
         {!! Form::label('name', 'Имя',
             array('class' => 'col-md-4 control-label')) !!}
-        <div class="col-md-6">
+        <div class="col-md-4">
             {!! Form::text('name', @$name, array('class' => 'form-control',
                 'placeholder' => 'John')) !!}
         </div>
@@ -165,26 +141,50 @@
     <div class="form-group">
         {!! Form::label('father', 'Отчество',
             array('class' => 'col-md-4 control-label')) !!}
-        <div class="col-md-6">
+        <div class="col-md-4">
             {!! Form::text('father', @$father, array('class' => 'form-control',
-            'placeholder' => 'Black')) !!}
+                'placeholder' => 'Black')) !!}
         </div>
+    </div>
+
+    <div class="form-group">
+        {!! Form::label('country_id', 'Страна регистрации',
+        array('class' => 'col-md-4 control-label')) !!}
+        <div class="col-md-4">
+            <?php
+                $countries = App\Models\Country::all();
+                $countryArr = [];
+
+                foreach($countries as $country) {
+                    $countryArr[$country->id] = $country->code
+                            . ' - ' . $country->name;
+                }
+            ?>
+            {!! Form::select('country_id', $countryArr,
+            @$country_id, array('class' => 'form-control')) !!}
+        </div>
+        <div class="col-md-2"></div>
     </div>
 
     <div class="form-group">
         {!! Form::label('legal', 'Фирма',
             array('class' => 'col-md-4 control-label')) !!}
         <div class="col-md-4">
-            <input type="text" id="search_legal" value="{{ @$user->legal->name }}" class="form-control" />
+            <input type="text" id="search_legal" value="{{ @$user->legal->name }}"
+                placeholder='Начните набирать, чтобы выбрать из списка' class="form-control" />
             {!! Form::hidden('legal_id', @$user->legal_id, array('id' => 'legal_id')) !!}
         </div>
         <div class="col-md-2">
-            {!! link_to_route('legal.create','[Добавить фирму]',['id' => $user->id],
-                ['class' => 'btn btn-link']); !!}
             <button class="btn btn-link" onclick="clear_legal();return false;">[Очистить]</button>
         </div>
     </div>
 
+    <div class="form-group">
+        <div class="col-md-offset-4 col-md-6">
+            {!! link_to_route('legal.create','[Добавить фирму]',['id' => $user->id],
+            ['class' => 'btn btn-link']); !!}
+        </div>
+    </div>
     <div class="form-group">
         <div class="col-md-offset-4 col-md-6">
 
@@ -202,7 +202,6 @@
     <script>
 
         $(function(){
-
 
             $('#search_legal').autocomplete({
                 ajaxSettings : {

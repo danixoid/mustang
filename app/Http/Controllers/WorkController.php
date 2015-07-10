@@ -12,16 +12,8 @@ class WorkController extends Controller {
     public function __construct()
     {
         $this->middleware('auth');
-        //$this->middleware('admin');
-        $this->middleware('active');
+        $this->middleware('is_client', ['only' => 'getMap']);
     }
-
-
-	public function index()
-	{
-		//
-	}
-
 
     public function getMap()
     {

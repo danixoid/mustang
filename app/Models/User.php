@@ -7,7 +7,7 @@ use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\SoftDeletes;
-
+use App\Models\UserAccount;
 
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract {
 
@@ -25,7 +25,8 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['name', 'surname', 'father', 'email', 'password'];
+	//protected $fillable = ['name', 'surname', 'father', 'email', 'password'];
+	protected $guarded = ['id'];
 
 	/**
 	 * The attributes excluded from the model's JSON form.
@@ -33,8 +34,6 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 * @var array
 	 */
 	protected $hidden = ['password', 'remember_token'];
-
-    protected $appends = array('account');
 
     public function picture() {
         return $this->hasOne('App\Models\File','id','file_id');
@@ -65,38 +64,10 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return $this->hasMany('App\Models\Phone');
     }
 
-    public function ratings()
-    {
-        return $this->hasManyThrough('App\Models\Transporters','App\Models\Rating');
-    }
-
     public function cashes()
     {
         return $this->hasMany('App\Models\UserCash');
     }
 
-    public function transporters() {
 
-        return $this->belongsToMany('App\Models\Transporter');
-    }
-
-    public function avgRating()
-    {
-        $transporters = $this->transporters;
-        $average = 0;
-
-        foreach ($transporters as $transporter) {
-
-            $average += $transporter->rating->votes;
-        }
-
-        return $average / count($transporters);
-    }
-
-    public function getAccount()
-    {
-        $account = UserAccount::having('end', '>', Carbon::now())->firstOrFail();
-
-        return $account;
-    }
 }

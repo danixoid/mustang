@@ -31,7 +31,11 @@ class TruckController extends Controller {
 	 */
 	public function index()
 	{
-        $trucks = Truck::paginate(2);
+        Input::flash();
+
+        $trucks = Truck::has('user')
+            ->requestFields(Input::all())
+            ->paginate(10);
 
         return view('truck/list',['trucks' => $trucks]);
 	}

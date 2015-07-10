@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>На канале</title>
+	<title>Mustang</title>
 
 	<link href="{{ asset('/css/app.css') }}" rel="stylesheet">
 
@@ -45,8 +45,12 @@
                     <li><a href="{{ url('/') }}">Главная</a></li>
                     @if (!Auth::guest())
                         <li><a href="{{ url('/distance') }}">Рассчет расстояний</a></li>
-                        <li><a href="{{ url('/map') }}">Найти перевозчика</a></li>
-                        <li><a href="{{ url('/cargo') }}">Найти груз</a></li>
+                        <li><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Найти грузоперевозчиков</a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>{!! link_to_route('work.map','На карте') !!}</li>
+                                <li>{!! link_to_route('truck.list','По критериям') !!}</li>
+                            </ul>
+                        </li>
                     @endif
 
                     <li><a href="{{ url('/rules') }}">Соглашение</a></li>
@@ -60,6 +64,9 @@
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ Auth::user()->name }} <span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
+                                @if (Auth::user()->is_admin > 0)
+                                <li><a href="{{ route('user.list') }}">Список пользователей</a></li>
+                                @endif
                                 <li><a href="{{ route('user.profile') }}">Профиль</a></li>
 								<li><a href="{{ url('/auth/logout') }}">Выйти</a></li>
 							</ul>
@@ -72,48 +79,38 @@
 
 
     <div class="container">
-        <div class="row">
-            <div class="col-md-10 col-md-offset-1">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Главная</div>
 
-                    <div class="panel-body">
-
-                        @if(Session::has('success'))
-                            <div class="alert-box alert-success">
-                                <h3>{{ Session::get('success') }}</h3>
-                            </div>
-                        @endif
-
-                        @if(Session::has('warning'))
-                            <div class="alert-box alert-warning">
-                                <h3>{{ Session::get('warning') }}</h3>
-                            </div>
-                        @endif
-
-                        @if(Session::has('message'))
-                            <div class="alert-box alert-info">
-                                <h3>{{ Session::get('message') }}</h3>
-                            </div>
-                        @endif
-
-                        @if (count($errors) > 0)
-                            <div class="alert alert-danger">
-                                <strong>Ой!</strong> Какие-то проблемы с вводом.<br><br>
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
-
-                        @yield('content')
-
+                @if(Session::has('success'))
+                    <div class="alert-box alert-success">
+                        <h3>{{ Session::get('success') }}</h3>
                     </div>
-                </div>
-            </div>
-        </div>
+                @endif
+
+                @if(Session::has('warning'))
+                    <div class="alert-box alert-warning">
+                        <h3>{{ Session::get('warning') }}</h3>
+                    </div>
+                @endif
+
+                @if(Session::has('message'))
+                    <div class="alert-box alert-info">
+                        <h3>{{ Session::get('message') }}</h3>
+                    </div>
+                @endif
+
+                @if (count($errors) > 0)
+                    <div class="alert alert-danger">
+                        <strong>Ой!</strong> Какие-то проблемы с вводом.<br><br>
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+                @yield('content')
+
     </div>
 
 	<!-- Scripts -->

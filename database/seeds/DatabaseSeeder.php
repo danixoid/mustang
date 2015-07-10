@@ -59,6 +59,37 @@ class DBTableSeeder extends Seeder {
             'days' => 30
         ));
 
+
+        /*
+         *              СТАТУСЫ СВЯЗИ
+         */
+
+        $track_status = Status::create(array(
+            'code' => 'TRACKING_ASK',
+            'description' => 'Запрос на отслеживание'
+        ));
+
+        Status::create(array(
+            'code' => 'TRACKING_ALLOWED',
+            'description' => 'Запрос на отслеживание разрешен'
+        ));
+
+        Status::create(array(
+            'code' => 'TRACKING_DENIED',
+            'description' => 'Запрос на отслеживание отклонён'
+        ));
+
+        Status::create(array(
+            'code' => 'TRACKING_FINISHED',
+            'description' => 'Запрос на завершение отслеживания'
+        ));
+
+        Status::create(array(
+            'code' => 'TRACKING_CLOSED',
+            'description' => 'Запрос на отслеживание завершён'
+        ));
+
+
         /*
          *              СТАТУСЫ ГРУЗОВИКОВ
          */
@@ -86,45 +117,6 @@ class DBTableSeeder extends Seeder {
         Status::create(array(
             'code' => 'TRUCK_UNLOADING',
             'description' => 'Разгружается'
-        ));
-
-        Status::create(array(
-            'code' => 'TRUCK_EMPTY',
-            'description' => 'Пустой'
-        ));
-
-        /*
-         *          СТАТУСЫ НАЗНАЧЕНИЯ ПЕРЕВОЗЧИКОВ
-         */
-
-        Status::create(array(
-            'code' => 'CARGO_TRUCK_ASK',
-            'description' => 'Перевозчик готов к работе'
-        ));
-
-        Status::create(array(
-            'code' => 'CARGO_CLIENT_ASK',
-            'description' => 'Отправитель назначил перевозчика'
-        ));
-
-        Status::create(array(
-            'code' => 'CARGO_TRUCK_CONFIRMED',
-            'description' => 'Перевозчик подтвердил согласие'
-        ));
-
-        Status::create(array(
-            'code' => 'CARGO_CLIENT_CONFIRMED',
-            'description' => 'Отправитель подтвердил согласие'
-        ));
-
-        Status::create(array(
-            'code' => 'CARGO_TRUCK_CANCELED',
-            'description' => 'Перевозчик отменил согласие'
-        ));
-
-        Status::create(array(
-            'code' => 'CARGO_CLIENT_CANCELED',
-            'description' => 'Отправитель отменил согласие'
         ));
 
         /*
