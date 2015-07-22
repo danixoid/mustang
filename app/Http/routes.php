@@ -17,12 +17,7 @@ Route::get('/', 'WelcomeController@index');
 
 // ДЛЯ ПОЛЬЗОВАТЕЛЕЙ
 Route::get('home', ['as' => 'home', 'uses' => 'HomeController@index']);
-
-// ДЛЯ АКТИВИРОВАННЫХ АККАУНТОВ ПОЛЬЗОВАТЕЛЕЙ
-
-Route::get('map', ['as' => 'work.map', 'uses' => 'WorkController@getMap']);
-Route::get('distance', ['as' => 'work.distance', 'uses' => 'WorkController@getDistance']);
-
+Route::get('distance', ['as' => 'home.distance', 'uses' => 'HomeController@getDistance']);
 
 // ПРОФИЛИ ПОЛЬЗОВАТЕЛЕЙ
 Route::get('user',['as' => 'user.profile', 'uses' => 'UserController@index']);
@@ -46,6 +41,7 @@ Route::post('user/{id}/file/store',['as' => 'user.file.store', 'uses' => 'UserCo
 
 
 // ГРУЗОВИКИ
+Route::get('truck/map', ['as' => 'truck.map', 'uses' => 'TruckController@getMap']);
 Route::any('truck/list',['as' => 'truck.list', 'uses' => 'TruckController@index']);
 Route::get('truck/{id}',['as' => 'truck.show', 'uses' => 'TruckController@show']);
 Route::get('truck/{id}/create',['as' => 'truck.create', 'uses' => 'TruckController@create']);
@@ -71,14 +67,28 @@ Route::post('legal/{id}/files/store',['as' => 'legal.files.store', 'uses' => 'Le
 
 // ФАЙЛЫ
 Route::get('file/{id}',['as' => 'file.show', 'uses' => 'FileController@show']);
-
 Route::post('file/{id}/destroy',['as' => 'file.destroy', 'uses' => 'FileController@destroy']);
+
+// ОТСЛЕЖИВАНИЕ
+Route:: get('tracking',['as' => 'tracking', 'uses' => 'TrackingController@index']);
+Route:: post('tracking/store',['as' => 'tracking.store', 'uses' => 'TrackingController@store']);
+Route:: post('tracking/{id}/destroy',['as' => 'tracking.destroy', 'uses' => 'TrackingController@destroy']);
+Route:: get('tracking/{id}/ajax_form',['as' => 'tracking.ajax.form', 'uses' => 'TrackingController@show']);
+
+Route:: post('track/{lat}/{lng}/store',['as' => 'track.latlng.store', 'uses' => 'JsonController@trackLatLngStore']);
 
 // ДЛЯ МОБИЛЬНОГО ПРИЛОЖЕНИЯ И AJAX-ЗАПРОСОВ
 Route::any('json/profile',['as' => 'json.profile', 'uses' => 'JsonController@index']);
 Route::post('json/findtruck',['as' => 'json.find.trucks', 'uses' => 'JsonController@inRadius']);
+Route::post('json/{id}/truck',['as' => 'json.truck.get', 'uses' => 'JsonController@getTruckJson']);
 Route::post('json/legal',['as' => 'json.legal', 'uses' => 'JsonController@autocompleteLegals']);
+Route::post('json/truck/types',['as' => 'json.truck.types', 'uses' => 'JsonController@truckTypes']);
+Route::post('json/statuses',['as' => 'json.statuses', 'uses' => 'JsonController@statuses']);
+Route::post('json/countries',['as' => 'json.countries', 'uses' => 'JsonController@countries']);
 
+// РЭЙТИНГ
+Route::get('rating/{id}/create',['as' => 'rating.create', 'uses' => 'RatingController@create']);
+Route::post('rating/store',['as' => 'rating.store', 'uses' => 'RatingController@store']);
 
 // АВТОРИЗАЦИЯ
 Route::controllers([

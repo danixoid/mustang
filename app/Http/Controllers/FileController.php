@@ -3,6 +3,7 @@
 use App\Http\Requests;
 
 use App\Models\File as Fileentry;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
 class FileController extends Controller {
@@ -55,7 +56,13 @@ class FileController extends Controller {
 	public function show($id)
 	{
         $entry = Fileentry::find($id);
-        $file = Storage::disk('local')->get($entry->filename);
+
+		if(!$entry)
+		{
+			return redirect('/img/NO_FACE.png');
+		}
+
+		$file = Storage::disk('local')->get($entry->filename);
 
         return response($file, 200)->header('Content-Type', $entry->filetype);
 	}

@@ -33,4 +33,9 @@ class HomeController extends Controller {
         return view('home');
 	}
 
+	public function getDistance()
+	{
+		return view('google/maps/distance');
+	}
+
 }

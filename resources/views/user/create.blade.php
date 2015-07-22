@@ -1,5 +1,9 @@
 @extends('app')
 
+@section('title')
+
+@endsection
+
 @section('content')
 
     {!! Form::open(array('route' => array('user.store', -1),

@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -22,6 +23,7 @@ class TruckController extends Controller {
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('is_client', ['only' => ['index','getMap']]);
     }
 
 	/**
@@ -33,12 +35,23 @@ class TruckController extends Controller {
 	{
         Input::flash();
 
+        $pages = Input::has('paginate') ? Input::get('paginate') : 10;
+
         $trucks = Truck::has('user')
             ->requestFields(Input::all())
-            ->paginate(10);
+            ->paginate($pages);
 
         return view('truck/list',['trucks' => $trucks]);
 	}
+
+    /**
+     * Show the form for creating a new resource.
+     * @return Response
+     */
+    public function getMap()
+    {
+        return view('google/maps/in_radius');
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -48,8 +61,9 @@ class TruckController extends Controller {
      */
 	public function create($id)
 	{
+        $user = User::find($id);
 
-		return view('truck/create',['id' => $id]);
+		return view('truck/create',['user' => $user]);
 	}
 
     /**

@@ -13,6 +13,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
 	use Authenticatable, CanResetPassword, SoftDeletes;
 
+    protected $append = ['rating'];
 	/**
 	 * The database table used by the model.
 	 *
@@ -59,6 +60,16 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return $this->hasOne('App\Models\Truck','id','truck_id');
     }
 
+    public function track()
+    {
+        return $this->hasOne('App\Models\Track','id','track_id');
+    }
+
+    public function tracks()
+    {
+        return $this->hasMany('App\Models\Track');
+    }
+
     public function phones()
     {
         return $this->hasMany('App\Models\Phone');
@@ -69,5 +80,24 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return $this->hasMany('App\Models\UserCash');
     }
 
+    public function tracker()
+    {
+        return $this->hasMany('App\Models\Tracking','user_id','id');
+    }
+
+    public function tracked()
+    {
+        return $this->hasMany('App\Models\Tracking','tracked_id','id');
+    }
+
+    public function ratings()
+    {
+        return $this->hasMany('App\Models\Rating','tracked_id','id');
+    }
+
+    public function getRatingAttribute()
+    {
+        return $this->ratings()->avg('votes');
+    }
 
 }

@@ -4353,8 +4353,8 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
 .navbar-mustang .navbar-nav > .open > a,
 .navbar-mustang .navbar-nav > .open > a:hover,
 .navbar-mustang .navbar-nav > .open > a:focus {
-  background-color: #080808;
-  color: #ffffff;
+  background-color: #000080;
+  color: #FFFFFF;
 }
 @media (max-width: 767px) {
   .navbar-mustang .navbar-nav .open .dropdown-menu > .dropdown-header {

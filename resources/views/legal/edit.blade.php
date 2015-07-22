@@ -1,5 +1,9 @@
 @extends('app')
 
+@section('title')
+    Редактирование фирмы
+@endsection
+
 @section('content')
     
     <div class="form-horizontal">
@@ -43,7 +47,7 @@
 
     </div>
 
-    {!! Form::model($legal,array('route' => array('legal.store',$legal->id),
+    {!! Form::model($legal,array('route' => array('legal.update',$legal->id),
         'method' => 'POST','class' => 'form form-horizontal')) !!}
 
     <!-- legal UPDATE-->

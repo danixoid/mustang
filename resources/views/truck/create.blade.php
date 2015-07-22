@@ -1,7 +1,10 @@
 @extends('app')
 
-@section('content')
+@section('title')
+    Добавление автомобиля грузоперевозчика {{ $user->surname }} {{ $user->name }}
+@endsection
 
+@section('content')
 
     {!! Form::open(array('route' => array('truck.store',$id),
         'method' => 'POST','class' => 'form form-horizontal')) !!}
@@ -147,7 +150,7 @@
         <div class="col-md-offset-4 col-md-4">
             {!! Form::submit('Сохранить',array('class' => 'btn btn-primary')) !!}
 
-            {!! link_to_route('user.show','Назад',array('id' => $id),array('class' => 'btn btn-link')) !!}
+            {!! link_to_route('user.show','Назад',array('id' => $user->id),array('class' => 'btn btn-link')) !!}
         </div>
     </div>
     {!! Form::close() !!}

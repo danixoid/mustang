@@ -1,5 +1,9 @@
 @extends('app')
 
+@section('title')
+    Поиск грузоперевозчиков по карте
+@endsection
+
 @section('meta')
     <meta name="_token" content="{{ csrf_token() }}"/>
 
@@ -27,9 +31,10 @@
 
     var trucks = [];
     var timeout = setTimeout(null);
-    
+    var lat = {{ Auth::user()->track->lat ?: 50.41667938232422 }};
+    var lng = {{ Auth::user()->track->lng ?: 80.26166534423828 }};
 
-    var mapCenter = new google.maps.LatLng(50.41667938232422, 80.26166534423828);
+    var mapCenter = new google.maps.LatLng(lat, lng);
     var map;
     var host = '{!! url('/') !!}';
     var content = '';
@@ -39,6 +44,10 @@
     var circleRadius = new google.maps.Circle(null);
     var radius = 0;
     var timelong = 0;
+
+    $.ajaxSetup({
+        headers: { 'X-CSRF-Token' : $('meta[name=_token]').attr('content') }
+    });
 
     function initialize() {
 
@@ -102,8 +111,6 @@
 
         map.controls[google.maps.ControlPosition.TOP_LEFT].push(controlDiv);
 
-        myPlace();
-
         getPositionCenter();
 
     }
@@ -115,10 +122,26 @@
         // Try HTML5 geolocation
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function (position) {
-                mapCenter = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-                content = 'Мое местоположение: ' + mapCenter.toString();
-                markerCenter.setPosition(mapCenter);
-                showlog('Мое местоположение!', content)
+
+                lat = position.coords.latitude;
+                lng = position.coords.longitude;
+
+                $.ajax({
+                    'url' : host + "/track/" + lat + "/" + lng + "/store",
+                    'method' : "POST",
+                    'success' : function(data)
+                    {
+                        mapCenter = new google.maps.LatLng(lat, lng);
+                        content = 'Мое местоположение: ' + mapCenter.toString();
+                        markerCenter.setPosition(mapCenter);
+                        showlog('Мое местоположение', content)
+                    },
+                    'error': function()
+                    {
+                        alert("Ошибка! Не возможно пересохранить ваше местоположение");
+                    }
+                });
+
             }, function () {
                 content = 'Геолокация не работает.';
                 showlog('Ошибка!', content);
@@ -131,48 +154,6 @@
 
 
         map.panTo(mapCenter);
-    }
-
-    function myPlace() {
-
-        var image = {
-            url: host + '/img/MY_LOCATION.png',
-            size: new google.maps.Size(50, 64),
-            origin: new google.maps.Point(0,0),
-            anchor: new google.maps.Point(25, 64)
-        };
-
-        var shape = {
-            coords: [1, 1, 1, 50, 50, 50, 50, 1],
-            type: 'poly'
-        };
-
-        infowindow = new google.maps.InfoWindow({
-            content: content
-        });
-
-        markerCenter = new google.maps.Marker({
-            position: mapCenter,
-            map: map,
-            icon: image,
-            shape: shape,
-            draggable: true
-        });
-
-        google.maps.event.addListener(markerCenter, 'click', function() {
-            if (infowindow) {
-                infowindow.close();
-            }
-            infowindow = new google.maps.InfoWindow({
-                content: content
-            });
-            infowindow.open(map,markerCenter);
-        });
-
-        google.maps.event.addListener(markerCenter,'dragend',function(event) {
-            mapCenter = event.latLng;
-            monitoring();
-        });
     }
 
 
@@ -201,10 +182,6 @@
             radius: radius
         });
 
-        $.ajaxSetup({
-            headers: { 'X-CSRF-Token' : $('meta[name=_token]').attr('content') }
-        });
-
         $.ajax({
             'method' : 'POST',
             'url' : '{{ route('json.find.trucks') }}',
@@ -226,7 +203,7 @@
         map.panTo(mapCenter);
     }
 
-    
+
     function showTrucks(trucks) {
 
         if (trucks.length > 0)
@@ -244,12 +221,12 @@
             item.setMap(null);
         });
 
-        $('#table_trucks .panel-body').html('');
+        $('#table_trucks .panel-body table>tbody').html('');
 
         trucks.forEach(function (item, i, arr) {
 
-            var truckLatlng = new google.maps.LatLng(item.truck.track.lat,item.truck.track.lng);
-
+            var truckLatlng = new google.maps.LatLng(item.track.lat,item.track.lng);
+            /*
             var imgSrc = item.picture == null
                     ? host + '/img/NO_FACE.png'
                     : host + '/file/' + item.picture.id;
@@ -262,6 +239,7 @@
 
             var status_desc = item.truck.status == null ? 'Свободен'
                     : item.truck.status.description;
+
 
             var aboutTruck =
                     '<div class="container-fluid">' +
@@ -278,16 +256,14 @@
                     '<tr><th>Марка</th><td>' + item.truck.brand + ' ' + item.truck.seria + '</td></tr>' +
                     '<tr><th>Гос.номер</th><td>' + item.truck.gos_number + '</td></tr>' +
                     '<tr><th>Телефоны</th><td>' + phones.join() + '</td></tr>' +
-                    '<tr><th>Простаивает с </th><td>' + item.truck.track.created_at + '</td></tr>' +
+                    '<tr><th>Простаивает с </th><td>' + item.track.created_at + '</td></tr>' +
                     '</table>' +
                     '</div>' +
                     '</div>' +
-                    '</div>';
+                    '</div>';*/
 
             var truck_status = item.truck.status == null ? 'TRUCK_FREE' : item.truck.status.code;
             var title = item.truck.gos_number + ' ' + item.truck.brand + ' / ' + item.truck.seria;
-
-            showlog(title,aboutTruck);
 
             var image = {
                 url: host + '/img/' + truck_status + '.png',
@@ -317,15 +293,36 @@
                     content: title
                 });
                 infowindow.open(map,markerTruck);
+
+                $.get(host + "/tracking/" + item.id + "/ajax_form",
+                    function( data ) {
+                        showlog(title,data);
+                    }
+                );
             };
 
-            var $newLi = jQuery('<a/>', {
-                html: item.truck.gos_number + ' ' + item.truck.brand + ' / ' + item.truck.seria,
+            var TDs = '<td>' + item.surname + ' ' + item.name + '</td>' +
+                    '<td>' + item.truck.brand + ' ' + item.truck.seria + '</td>' +
+                    '<td>' + item.truck.gos_number + '</td>';
+
+            jQuery('<tr />', {
+                html: TDs,
                 css : {"cursor" : "pointer"},
                 click : showWindow
-            }).appendTo('#table_trucks .panel-body');
+            }).appendTo('#table_trucks .panel-body table>tbody');
 
             google.maps.event.addListener(markerTruck, 'click', showWindow);
+
+            if(item.id == {{ Auth::user()->id }})
+            {
+                markerTruck.setDraggable(true);
+                google.maps.event.addListener(markerTruck,'dragend',function(event) {
+                    lat = event.latLng.lat();
+                    lng = event.latLng.lng();
+                    mapCenter = event.latLng;
+                    monitoring();
+                });
+            }
 
             markerTrucks.push(markerTruck);
         });
@@ -344,7 +341,7 @@
             text +
             '</div></div>';
     }
-    
+
     google.maps.event.addDomListener(window, 'load', initialize);
 
 </script>
@@ -366,7 +363,19 @@
         <div class="col-md-5">
             <div id="table_trucks" class="panel panel-default">
                 <div class="panel-heading"></div>
-                <div class="panel-body"></div>
+                <div class="panel-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Водитель</th>
+                                <th>Марка</th>
+                                <th>Гос.номер</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 

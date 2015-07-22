@@ -1,5 +1,9 @@
 @extends('app')
 
+@section('title')
+    Редактирование автомобиля грузоперевозчика {{ $truck->user->surname }} {{ $truck->user->name }}
+@endsection
+
 @section('content')
 
     <div class="form-horizontal">

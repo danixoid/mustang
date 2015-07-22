@@ -7,9 +7,16 @@ class Rating extends Model {
 
 	use SoftDeletes;
 
-    public function author() {
+    protected $guarded = ['id'];
 
-        return $this->hasOne('App\Models\User','id','posted_user_id');
+    public function user()
+    {
+        return $this->hasOne('App\Models\User','id','user_id');
+    }
+
+    public function author()
+    {
+        return $this->hasOne('App\Models\User','id','tracked_id');
     }
 
 }

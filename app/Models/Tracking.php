@@ -4,22 +4,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tracking extends Model {
 
+    protected $guarded = array('id');
 
-    protected $quarded = ['id'];
-
-    public function user()
+    public function tracker()
     {
         return $this->hasOne('App\Models\User','id','user_id');
     }
 
-    public function track_user()
+    public function tracked()
     {
-        return $this->hasOne('App\Models\User','id','track_user_id');
-    }
-
-    public function status()
-    {
-        return $this->hasOne('App\Models\Status','id','status_id');
+        return $this->hasOne('App\Models\User','id','tracked_id');
     }
 
 }

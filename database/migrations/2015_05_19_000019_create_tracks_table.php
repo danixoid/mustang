@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTruckTracksTable extends Migration {
+class CreateTracksTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,12 +12,13 @@ class CreateTruckTracksTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('truck_tracks', function(Blueprint $table)
+		Schema::create('tracks', function(Blueprint $table)
 		{
-            $table->unsignedInteger('truck_id');
             $table->increments('id');
+            $table->unsignedInteger('user_id');
             $table->string('lat');
             $table->string('lng');
+            $table->string('city')->nullable();
 			$table->timestamps();
 		});
 	}
@@ -29,7 +30,7 @@ class CreateTruckTracksTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('truck_tracks');
+		Schema::drop('tracks');
 	}
 
 }

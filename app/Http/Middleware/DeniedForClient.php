@@ -34,12 +34,13 @@ class DeniedForClient {
     {
         if(count($this->auth->user()->phones) == 0  ||
             !$this->auth->user()->country           ||
-            !$this->auth->user()->truck
+            !$this->auth->user()->legal             ||
+            count($this->auth->user()->legal->files) == 0
         )
         {
             return redirect()->route('home')
                 ->with('warning','Вход только для грузоотправителей')
-                ->withInput();;
+                ->withInput();
         }
 
         return $next($request);

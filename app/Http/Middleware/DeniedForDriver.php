@@ -34,7 +34,8 @@ class DeniedForDriver {
     {
         if(count($this->auth->user()->phones) == 0  ||
             !$this->auth->user()->country           ||
-            !$this->auth->user()->legal
+            !$this->auth->user()->truck             ||
+            !$this->auth->user()->truck->picture
         )
         {
             return redirect()->route('home')

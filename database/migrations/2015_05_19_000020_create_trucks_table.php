@@ -16,7 +16,6 @@ class CreateTrucksTable extends Migration {
 		{
 			$table->increments('id');
             $table->unsignedInteger('country_id')->nullable();
-            $table->unsignedInteger('track_id')->nullable();
             $table->unsignedInteger('status_id')->nullable();
             $table->unsignedInteger('truck_type_id');
             $table->unsignedInteger('file_id')->nullable();
@@ -32,8 +31,6 @@ class CreateTrucksTable extends Migration {
 
             $table->foreign('country_id')           //страна регистрации автомобиля
                 ->references('id')->on('countries');
-            $table->foreign('track_id')             //Местоположение
-                ->references('id')->on('truck_tracks');
             $table->foreign('status_id')            //статус авто
                 ->references('id')->on('statuses');
             $table->foreign('truck_type_id')        //гражданство
@@ -42,12 +39,6 @@ class CreateTrucksTable extends Migration {
                 ->references('id')->on('files');
 		});
 
-
-        Schema::table('truck_tracks', function($table)
-        {
-            $table->foreign('truck_id')
-                ->references('id')->on('trucks');
-        });
 	}
 
 	/**
@@ -57,11 +48,6 @@ class CreateTrucksTable extends Migration {
 	 */
 	public function down()
 	{
-        Schema::table('truck_tracks', function($table)
-        {
-            $table->dropForeign('truck_tracks_truck_id_foreign');
-        });
-
 		Schema::drop('trucks');
 	}
 

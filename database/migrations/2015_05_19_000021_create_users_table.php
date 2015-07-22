@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration {
 			$table->string('email')->unique();
 			$table->string('password', 60);
             $table->unsignedInteger('truck_id')->nullable();
+            $table->unsignedInteger('track_id')->nullable();
             $table->unsignedInteger('file_id')->nullable();
             $table->unsignedInteger('country_id')->nullable();
             $table->unsignedInteger('legal_id')->nullable();
@@ -34,6 +35,8 @@ class CreateUsersTable extends Migration {
             $table->foreign('truck_id')                 //Грузовик
                 ->references('id')->on('trucks')
                 ->onDelete('set null');
+            $table->foreign('track_id')                 //Местоположение
+                ->references('id')->on('tracks');
             $table->foreign('file_id')                  //Файл картинка
                 ->references('id')->on('files')
                 ->onDelete('set null');
@@ -44,6 +47,13 @@ class CreateUsersTable extends Migration {
                 ->references('id')->on('legals')
                 ->onDelete('set null');
         });
+
+
+        Schema::table('tracks', function($table)
+        {
+            $table->foreign('user_id')
+                ->references('id')->on('users');
+        });
 	}
 
 	/**
@@ -53,7 +63,12 @@ class CreateUsersTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('users');
+        Schema::table('tracks', function($table)
+        {
+            $table->dropForeign('tracks_user_id_foreign');
+        });
+
+        Schema::drop('users');
 	}
 
 }

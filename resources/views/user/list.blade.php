@@ -1,5 +1,8 @@
 @extends('app')
 
+@section('title')
+    Профили пользователей
+@endsection
 
 @section('content')
 

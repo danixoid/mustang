@@ -2,6 +2,7 @@
 
 use App\Models\Account;
 use App\Models\Rating;
+use App\Models\Track;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -9,7 +10,6 @@ use App\Models\Country;
 use App\Models\User;
 use App\Models\TruckType;
 use App\Models\Truck;
-use App\Models\TruckTrack;
 use App\Models\Status;
 use Illuminate\Support\Facades\DB;
 
@@ -37,13 +37,14 @@ class DBTableSeeder extends Seeder {
      */
     public function run()
     {
-        DB::table('accounts')->delete();
-        DB::table('statuses')->delete();
-        DB::table('truck_tracks')->delete();
-        DB::table('users')->delete();
+        User::whereNotNull('id')->update(array('truck_id' => null,'track_id' => null));
+        DB::table('tracks')->delete();
         DB::table('trucks')->delete();
+        DB::table('users')->delete();
         DB::table('countries')->delete();
         DB::table('truck_types')->delete();
+        DB::table('accounts')->delete();
+        DB::table('statuses')->delete();
 
         /*
          *              АККАУНТЫ ПОЛЬЗОВАТЕЛЕЙ
@@ -57,36 +58,6 @@ class DBTableSeeder extends Seeder {
         Account::create(array(
             'code' => 'PREMIUM_ACC',
             'days' => 30
-        ));
-
-
-        /*
-         *              СТАТУСЫ СВЯЗИ
-         */
-
-        $track_status = Status::create(array(
-            'code' => 'TRACKING_ASK',
-            'description' => 'Запрос на отслеживание'
-        ));
-
-        Status::create(array(
-            'code' => 'TRACKING_ALLOWED',
-            'description' => 'Запрос на отслеживание разрешен'
-        ));
-
-        Status::create(array(
-            'code' => 'TRACKING_DENIED',
-            'description' => 'Запрос на отслеживание отклонён'
-        ));
-
-        Status::create(array(
-            'code' => 'TRACKING_FINISHED',
-            'description' => 'Запрос на завершение отслеживания'
-        ));
-
-        Status::create(array(
-            'code' => 'TRACKING_CLOSED',
-            'description' => 'Запрос на отслеживание завершён'
         ));
 
 
@@ -263,15 +234,14 @@ class DBTableSeeder extends Seeder {
             'code'  => 'RU',
         ));
 
-
+        /*
+         *              Пользователи
+         */
 
         $cnt = 5;   //количество пользователей
-        $user_ids = array();
-        $truck_ids = array();
-        /*
-         *              Грузовики пользователей
-         */
-        for($i = 0; $i < $cnt; $i++) {
+
+        for($i = 0; $i < $cnt; $i++)
+        {
             $truck = Truck::create(array(
                 'truck_type_id' => $truck_type->id,
                 'status_id'     => $truck_status->id,
@@ -283,54 +253,35 @@ class DBTableSeeder extends Seeder {
                 'length'        => 8,
                 'capacity'      => 2,
             ));
-            array_push($truck_ids,$truck->id);
-        }
 
-        /*
-         *              Пользователи
-         */
-
-        for($i = 0; $i < $cnt; $i++) {
             $user = User::create(array(
-                'is_admin'  => TRUE,
+                'is_admin'  => $i == 1,
                 'name'      => 'Данияр' . $i,
                 'surname'   => 'Саумбаев' . $i,
                 'father'    => 'Карияевич' . $i,
                 'email'     => 'danixoid' . $i . '@gmail.com',
                 'password'  => Hash::make('Roamer'),
-                'truck_id'  => $truck_ids[$i],
+                'truck_id'  => $truck->id,
                 'country_id'=> $country->id,
                 'resident'  => TRUE,
             ));
-            array_push($user_ids,$user->id);
-        }
 
+            /*
+             *              Лог Геолокации Грузовиков
+             */
 
-        /*
-         *              Лог Геолокации Грузовиков
-         */
-
-        $lat = 50.41667938232422;
-        $lng = 80.26166534423828;
-
-        foreach($truck_ids as $truck_id) {
-
-            $track = null;
-
+            $lat = 50.41667938232422;
+            $lng = 80.26166534423828;
             $track_cnt = mt_rand(4,10);
 
-            for ($i = 0; $i < $track_cnt; $i++) {
-
-                $track = TruckTrack::create(array(
-                    'truck_id' => $truck_id,
+            for ($j = 0; $j < $track_cnt; $j++)
+            {
+                Track::create(array(
+                    'user_id' => $user->id,
                     'lat' => $this->randomCoord($lat),
                     'lng' => $this->randomCoord($lng),
                 ));
             }
-
-            $truck = Truck::where('id',$truck_id)->firstOrFail();
-            $truck->track_id = $track->id;
-            $truck->save();
         }
     }
 

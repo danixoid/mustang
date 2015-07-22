@@ -1,5 +1,9 @@
 @extends('app')
 
+@section('title')
+    Новая фирма
+@endsection
+
 @section('content')
 
 

@@ -1,5 +1,9 @@
 @extends('app')
 
+@section('title')
+    Удаленные пользователи
+@endsection
+
 
 @section('content')
 

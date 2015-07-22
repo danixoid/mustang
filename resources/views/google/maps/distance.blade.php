@@ -130,6 +130,9 @@
     
 @endsection
 
+@section('title')
+    Рассчет дистанции
+@endsection
 
 @section('content')
     <div class="row" style="height:400px">

@@ -1,8 +1,12 @@
 <?php namespace App\Http\Controllers;
 
 
+use App\Models\Country;
 use App\Models\Legal;
-use App\Models\TruckTrack;
+use App\Models\Status;
+use App\Models\Track;
+use App\Models\Truck;
+use App\Models\TruckType;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
@@ -25,7 +29,7 @@ class JsonController extends Controller {
             'truck.country',
             'truck.picture',
             'truck.files',
-            'truck.track',
+            'track',
             'phones',
             'cashes');
 
@@ -61,16 +65,11 @@ class JsonController extends Controller {
         $lat = Input::get('lat');
         $lng = Input::get('lng');
         $radius = Input::get('radius');
-        $tracks = TruckTrack::trackInRadius(array($lat,$lng,$radius))->get();
-        $truckIds = [];
-
-        foreach($tracks as $track) {
-            array_push($truckIds, $track->truck_id);
-        }
-
+        $tracks = Track::trackInRadius(array($lat,$lng,$radius))->get();
+        //dd($tracks);
         $user = User::with($this->usersRels)
-                ->has('phones')
-                ->whereIn('truck_id',$truckIds)
+                //->has('phones')
+                ->whereIn('truck_id',$tracks->lists('user_id'))
                 ->get()
                 ->toJson();
 
@@ -91,7 +90,45 @@ class JsonController extends Controller {
         return $legals->toJson();
     }
 
-	/**
+    public function truckTypes()
+    {
+        return TruckType::all()->toJson();
+    }
+
+    public function statuses()
+    {
+        return Status::all()->toJson();
+    }
+
+    public function countries()
+    {
+        return Country::all()->toJson();
+    }
+
+    public function getTruckJson($id)
+    {
+        return User::where('id',$id)
+            ->with($this->usersRels)
+            ->firstOrFail()
+            ->toJson();
+    }
+
+    public function trackLatLngStore ($lat,$lng)
+    {
+        $track = Track::create(array(
+            'user_id' => Auth::user()->id,
+            'lat' => $lat,
+            'lng' => $lng,
+        ));
+
+        if(!$track)
+        {
+            return ['error' => 'cannot save'];
+        };
+
+        return ['success' => 'saved'];
+    }
+    /**
 	 * Show the form for creating a new resource.
 	 *
 	 * @return Response

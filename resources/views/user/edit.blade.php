@@ -1,5 +1,9 @@
 @extends('app')
 
+@section('title')
+    Редактирование профиля пользователя {{ $user->surname }} {{ $user->name }}
+@endsection
+
 @section('content')
 
     <div class="form-horizontal">

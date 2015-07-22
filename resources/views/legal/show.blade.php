@@ -1,5 +1,9 @@
 @extends('app')
 
+@section('title')
+    Страница фирмы {{ $legal->name }}
+@endsection
+
 @section('content')
 
     <div class="form-horizontal">

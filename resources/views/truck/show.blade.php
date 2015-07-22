@@ -1,5 +1,9 @@
 @extends('app')
 
+@section('title')
+    Автомобиль грузоперевозчика {{ $truck->user->surname }} {{ $truck->user->name }}
+@endsection
+
 @section('content')
 
     <div class="form-horizontal">
@@ -7,12 +11,14 @@
         <div class="form-group">
             <h3 class="col-md-4 text-right">Автомобиль</h3>
             <div class="col-sm-6">
-
-                {!! Form::model($truck,array('route' => array('truck.destroy', $truck->id), 'method' => 'POST'))!!}
-                {!! link_to_route('truck.edit','Изменить',array('id' => $truck->id),
-                    array('class' => 'btn btn-link')) !!}
-                {!! Form::submit('Удалить',array('class' => 'btn btn-link')) !!}
-                {!! Form::close() !!}
+                @if (($truck->user && $truck->user->id == Auth::user()->id) ||
+                        Auth::user()->is_admin > 0)
+                    {!! Form::model($truck,array('route' => array('truck.destroy', $truck->id), 'method' => 'POST'))!!}
+                    {!! link_to_route('truck.edit','Изменить',array('id' => $truck->id),
+                        array('class' => 'btn btn-link')) !!}
+                    {!! Form::submit('Удалить',array('class' => 'btn btn-link')) !!}
+                    {!! Form::close() !!}
+                @endif
             </div>
         </div>
 
@@ -121,8 +127,5 @@
             </div>
         </div>
 
-        <div class="form-group">
-
-        </div>
     </div>
 @endsection

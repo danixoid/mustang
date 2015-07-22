@@ -1,5 +1,13 @@
 @extends('app')
 
+@section('title')
+    Профиль пользователя {{ $user->surname }} {{ $user->name }}
+@endsection
+
+@section('meta')
+    <link href="{{asset("/css/star-rating.min.css")}}"  rel="stylesheet">
+@endsection
+
 @section('content')
 
 
@@ -10,9 +18,28 @@
                 {{ $user->name }}
                 {{ $user->father }}
             </h3>
-            <div class="col-md-6">
-                {!! link_to_route('user.edit','Изменить',['id' => $user->id],
-                    ['class' => 'btn btn-link']); !!}
+
+            <div class="col-md-4">
+
+                @if (Auth::user()->id == $user->id ||
+                    Auth::user()->is_admin > 0 )
+                    {!! link_to_route('user.edit','Изменить',['id' => $user->id],
+                        ['class' => 'btn btn-link']) !!}
+                @endif
+
+                {!! link_to_route('rating.create','Оставить отзыв',['id' => $user->id],
+                    ['class' => 'btn btn-link']) !!}
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            <label class="col-md-4 control-label">Рейтинг ({{ round($user->rating,2) }})</label>
+            <div class="col-md-4">
+                <input id="rating" type="number" class="rating" data-readonly="true"
+                       step="0.01" data-size="sm" data-show-clear="false"
+                       value="{{ $user->rating }}" data-show-caption="false"/>
             </div>
         </div>
 
@@ -98,11 +125,11 @@
             <div class="col-sm-6">
                 @if ($user->truck)
                     {{ $user->truck->brand }} / {{ $user->truck->seria }} / {{ $user->truck->gos_number }}
-                    {!! link_to_route('truck.show', '[Просмотр]', ['id' => $user->truck_id], ['class' => 'btn btn-link']); !!}
+                    {!! link_to_route('truck.show', '[Просмотр]', ['id' => $user->truck_id], ['class' => 'btn btn-link']) !!}
                 @else
                     Нет автомобиля
                     {!! link_to_route('truck.create','[Добавить автомобиль]',['id' => $user->id],
-                        ['class' => 'btn btn-link']); !!}
+                        ['class' => 'btn btn-link']) !!}
                 @endif
             </div>
         </div>
@@ -113,7 +140,7 @@
                 @if ($user->legal)
                     {{ $user->legal->name }}
                     {!! link_to_route('legal.show','[Просмотр]',['id' => $user->legal_id],
-                        ['class' => 'btn btn-link']); !!}
+                        ['class' => 'btn btn-link']) !!}
                 @else
                     Работаю нелегально
                 @endif
@@ -142,6 +169,10 @@
             </div>
         </div>
 
-
     </div>
+@endsection
+
+
+@section('javascript')
+    <script src="{{asset("/js/star-rating.min.js")}}"  rel="stylesheet"></script>
 @endsection

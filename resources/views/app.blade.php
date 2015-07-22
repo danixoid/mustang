@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Mustang</title>
+	<title>Mustang | @yield('title')</title>
 
 	<link href="{{ asset('/css/app.css') }}" rel="stylesheet">
 
@@ -42,17 +42,19 @@
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
 
-                    <li><a href="{{ url('/') }}">Главная</a></li>
+                    <li {{ Request::is( '/home') ? 'class="active"' : '' }}>{!! link_to_route('home','Главная') !!}</li>
                     @if (!Auth::guest())
-                        <li><a href="{{ url('/distance') }}">Рассчет расстояний</a></li>
-                        <li><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Найти грузоперевозчиков</a>
+                        <li {{ Request::is( '/distance*') ? 'class="active"' : '' }}>
+                            <a href="{{ url('/distance') }}">Рассчет расстояний</a></li>
+                        <li {{ Request::is( '/truck/*') ? 'class="active"' : '' }}>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Грузоотправителям</a>
                             <ul class="dropdown-menu" role="menu">
-                                <li>{!! link_to_route('work.map','На карте') !!}</li>
-                                <li>{!! link_to_route('truck.list','По критериям') !!}</li>
+                                <li>{!! link_to_route('truck.map','Поиск в радиусе') !!}</li>
+                                <li>{!! link_to_route('truck.list','Поиск грузоперевозчика') !!}</li>
+                                <li>{!! link_to_route('tracking','Отслеживание грузов') !!}</li>
                             </ul>
                         </li>
                     @endif
-
                     <li><a href="{{ url('/rules') }}">Соглашение</a></li>
 				</ul>
 
@@ -80,36 +82,32 @@
 
     <div class="container">
 
-                @if(Session::has('success'))
-                    <div class="alert-box alert-success">
-                        <h3>{{ Session::get('success') }}</h3>
-                    </div>
-                @endif
+        <h1>@yield('title')</h1>
 
-                @if(Session::has('warning'))
-                    <div class="alert-box alert-warning">
-                        <h3>{{ Session::get('warning') }}</h3>
-                    </div>
-                @endif
+            @if(Session::has('warning'))
+                <div class="alert alert-warning">
+                    <h3>{{ Session::get('warning') }}</h3>
+                </div>
+            @endif
 
-                @if(Session::has('message'))
-                    <div class="alert-box alert-info">
-                        <h3>{{ Session::get('message') }}</h3>
-                    </div>
-                @endif
+            @if(Session::has('message'))
+                <div class="alert alert-info">
+                    <h3>{{ Session::get('message') }}</h3>
+                </div>
+            @endif
 
-                @if (count($errors) > 0)
-                    <div class="alert alert-danger">
-                        <strong>Ой!</strong> Какие-то проблемы с вводом.<br><br>
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
+            @if (count($errors) > 0)
+                <div class="alert alert-danger">
+                    <strong>Ой!</strong> Какие-то проблемы с вводом.<br><br>
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
 
-                @yield('content')
+            @yield('content')
 
     </div>
 
