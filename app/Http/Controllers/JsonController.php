@@ -90,6 +90,18 @@ class JsonController extends Controller {
         return $legals->toJson();
     }
 
+
+    public function trucks()
+    {
+        //$pages = Input::has('paginate') ? Input::get('paginate') : 10;
+
+        $trucks = Truck::has('user')
+            ->requestFields(Input::all())
+            ->paginate(10);
+
+        return $trucks->toJson();
+    }
+
     public function truckTypes()
     {
         return TruckType::all()->toJson();

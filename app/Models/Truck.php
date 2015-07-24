@@ -35,48 +35,50 @@ class Truck extends Model {
 
     public function scopeRequestFields($query,$inputs)
     {
-        if (array_key_exists('type_id',$inputs))
+        foreach($inputs as $min => $value)
         {
-            foreach($inputs as $key => $value)
+            if(substr($min,0,4) === 'min_')
             {
-                if(substr($key,0,4) === 'min_')
+                $param = substr($min,4,strlen($min));
+                $max = 'max_' . $param;
+
+                if ($inputs[$min] != '')
                 {
-                    if($value == '')
+                    if ($inputs[$max] != '')
                     {
-                        $inputs[$key] = 0;
+                        $query = $query->whereBetween($param, array($inputs[$min], $inputs[$max]));
+                    }
+                    else
+                    {
+                        $query = $query->where($param, '>=', $inputs[$min]);
                     }
                 }
-
-                if(substr($key,0,4) === 'max_')
+                elseif ($inputs[$max] != '')
                 {
-                    if($value == '')
-                    {
-                        $inputs[$key] = 999999;
-                    }
+                    $query = $query->where($param, '<=', $inputs[$max]);
                 }
             }
-
-            $city = array_key_exists('city',$inputs) ? $inputs['city'] : '';
-            $tracker_cnt = array_key_exists('tracker',$inputs) ? 0 : -1;
-            $phones_cnt = array_key_exists('phones',$inputs) ? 0 : -1;
-            $legal_cnt = array_key_exists('legal',$inputs) ? 0 : -1;
-
-            return $query->has('user.tracker','>',$tracker_cnt)
-                ->has('user.phones','>',$phones_cnt)
-                ->has('user.legal','>',$legal_cnt)
-                ->whereHas('user.track', function ($q) use ($city)
-                {
-                    if($city == '') return $q->whereNotNull('city');
-
-                    return $q->where('city', $city);
-                })
-                ->where('truck_type_id',$inputs['type_id'])
-                ->whereBetween('width', array($inputs['min_width'], $inputs['max_width']))
-                ->whereBetween('length', array($inputs['min_length'], $inputs['max_length']))
-                ->whereBetween('height', array($inputs['min_height'], $inputs['max_height']))
-                ->whereBetween('capacity', array($inputs['min_capacity'], $inputs['max_capacity']))
-                ->whereBetween('volume', array($inputs['min_volume'], $inputs['max_volume']));
         }
+
+        if (array_key_exists('type_id',$inputs))
+        {
+            $query = $query->where('truck_type_id',$inputs['type_id']);
+        }
+
+        $city = array_key_exists('city',$inputs) ? $inputs['city'] : '';
+        $tracker_cnt = array_key_exists('tracker',$inputs) ? 0 : -1;
+        $phones_cnt = array_key_exists('phones',$inputs) ? 0 : -1;
+        $legal_cnt = array_key_exists('legal',$inputs) ? 0 : -1;
+
+        $query = $query->has('user.tracker','>',$tracker_cnt)
+            ->has('user.phones','>',$phones_cnt)
+            ->has('user.legal','>',$legal_cnt)
+            ->whereHas('user.track', function ($q) use ($city)
+            {
+                if($city == '') return $q->whereNotNull('city');
+
+                return $q->where('city', $city);
+            });
 
         return $query;
     }
