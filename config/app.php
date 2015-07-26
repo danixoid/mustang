@@ -137,7 +137,6 @@ return [
 		'Illuminate\View\ViewServiceProvider',
         #Agent User
         'Jenssegers\Agent\AgentServiceProvider',
-
 		/*
 		 * Application Service Providers...
 		 */
@@ -149,7 +148,11 @@ return [
         /*
          * Forms and HTML
          */
-        'Collective\Html\HtmlServiceProvider'
+        'Collective\Html\HtmlServiceProvider',
+		/*
+		 * Image
+		 */
+		'Intervention\Image\ImageServiceProvider',
 	],
 
 	/*
@@ -201,6 +204,8 @@ return [
         'Agent'     => 'Jenssegers\Agent\Facades\Agent',
         'Form' => 'Collective\Html\FormFacade',
         'Html' => 'Collective\Html\HtmlFacade',
+		#image
+		'Image' => 'Intervention\Image\Facades\Image',
 	],
 
 ];

@@ -23,15 +23,11 @@ class PasswordController extends Controller {
 	/**
 	 * Create a new password controller instance.
 	 *
-	 * @param  \Illuminate\Contracts\Auth\Guard  $auth
-	 * @param  \Illuminate\Contracts\Auth\PasswordBroker  $passwords
-	 * @return void
+	 * @internal param Guard $auth
+	 * @internal param PasswordBroker $passwords
 	 */
-	public function __construct(Guard $auth, PasswordBroker $passwords)
+	public function __construct()
 	{
-		$this->auth = $auth;
-		$this->passwords = $passwords;
-
 		$this->middleware('guest');
 	}
 

@@ -5,8 +5,9 @@
 	"license": "MIT",
 	"type": "project",
     "require": {
-		"laravel/framework": "5.0.*",
+		"laravel/framework": "5.1.*",
         "laravelcollective/html": "~5.0",
+		"intervention/image": "^2.3",
 		"jenssegers/agent": "^2.1"
 	},
 	"require-dev": {
@@ -33,8 +34,7 @@
 		],
 		"post-update-cmd": [
 			"php artisan clear-compiled",
-			"php artisan optimize",
-			"php artisan asset:publish vendor/package"
+			"php artisan optimize"
 		],
 		"post-create-project-cmd": [
 			"php -r \"copy('.env.example', '.env');\"",
