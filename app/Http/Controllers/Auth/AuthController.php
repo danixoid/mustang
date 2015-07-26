@@ -2,11 +2,10 @@
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Contracts\Auth\Guard;
-use Illuminate\Contracts\Auth\Registrar;
-use Illuminate\Contracts\Validation\Validator;
+use Validator;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Jenssegers\Agent\Facades\Agent;
 
 
@@ -92,7 +91,7 @@ class AuthController extends Controller {
 
         $credentials = $request->only('email', 'password');
 
-        if ($this->auth->attempt($credentials, $request->has('remember')))
+        if (Auth::attempt($credentials, $request->has('remember')))
         {
             return redirect()->action("WelcomeController@index");
         }
