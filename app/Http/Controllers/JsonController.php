@@ -60,17 +60,40 @@ class JsonController extends Controller {
     public function inRadius()
     {
         if (!(Input::has('lat') && Input::has('lng') && Input::has('radius'))) {
-            return array('error' => 'lat, lng and radius not found');
+            return array('error' => 'inRadius: lat, lng and radius not found');
         }
         $lat = Input::get('lat');
         $lng = Input::get('lng');
         $radius = Input::get('radius');
-        $tracks = Track::trackInRadius(array($lat,$lng,$radius))->get();
+        //$tracks = Track::trackInRadius(array($lat,$lng,$radius))->get();
 
         $user = User::with($this->usersRels)
-                ->whereIn('id',$tracks->lists('user_id'))
-                ->get()
-                ->toJson();
+            ->trackInRadius(array($lat,$lng,$radius))
+            //->whereIn('id',$tracks->lists('user_id'))
+            ->get()
+            ->toJson();
+
+        return $user;
+    }
+
+    public function inVisibleRegion()
+    {
+        if (!(Input::has('lat1') && Input::has('lng1') &&
+            Input::has('lat2') && Input::has('lng2')))
+        {
+            return array('error' => 'inVisibleRegion: bounds not found');
+        }
+
+        $lat1 = Input::get('lat1');
+        $lng1 = Input::get('lng1');
+        $lat2 = Input::get('lat2');
+        $lng2 = Input::get('lng2');
+
+        $user = User::with($this->usersRels)
+            ->trackInVisibleRegion(array('lat1' => $lat1, 'lng1' => $lng1,
+                'lat2' => $lat2, 'lng2' => $lng2))
+            ->get()
+            ->toJson();
 
         return $user;
     }

@@ -49,7 +49,8 @@
                         <li {{ Request::is( '/truck/*') ? 'class="active"' : '' }}>
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Грузоотправителям</a>
                             <ul class="dropdown-menu" role="menu">
-                                <li>{!! link_to_route('truck.map','Поиск в радиусе') !!}</li>
+                                <li>{!! link_to_route('truck.radius','Поиск в радиусе') !!}</li>
+                                <li>{!! link_to_route('truck.bounds','Поиск в регионе') !!}</li>
                                 <li>{!! link_to_route('truck.list','Поиск грузоперевозчика') !!}</li>
                                 <li>{!! link_to_route('tracking','Отслеживание грузов') !!}</li>
                             </ul>

@@ -100,4 +100,35 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return $this->ratings()->avg('votes');
     }
 
+    /**
+     * @param $query
+     * @param $bounds
+     * @return mixed
+     */
+    public function scopeTrackInVisibleRegion ($query,$bounds) {
+        return
+            $query
+                ->whereHas('track', function($q) use ($bounds)
+                {
+                    return $q
+                        ->where('lat','>',$bounds["lat1"])
+                        ->where('lat','<',$bounds["lat2"])
+                        ->where('lng','>',$bounds["lng1"])
+                        ->where('lng','<',$bounds["lng2"]);
+                });
+    }
+
+
+    public function scopeTrackInRadius ($query,$binds) {
+        return
+            $query
+                ->whereHas('track', function($q) use ($binds){
+                    $q->whereRaw("(6371 * acos( cos( radians(" . $binds[0] . ") ) *
+                              cos( radians( `lat` ) )
+                              * cos( radians( `lng` ) - radians(" . $binds[1] . ")
+                              ) + sin( radians(" . $binds[0] . " ) ) *
+                              sin( radians( `lat` ) ) ) ) < " . $binds[2]);
+                });
+
+    }
 }

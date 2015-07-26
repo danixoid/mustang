@@ -41,7 +41,8 @@ Route::post('user/{id}/file/store',['as' => 'user.file.store', 'uses' => 'UserCo
 
 
 // ГРУЗОВИКИ
-Route::get('truck/map', ['as' => 'truck.map', 'uses' => 'TruckController@getMap']);
+Route::get('truck/radius', ['as' => 'truck.radius', 'uses' => 'TruckController@truckInRadius']);
+Route::get('truck/bounds', ['as' => 'truck.bounds', 'uses' => 'TruckController@truckInBounds']);
 Route::any('truck/list',['as' => 'truck.list', 'uses' => 'TruckController@index']);
 Route::get('truck/{id}',['as' => 'truck.show', 'uses' => 'TruckController@show']);
 Route::get('truck/{id}/create',['as' => 'truck.create', 'uses' => 'TruckController@create']);
@@ -79,10 +80,11 @@ Route:: post('track/{lat}/{lng}/store',['as' => 'track.latlng.store', 'uses' => 
 
 // ДЛЯ МОБИЛЬНОГО ПРИЛОЖЕНИЯ И AJAX-ЗАПРОСОВ
 Route::any('json/profile',['as' => 'json.profile', 'uses' => 'JsonController@index']);
-Route::post('json/findtruck',['as' => 'json.find.trucks', 'uses' => 'JsonController@inRadius']);
+Route::post('json/trucks/radius',['as' => 'json.trucks.radius', 'uses' => 'JsonController@inRadius']);
+Route::post('json/trucks/bounds',['as' => 'json.trucks.bounds', 'uses' => 'JsonController@inVisibleRegion']);
 Route::post('json/{id}/truck',['as' => 'json.truck.get', 'uses' => 'JsonController@getTruckJson']);
 Route::post('json/legal',['as' => 'json.legal', 'uses' => 'JsonController@autocompleteLegals']);
-Route::post('json/trucks',['as' => 'json.trucks.search', 'uses' => 'JsonController@trucks']);
+Route::post('json/trucks/search',['as' => 'json.trucks.search', 'uses' => 'JsonController@trucks']);
 Route::post('json/truck/types',['as' => 'json.truck.types', 'uses' => 'JsonController@truckTypes']);
 Route::post('json/statuses',['as' => 'json.statuses', 'uses' => 'JsonController@statuses']);
 Route::post('json/countries',['as' => 'json.countries', 'uses' => 'JsonController@countries']);

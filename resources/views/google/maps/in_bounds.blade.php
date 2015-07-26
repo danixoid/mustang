@@ -41,8 +41,6 @@
     var infowindow = null;
     var markerCenter = new google.maps.Marker(null);
     var markerTrucks = [];
-    var circleRadius = new google.maps.Circle(null);
-    var radius = 0;
     var timelong = 0;
 
     $.ajaxSetup({
@@ -54,7 +52,7 @@
         var mapOptions = {
             zoom: 13,
             //center: mapCenter,
-            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
         };
 
 
@@ -63,20 +61,6 @@
         // Create a div to hold everything else
         var controlDiv = document.createElement('DIV');
         controlDiv.id = "form-inline";
-
-        // Create a label1
-        var controlLabelRadius = document.createElement('label');
-        controlLabelRadius.innerHTML = 'Радиус (в м)';
-        controlLabelRadius.setAttribute("for","radius");
-
-        // Create an input field1
-        var controlInputRadius = document.createElement('input');
-        controlInputRadius.id = "radius";
-        controlInputRadius.type = "number";
-        controlInputRadius.value = "4000";
-        controlInputRadius.setAttribute('placeholder', 'Радиус в метрах');
-        controlInputRadius.setAttribute('onkeyup', 'monitoring();');
-
 
         // Create a label2
         var controlLabelRefresh = document.createElement('label');
@@ -99,8 +83,6 @@
         controlButtonGeo.innerHTML = 'Сброс';
 
         // Append everything to the wrapper div
-        controlDiv.appendChild(controlLabelRadius);
-        controlDiv.appendChild(controlInputRadius);
         controlDiv.appendChild(controlLabelRefresh);
         controlDiv.appendChild(controlInputRefresh);
         controlDiv.appendChild(controlButtonRefresh);
@@ -119,8 +101,8 @@
     }
 
 
-    function getPositionCenter() {
-
+    function getPositionCenter()
+    {
 
         // Try HTML5 geolocation
         if (navigator.geolocation) {
@@ -162,6 +144,8 @@
 
     function monitoring() {
 
+        timelong = parseInt(document.getElementById("timelong").value);
+
         clearTimeout(timeout);
 
         timeout = setTimeout(findTrucksHere(),timelong);
@@ -169,32 +153,15 @@
 
     function findTrucksHere() {
 
-        mapCenter = map.getCenter();
-
-        radius = parseInt(document.getElementById("radius").value);
-        timelong = parseInt(document.getElementById("timelong").value);
-
-        circleRadius.setMap(null);
-
-        circleRadius = new google.maps.Circle({
-            strokeColor: '#0000FF',
-            strokeOpacity: 0.8,
-            strokeWeight: 2,
-            fillColor: '#0000FF',
-            fillOpacity: 0.1,
-            center: mapCenter,
-            map: map,
-            radius: radius
-        });
-
         $.ajax({
             'method' : 'POST',
-            'url' : '{{ route('json.trucks.radius') }}',
+            'url' : '{{ route('json.trucks.bounds') }}',
             'dataType' : 'json',
             'data' : {
-                'lat': mapCenter.lat(),
-                'lng': mapCenter.lng(),
-                'radius': radius / 1000
+                'lat1': map.getBounds().getSouthWest().lat(),
+                'lng1': map.getBounds().getSouthWest().lng(),
+                'lat2': map.getBounds().getNorthEast().lat(),
+                'lng2': map.getBounds().getNorthEast().lng()
             },
             'success' : function (data) {
                 trucks = data;
@@ -205,7 +172,6 @@
                 showlog('Ошибка!', JSON.stringify(error));
             }
         });
-        map.panTo(mapCenter);
     }
 
 
@@ -232,42 +198,6 @@
         trucks.forEach(function (item, i, arr) {
 
             var truckLatlng = new google.maps.LatLng(item.track.lat,item.track.lng);
-            /*
-            var imgSrc = item.picture == null
-                    ? host + '/img/NO_FACE.png'
-                    : host + '/file/' + item.picture.id;
-
-            var phones = [];
-
-            for (var i = 0; i < item.phones.length; i++) {
-                phones.push(item.phones[i].phone_number);
-            }
-
-            var status_desc = item.truck.status == null ? 'Свободен'
-                    : item.truck.status.description;
-
-
-            var aboutTruck =
-                    '<div class="container-fluid">' +
-                    '<div class="row">' +
-                    '<div class="col-xs-3">' +
-                    '<input type="image" src="' + imgSrc + '" height="80px" />' +
-                    '</div>' +
-                    '<div class="col-xs-9">' +
-                    '<table class="table">' +
-                    '<tr><th colspan="2"><h4><a href="' + host + '/user/' +
-                    item.id + '/show">' + item.name +
-                    '</a>' + '</h4></th></tr>' +
-                    '<tr><th>Статус</th><td>' + status_desc + '</td></tr>' +
-                    '<tr><th>Марка</th><td>' + item.truck.brand + ' ' + item.truck.seria + '</td></tr>' +
-                    '<tr><th>Гос.номер</th><td>' + item.truck.gos_number + '</td></tr>' +
-                    '<tr><th>Телефоны</th><td>' + phones.join() + '</td></tr>' +
-                    '<tr><th>Простаивает с </th><td>' + item.track.created_at + '</td></tr>' +
-                    '</table>' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>';*/
-
             var truck_status = item.truck.status == null ? 'TRUCK_FREE' : item.truck.status.code;
             var title = item.truck.gos_number + ' ' + item.truck.brand + ' / ' + item.truck.seria;
 
@@ -318,6 +248,17 @@
             }).appendTo('#table_trucks .panel-body table>tbody');
 
             google.maps.event.addListener(markerTruck, 'click', showWindow);
+
+            if(item.id == {{ Auth::user()->id }})
+            {
+                markerTruck.setDraggable(true);
+                google.maps.event.addListener(markerTruck,'dragend',function(event) {
+                    lat = event.latLng.lat();
+                    lng = event.latLng.lng();
+                    mapCenter = event.latLng;
+                    monitoring();
+                });
+            }
 
             markerTrucks.push(markerTruck);
         });

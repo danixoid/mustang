@@ -23,7 +23,8 @@ class TruckController extends Controller {
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('is_client', ['only' => ['index','getMap']]);
+        $this->middleware('is_client',
+            ['only' => ['index','truckInBounds','truckInRadius']]);
     }
 
 	/**
@@ -48,9 +49,19 @@ class TruckController extends Controller {
      * Show the form for creating a new resource.
      * @return Response
      */
-    public function getMap()
+    public function truckInRadius()
     {
         return view('google/maps/in_radius');
+    }
+
+
+    /**
+     * Show the form for creating a new resource.
+     * @return Response
+     */
+    public function truckInBounds()
+    {
+        return view('google/maps/in_bounds');
     }
 
     /**
