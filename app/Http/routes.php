@@ -82,7 +82,7 @@ Route::any('json/profile',['as' => 'json.profile', 'uses' => 'JsonController@ind
 Route::post('json/findtruck',['as' => 'json.find.trucks', 'uses' => 'JsonController@inRadius']);
 Route::post('json/{id}/truck',['as' => 'json.truck.get', 'uses' => 'JsonController@getTruckJson']);
 Route::post('json/legal',['as' => 'json.legal', 'uses' => 'JsonController@autocompleteLegals']);
-Route::post('json/trucks',['as' => 'json.trucks.search', 'uses' => 'JsonController@trucks']);
+Route::get('json/trucks',['as' => 'json.trucks.search', 'uses' => 'JsonController@trucks']);
 Route::post('json/truck/types',['as' => 'json.truck.types', 'uses' => 'JsonController@truckTypes']);
 Route::post('json/statuses',['as' => 'json.statuses', 'uses' => 'JsonController@statuses']);
 Route::post('json/countries',['as' => 'json.countries', 'uses' => 'JsonController@countries']);

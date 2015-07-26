@@ -17,8 +17,8 @@ class CreateTrucksTable extends Migration {
 			$table->increments('id');
             $table->unsignedInteger('country_id')->nullable();
             $table->unsignedInteger('status_id')->nullable();
-            $table->unsignedInteger('truck_type_id');
-            $table->unsignedInteger('file_id')->nullable();
+            $table->unsignedInteger('truck_type_id')->nullable();
+            $table->unsignedInteger('picture_id')->nullable();
             $table->string('gos_number',16);        //гос.номер авто
             $table->string('brand',32);             //марка автомобиля
             $table->string('seria',16)->nullable(); //серия марки автомобиля
@@ -33,9 +33,9 @@ class CreateTrucksTable extends Migration {
                 ->references('id')->on('countries');
             $table->foreign('status_id')            //статус авто
                 ->references('id')->on('statuses');
-            $table->foreign('truck_type_id')        //гражданство
+            $table->foreign('truck_type_id')        //тип грузовика
                 ->references('id')->on('truck_types');
-            $table->foreign('file_id')              //Файл картинка
+            $table->foreign('picture_id')           //Файл картинка
                 ->references('id')->on('files');
 		});
 

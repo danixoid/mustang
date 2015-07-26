@@ -25,7 +25,7 @@ class JsonController extends Controller {
             'country',
             'legal',
             'truck.status',
-            'truck.type',
+            'truck.truckType',
             'truck.country',
             'truck.picture',
             'truck.files',
@@ -66,10 +66,9 @@ class JsonController extends Controller {
         $lng = Input::get('lng');
         $radius = Input::get('radius');
         $tracks = Track::trackInRadius(array($lat,$lng,$radius))->get();
-        //dd($tracks);
+
         $user = User::with($this->usersRels)
-                //->has('phones')
-                ->whereIn('truck_id',$tracks->lists('user_id'))
+                ->whereIn('id',$tracks->lists('user_id'))
                 ->get()
                 ->toJson();
 
@@ -93,13 +92,14 @@ class JsonController extends Controller {
 
     public function trucks()
     {
-        //$pages = Input::has('paginate') ? Input::get('paginate') : 10;
+        $pages = Input::has('paginate') ? Input::get('paginate') : 10;
 
-        $trucks = Truck::has('user')
-            ->requestFields(Input::all())
+        $trucks = Truck::requestFields(Input::all())->get();
+        $users = User::with($this->usersRels)
+            ->whereIn('truck_id',$trucks->lists('id'))
             ->paginate(10);
 
-        return $trucks->toJson();
+        return $users->toJson();
     }
 
     public function truckTypes()

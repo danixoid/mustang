@@ -15,7 +15,7 @@ class Truck extends Model {
     }
 
     public function picture() {
-        return $this->hasOne('App\Models\File','id','file_id');
+        return $this->hasOne('App\Models\File','id','picture_id');
     }
 
     public function country()
@@ -28,7 +28,7 @@ class Truck extends Model {
         return $this->hasOne('App\Models\Status','id','status_id');
     }
 
-    public function type()
+    public function truckType()
     {
         return $this->hasOne('App\Models\TruckType','id','truck_type_id');
     }

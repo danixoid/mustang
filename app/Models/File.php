@@ -17,4 +17,8 @@ class File extends Model {
     public function user() {
         return $this->belongsTo('App\Models\User');
     }
+
+    public function truck() {
+        return $this->belongsTo('App\Models\Truck');
+    }
 }

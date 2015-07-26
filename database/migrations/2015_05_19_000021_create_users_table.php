@@ -23,7 +23,7 @@ class CreateUsersTable extends Migration {
 			$table->string('password', 60);
             $table->unsignedInteger('truck_id')->nullable();
             $table->unsignedInteger('track_id')->nullable();
-            $table->unsignedInteger('file_id')->nullable();
+            $table->unsignedInteger('picture_id')->nullable();
             $table->unsignedInteger('country_id')->nullable();
             $table->unsignedInteger('legal_id')->nullable();
             $table->boolean('resident')->default(FALSE);
@@ -37,7 +37,7 @@ class CreateUsersTable extends Migration {
                 ->onDelete('set null');
             $table->foreign('track_id')                 //Местоположение
                 ->references('id')->on('tracks');
-            $table->foreign('file_id')                  //Файл картинка
+            $table->foreign('picture_id')               //Файл картинка
                 ->references('id')->on('files')
                 ->onDelete('set null');
             $table->foreign('country_id')               //гражданство
