@@ -363,7 +363,7 @@ class UserController extends Controller {
                 'filetype'  => $file->getClientMimeType()
             ])->id;
 
-            $user->file_id = $image_id;
+            $user->picture_id = $image_id;
 
             $user->save();
 

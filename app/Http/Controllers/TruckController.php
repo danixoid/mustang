@@ -270,7 +270,7 @@ class TruckController extends Controller {
                 'filetype'  => $file->getClientMimeType()
             ])->id;
 
-            $truck->file_id = $image_id;
+            $truck->picture_id = $image_id;
 
             $truck->save();
 
