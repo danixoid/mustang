@@ -97,7 +97,7 @@ class JsonController extends Controller {
         $trucks = Truck::requestFields(Input::all())->get();
         $users = User::with($this->usersRels)
             ->whereIn('truck_id',$trucks->lists('id'))
-            ->paginate(10);
+            ->paginate($pages);
 
         return $users->toJson();
     }
