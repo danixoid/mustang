@@ -32,6 +32,7 @@ class DatabaseSeeder extends Seeder {
 
 class DBTableSeeder extends Seeder {
 
+    public $cnt = 50;   //количество пользователей
     /**
      *
      */
@@ -238,9 +239,8 @@ class DBTableSeeder extends Seeder {
          *              Пользователи
          */
 
-        $cnt = 5;   //количество пользователей
 
-        for($i = 0; $i < $cnt; $i++)
+        for($i = 0; $i < $this->cnt; $i++)
         {
             $truck = Truck::create(array(
                 'truck_type_id' => $truck_type->id,
@@ -287,8 +287,8 @@ class DBTableSeeder extends Seeder {
 
     private function randomCoord($l) {
         $step = 10000;
-        $min = ($l - 0.03) * $step;
-        $max = ($l + 0.03) * $step;
+        $min = ($l - 0.1) * $step; // было 0.03
+        $max = ($l + 0.1) * $step;
         return (mt_rand($min, $max)) / $step;
     }
 }
