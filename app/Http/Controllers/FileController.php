@@ -4,7 +4,9 @@ use App\Http\Requests;
 
 use App\Models\File as Fileentry;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 class FileController extends Controller {
 
@@ -53,18 +55,22 @@ class FileController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show($id)
+	public function show($id,$width = 60,$height = 70)
 	{
         $entry = Fileentry::find($id);
 
 		if(!$entry)
 		{
-			return redirect('/img/NO_FACE.png');
+			$img = Image::make(public_path('img/NO_FACE.png'));
+		}
+		else
+		{
+			$img = Image::make(storage_path('app/' . $entry->filename));
 		}
 
-		$file = Storage::disk('local')->get($entry->filename);
+		$img->fit($width, $height);
 
-        return response($file, 200)->header('Content-Type', $entry->filetype);
+		return $img->response('png');
 	}
 
 	/**
@@ -86,7 +92,16 @@ class FileController extends Controller {
 	 */
 	public function update($id)
 	{
-		//
+		if(!Fileentry::find($id)->update(Input::all()))
+		{
+			return redirect()->back()
+				->with('warning','Не удалось внести изменения.')
+				->withInput();
+		}
+
+		return redirect()->back()
+		->with('success','Успешно сохранено.')
+		->withInput();
 	}
 
 	/**
@@ -98,11 +113,7 @@ class FileController extends Controller {
 	public function destroy($id)
 	{
         $entry = Fileentry::find($id);
-
-        $user_id = $entry->taggable_id;
-
-        Storage::delete($entry->filename);
-
+        Storage::disk('local')->delete($entry->filename);
         $entry->delete();
 
         return redirect()->back();

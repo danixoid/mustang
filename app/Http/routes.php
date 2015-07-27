@@ -44,7 +44,7 @@ Route::post('user/{id}/file/store',['as' => 'user.file.store', 'uses' => 'UserCo
 Route::get('truck/radius', ['as' => 'truck.radius', 'uses' => 'TruckController@truckInRadius']);
 Route::get('truck/bounds', ['as' => 'truck.bounds', 'uses' => 'TruckController@truckInBounds']);
 Route::any('truck/list',['as' => 'truck.list', 'uses' => 'TruckController@index']);
-Route::get('truck/{id}',['as' => 'truck.show', 'uses' => 'TruckController@show']);
+Route::get('truck/{id}/show',['as' => 'truck.show', 'uses' => 'TruckController@show']);
 Route::get('truck/{id}/create',['as' => 'truck.create', 'uses' => 'TruckController@create']);
 Route::get('truck/{id}/edit',['as' => 'truck.edit', 'uses' => 'TruckController@edit']);
 

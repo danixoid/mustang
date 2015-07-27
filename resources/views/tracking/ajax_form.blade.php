@@ -1,7 +1,7 @@
 <?php
 $truckPictureUrl = $user->picture
-        ? route('file.show', $user->file_id ?: 0)
-        : route('file.show', $truck->file_id ?: 0);
+        ? route('file.show', $user->picture_id ?: 0)
+        : route('file.show', $truck->picture_id ?: 0);
 ?>
 
 <div class="container-fluid">
@@ -37,7 +37,7 @@ $truckPictureUrl = $user->picture
     <div class="form-group">
         <span class="col-md-4 text-right">Телефоны</span>
         <div class="col-md-8">
-            {{ implode(",", $user->phones->lists('phone_number')) }}
+            {{ implode(",", $user->phones->lists('phone_number')->all()) }}
         </div>
     </div>
 
