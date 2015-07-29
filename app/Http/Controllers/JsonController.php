@@ -13,26 +13,25 @@ use Illuminate\Support\Facades\Input;
 
 class JsonController extends Controller {
 
-    /**
-     * Create a new controller instance.
-     *
-     */
-
     private $usersRels = array(
             'country',
             'picture',
             'files',
-            'country',
-            'legal',
+            'legal',/*
             'truck.status',
             'truck.truckType',
-            'truck.country',
+            'truck.country',*/
             'truck.picture',
             'truck.files',
             'track',
             'phones',
             'cashes');
 
+
+    /**
+     * Create a new controller instance.
+     *
+     */
 
     public function __construct()
     {

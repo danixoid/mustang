@@ -76,7 +76,9 @@ Route:: post('tracking/store',['as' => 'tracking.store', 'uses' => 'TrackingCont
 Route:: post('tracking/{id}/destroy',['as' => 'tracking.destroy', 'uses' => 'TrackingController@destroy']);
 Route:: get('tracking/{id}/ajax_form',['as' => 'tracking.ajax.form', 'uses' => 'TrackingController@show']);
 
+// ПЕРЕДАЧА КООРДИНАТ
 Route:: post('track/{lat}/{lng}/store',['as' => 'track.latlng.store', 'uses' => 'JsonController@trackLatLngStore']);
+Route:: post('track/store',['as' => 'track.store', 'uses' => 'TrackController@store']);
 
 // ДЛЯ МОБИЛЬНОГО ПРИЛОЖЕНИЯ И AJAX-ЗАПРОСОВ
 Route::any('json/profile',['as' => 'json.profile', 'uses' => 'JsonController@index']);
