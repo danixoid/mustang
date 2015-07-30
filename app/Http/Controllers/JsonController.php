@@ -5,6 +5,7 @@ use App\Models\Country;
 use App\Models\Legal;
 use App\Models\Status;
 use App\Models\Track;
+use App\Models\Tracking;
 use App\Models\Truck;
 use App\Models\TruckType;
 use App\Models\User;
@@ -24,6 +25,7 @@ class JsonController extends Controller {
             'truck.picture',
             'truck.files',
             'track',
+            'tracker',
             'phones',
             'cashes');
 
@@ -110,7 +112,6 @@ class JsonController extends Controller {
 
         return $legals->toJson();
     }
-
 
     public function trucks()
     {
