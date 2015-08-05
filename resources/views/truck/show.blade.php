@@ -88,7 +88,7 @@
         <div class="form-group">
             <strong class="col-md-4 text-right">Тип кузова</strong>
             <div class="col-sm-6">
-                {!! $truck->type->description !!}
+                {!! $truck->truckType ? $truck->truckType->description : "Не определено" !!}
             </div>
         </div>
 
