@@ -36,8 +36,8 @@
 
     var truck = {};
     var timeout = setTimeout(null);
-    var lat = {{ Auth::user()->track->lat ?: 50.41667938232422 }};
-    var lng = {{ Auth::user()->track->lng ?: 80.26166534423828 }};
+    var lat = {{ Auth::user()->track ? Auth::user()->track->lat : 50.41667938232422 }};
+    var lng = {{ Auth::user()->track ? Auth::user()->track->lng : 80.26166534423828 }};
 
     var mapCenter = new google.maps.LatLng(lat, lng);
     var map;
