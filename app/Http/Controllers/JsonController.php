@@ -51,6 +51,7 @@ class JsonController extends Controller {
         $id = Auth::user()->id;
 
         $user = User::where("id", $id)
+            ->has("truck")
             ->with($this->usersRels)
             ->firstOrFail()
             ->toJson();
@@ -69,6 +70,7 @@ class JsonController extends Controller {
         //$tracks = Track::trackInRadius(array($lat,$lng,$radius))->get();
 
         $user = User::with($this->usersRels)
+            ->has("truck")
             ->trackInRadius(array($lat,$lng,$radius))
             //->whereIn('id',$tracks->lists('user_id'))
             ->get()
@@ -91,6 +93,7 @@ class JsonController extends Controller {
         $lng2 = Input::get('lng2');
 
         $user = User::with($this->usersRels)
+            ->has("truck")
             ->trackInVisibleRegion(array('lat1' => $lat1, 'lng1' => $lng1,
                 'lat2' => $lat2, 'lng2' => $lng2))
             ->get()
