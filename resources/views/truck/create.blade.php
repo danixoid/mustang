@@ -6,7 +6,7 @@
 
 @section('content')
 
-    {!! Form::open(array('route' => array('truck.store',$id),
+    {!! Form::open(array('route' => array('truck.store',$user->id),
         'method' => 'POST','class' => 'form form-horizontal')) !!}
 
     <!-- TRUCK UPDATE-->
