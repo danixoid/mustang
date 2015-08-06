@@ -52,6 +52,7 @@ class JsonController extends Controller {
 
         $user = User::where("id", $id)
             ->has("truck")
+            ->has("track")
             ->with($this->usersRels)
             ->firstOrFail()
             ->toJson();
@@ -71,6 +72,7 @@ class JsonController extends Controller {
 
         $user = User::with($this->usersRels)
             ->has("truck")
+            ->has("track")
             ->trackInRadius(array($lat,$lng,$radius))
             //->whereIn('id',$tracks->lists('user_id'))
             ->get()
@@ -94,6 +96,7 @@ class JsonController extends Controller {
 
         $user = User::with($this->usersRels)
             ->has("truck")
+            ->has("track")
             ->trackInVisibleRegion(array('lat1' => $lat1, 'lng1' => $lng1,
                 'lat2' => $lat2, 'lng2' => $lng2))
             ->get()
@@ -122,6 +125,8 @@ class JsonController extends Controller {
 
         $trucks = Truck::requestFields(Input::all())->get();
         $users = User::with($this->usersRels)
+            ->has("truck")
+            ->has("track")
             ->whereIn('truck_id',$trucks->lists('id'))
             ->paginate($pages);
 
@@ -146,6 +151,8 @@ class JsonController extends Controller {
     public function getTruckJson($id)
     {
         return User::where('id',$id)
+            ->has("truck")
+            ->has("track")
             ->with($this->usersRels)
             ->firstOrFail()
             ->toJson();
@@ -166,68 +173,5 @@ class JsonController extends Controller {
 
         return ['success' => 'saved'];
     }
-    /**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{
-		//
-	}
-
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
-	public function store()
-	{
-		//
-	}
-
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show($id)
-	{
-		//
-	}
-
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
-	{
-		//
-	}
-
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id)
-	{
-		//
-	}
-
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
-	{
-		//
-	}
 
 }
