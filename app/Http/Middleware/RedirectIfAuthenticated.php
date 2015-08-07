@@ -1,8 +1,11 @@
 <?php namespace App\Http\Middleware;
 
+use App\Http\Controllers\JsonController;
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Route;
 use Jenssegers\Agent\Facades\Agent;
 
 class RedirectIfAuthenticated {
@@ -36,8 +39,8 @@ class RedirectIfAuthenticated {
 		if ($this->auth->check())
 		{
             if(Agent::match("Mustang_App")) {
-
-                return redirect()->route('json.profile');
+                $request1 = Request::create('json/profile', 'GET');
+                return Route::dispatch($request1)->getContent();
             } else {
 
                 return new RedirectResponse(url('/home'));
