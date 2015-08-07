@@ -174,4 +174,29 @@ class JsonController extends Controller {
         return ['success' => 'saved'];
     }
 
+    public function trackingStore()
+    {
+        Input::flash();
+
+        if(!Tracking::create(Input::all()))
+        {
+            return array("success" => false, "error" => "Not Stored");
+        }
+
+        return array("success" => true, "error" => "");
+    }
+
+    public function trackingDestroy()
+    {
+        Input::flash();
+        $tracked_id = Input::get("tracked_id");
+
+        if(!Tracking::where('tracked_id',$tracked_id)->delete())
+        {
+            return array("success" => false, "error" => "Not destroied");
+        }
+
+        return array("success" => true, "error" => "");
+    }
+
 }

@@ -90,6 +90,8 @@ Route::post('json/trucks/search',['as' => 'json.trucks.search', 'uses' => 'JsonC
 Route::post('json/truck/types',['as' => 'json.truck.types', 'uses' => 'JsonController@truckTypes']);
 Route::post('json/statuses',['as' => 'json.statuses', 'uses' => 'JsonController@statuses']);
 Route::post('json/countries',['as' => 'json.countries', 'uses' => 'JsonController@countries']);
+Route::post('json/tracking/store',['as' => 'json.tracking.store', 'uses' => 'JsonController@trackingStore']);
+Route::post('json/tracking/destroy',['as' => 'json.tracking.destroy', 'uses' => 'JsonController@trackingDestroy']);
 
 // РЭЙТИНГ
 Route::get('rating/{id}/create',['as' => 'rating.create', 'uses' => 'RatingController@create']);
