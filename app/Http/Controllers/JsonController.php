@@ -196,7 +196,8 @@ class JsonController extends Controller {
         Input::flash();
         $tracked_id = Input::get("tracked_id");
 
-        if(!Tracking::where('tracked_id',$tracked_id)->delete())
+        if(!Tracking::where("user_id",Auth::user()->id)
+            ->where('tracked_id',$tracked_id)->delete())
         {
             return array("success" => false, "error" => "Not destroied");
         }

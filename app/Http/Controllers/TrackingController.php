@@ -124,7 +124,8 @@ class TrackingController extends Controller {
 	{
         Input::flash();
 
-        if(!Tracking::where('tracked_id',$id)->delete())
+        if(!Tracking::where("user_id",Auth::user()->id)
+            ->where('tracked_id',$id)->delete())
         {
             return redirect()->back()
                 ->with('warning','Не удалось Удалить')
