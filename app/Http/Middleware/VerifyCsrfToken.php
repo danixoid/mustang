@@ -15,10 +15,10 @@ class VerifyCsrfToken extends BaseVerifier {
 	 */
 	public function handle($request, Closure $next)
 	{
-		if(!Agent::match("Mustang_App")) {
+		/*if(!Agent::match("Mustang_App")) {
 
             return parent::handle($request, $next);
-        }
+        }*/
 
         return $next($request);
 	}
