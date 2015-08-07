@@ -178,7 +178,12 @@ class JsonController extends Controller {
     {
         Input::flash();
 
-        if(!Tracking::create(Input::all()))
+        $tracked_id = Input::get("tracked_id");
+
+        if(!Tracking::create(array(
+            "user_id" => Auth::user()->id,
+            "tracked_id" => $tracked_id
+        )))
         {
             return array("success" => false, "error" => "Not Stored");
         }
