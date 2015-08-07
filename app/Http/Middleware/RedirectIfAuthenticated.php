@@ -37,7 +37,7 @@ class RedirectIfAuthenticated {
 		{
             if(Agent::match("Mustang_App")) {
 
-                return new RedirectResponse(route('json.profile'));
+                return redirect()->route('json.profile');
             } else {
 
                 return new RedirectResponse(url('/home'));
