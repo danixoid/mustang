@@ -35,11 +35,12 @@ class RedirectIfAuthenticated {
 	{
 		if ($this->auth->check())
 		{
-            if(Agent::match("Mustang_App")) {
-
-                return redirect()->route('json.profile');
-            } else {
-
+            if(Agent::match("Mustang_App"))
+			{
+				return redirect()->route('json.profile');
+            }
+			else
+			{
                 return new RedirectResponse(url('/home'));
             }
 		}
