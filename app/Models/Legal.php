@@ -15,4 +15,16 @@ class Legal extends Model {
     {
         return $this->morphMany('App\Models\File', 'taggable');
     }
+
+    //  SCOPES
+    public function scopeAutocomplete($query,$search)
+    {
+        return $query
+            ->select('id','name')
+            ->where('name', 'like', $search . '%')
+            ->orWhere('name', 'like', '%' . $search)
+            ->orWhere('name', 'like', '%' . $search . '%');
+    }
+
+
 }

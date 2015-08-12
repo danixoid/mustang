@@ -36,6 +36,23 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 */
 	protected $hidden = ['password', 'remember_token'];
 
+
+    private $usersRels = array(
+        'country',
+        'picture',
+        'files',
+        'legal',/*
+            'truck.status',
+            'truck.truckType',
+            'truck.country',*/
+        'truck.picture',
+        'truck.files',
+        'track',
+        'tracker',
+        'phones',
+        'cashes');
+
+
     public function picture() {
         return $this->hasOne('App\Models\File','id','picture_id');
     }
@@ -100,6 +117,11 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return $this->ratings()->avg('votes');
     }
 
+
+
+
+    // CUSTOM SCOPES
+
     /**
      * @param $query
      * @param $bounds
@@ -120,15 +142,57 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
 
     public function scopeTrackInRadius ($query,$binds) {
-        return
-            $query
+
+        return $query
+                ->with($this->usersRels)
+                ->has("truck")
+                ->has("track")
+                //->whereIn('id',$tracks->lists('user_id'))
                 ->whereHas('track', function($q) use ($binds){
-                    $q->whereRaw("(6371 * acos( cos( radians(" . $binds[0] . ") ) *
+                    $q->whereRaw("(6371 * acos( cos( radians(" . $binds['lat'] . ") ) *
                               cos( radians( `lat` ) )
-                              * cos( radians( `lng` ) - radians(" . $binds[1] . ")
-                              ) + sin( radians(" . $binds[0] . " ) ) *
-                              sin( radians( `lat` ) ) ) ) < " . $binds[2]);
+                              * cos( radians( `lng` ) - radians(" . $binds['lng'] . ")
+                              ) + sin( radians(" . $binds['lat'] . " ) ) *
+                              sin( radians( `lat` ) ) ) ) < " . $binds['radius']);
                 });
 
     }
+
+
+    public function scopeInBounds($query,$binds) {
+
+        return $query
+            ->with($this->usersRels)
+            ->has("truck")
+            ->has("track")
+            ->trackInVisibleRegion(array('lat1' => $binds['lat1'], 'lng1' => $binds['lng1'],
+                'lat2' => $binds['lat2'], 'lng2' => $binds['lng2']));
+    }
+
+    public function scopeGetCurrent($query,$id) {
+
+        return $query
+            ->where("id", $id)
+            ->has("truck")
+            ->has("track")
+            ->with($this->usersRels);
+    }
+
+    public function scopeFindTrucks($query,$ids) {
+
+        return $query
+            ->with($this->usersRels)
+            ->has("truck")
+            ->has("track")
+            ->whereIn('truck_id',$ids);
+    }
+
+
+    public function scopeGetTruck ($query,$id) {
+        return $query->where('id',$id)
+            ->has("truck")
+            ->has("track")
+            ->with($this->usersRels);
+    }
+
 }

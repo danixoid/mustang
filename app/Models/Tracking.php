@@ -16,4 +16,12 @@ class Tracking extends Model {
         return $this->hasOne('App\Models\User','id','tracked_id');
     }
 
+    // SCOPE
+    public function scopeTrackedById($query,$user_id,$tracked_id)
+    {
+        return $query
+            ->where("user_id",$user_id)
+            ->where('tracked_id',$tracked_id);
+    }
+
 }
