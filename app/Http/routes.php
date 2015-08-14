@@ -87,6 +87,7 @@ Route::post('json/trucks/bounds',['as' => 'json.trucks.bounds', 'uses' => 'JsonC
 Route::post('json/{id}/truck',['as' => 'json.truck.get', 'uses' => 'JsonController@getTruckJson']);
 Route::post('json/legal',['as' => 'json.legal', 'uses' => 'JsonController@autocompleteLegals']);
 Route::post('json/trucks/search',['as' => 'json.trucks.search', 'uses' => 'JsonController@trucks']);
+Route::any('json/trucks/query',['as' => 'json.trucks.query', 'uses' => 'JsonController@trucksQuery']);
 Route::post('json/truck/types',['as' => 'json.truck.types', 'uses' => 'JsonController@truckTypes']);
 Route::post('json/statuses',['as' => 'json.statuses', 'uses' => 'JsonController@statuses']);
 Route::post('json/countries',['as' => 'json.countries', 'uses' => 'JsonController@countries']);

@@ -23,7 +23,7 @@ class JsonController extends Controller {
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('mobile');
+        //$this->middleware('mobile');
     }
 
 	/**
@@ -78,6 +78,22 @@ class JsonController extends Controller {
         $trucks = Truck::requestFields(Input::all())->get();
 
         $users = User::findTrucks($trucks->lists('id'))
+            ->paginate($pages);
+
+        return $users->toJson();
+    }
+
+    public function trucksQuery()
+    {
+        if(!Input::has('query')) {
+            return array("success" => false, "errors" => ["","Ошибка, не задан параметр QUERY"]);
+        }
+
+        $pages = Input::has('paginate') ? Input::get('paginate') : 10;
+
+        $queryString = Input::get("query");
+
+        $users = User::findTrucks($queryString)
             ->paginate($pages);
 
         return $users->toJson();
