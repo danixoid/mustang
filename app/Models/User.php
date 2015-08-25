@@ -169,7 +169,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
                 'lat2' => $binds['lat2'], 'lng2' => $binds['lng2']));
     }
 
-    public function scopeFindTrucks($query,$id) {
+    public function scopeGetCurrent($query,$id) {
 
         return $query
             ->where("id", $id)
@@ -178,24 +178,24 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
             ->with($this->usersRels);
     }
 
-    public function scopeGetCurrent($query,$ids) {
+    public function scopeFindTrucks($query,$ids) {
 
         return $query
-            ->with($this->usersRels)
             ->has("truck")
             ->has("track")
-            ->whereIn('truck_id',$ids);
+            ->whereIn('truck_id',$ids)
+            ->with($this->usersRels);
     }
 
     public function scopeSearchableTrucks($query,$param) {
 
-        $queryString = "%" + $param + "%";
+        $queryString = "%" . $param . "%";
         return $query
             ->with($this->usersRels)
             ->where("name","like",$queryString)
             ->orWhere("surname","like",$queryString)
             ->orWhere("father","like",$queryString)
-            ->whereHas("truck",function($q) use ($queryString){
+            ->orWhereHas("truck",function($q) use ($queryString){
                 return $q
                     ->where("brand","like",$queryString)
                     ->orWhere("seria","like",$queryString)

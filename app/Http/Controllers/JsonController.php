@@ -36,7 +36,6 @@ class JsonController extends Controller {
         return User::getCurrent(Auth::user()->id)
             ->firstOrFail()
             ->toJson();
-        ;
 	}
 
     public function inRadius()
@@ -93,7 +92,7 @@ class JsonController extends Controller {
 
         $queryString = Input::get("query");
 
-        $users = User::findTrucks($queryString)
+        $users = User::searchableTrucks($queryString)
             ->paginate($pages);
 
         return $users->toJson();
