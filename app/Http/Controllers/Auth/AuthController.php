@@ -4,6 +4,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Validator;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Jenssegers\Agent\Facades\Agent;
@@ -86,10 +87,23 @@ class AuthController extends Controller {
     public function postLogin(Request $request)
     {
         $this->validate($request, [
-            'email' => 'required|email', 'password' => 'required',
+            'phone_number' => 'required_without:email|required_if:email,|numeric',
+            'email' => 'required_without:phone_number|required_if:phone_number,|email',
+            'password' => 'required',
         ]);
 
-        $credentials = $request->only('email', 'password');
+        $phone_number = Input::get('phone_number');
+        $password = Input::get('password');
+        $email = Input::get('email')
+            ?: User::whereHas('phones',
+                function($q) use ($phone_number) {
+                    $q->where('phone_number', $phone_number);
+                }
+            )->first()['email'];
+
+        $credentials = ['email' => $email, 'password' => $password];
+
+        //$request->only('email', 'password');
 
         if (Auth::attempt($credentials, $request->has('remember')))
         {
@@ -98,11 +112,11 @@ class AuthController extends Controller {
 
         if (Agent::match("Mustang_App")) {
 
-            return ["error" => "email or password is incorrect"];
+            return ["error" => "email, phone_number or password is incorrect"];
         } else {
 
             return redirect($this->loginPath())
-                ->withInput($request->only('email', 'remember'))
+                ->withInput($request->only('email', 'phone_number', 'remember'))
                 ->withErrors([
                     'email' => $this->getFailedLoginMessage(),
                 ]);

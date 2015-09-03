@@ -4,13 +4,19 @@
 
     {!! Form::open(array('url' => url('auth/login'), 'class' => 'form form-horizontal')) !!}
 
+
+
         <div class="form-group">
 
-            {!! Form::label('email', 'E-Mail адрес', array('class' => 'col-md-4 control-label')) !!}
+            {!! Form::label('phone_number', 'или телефон', array('class' => 'col-md-4 control-label')) !!}
 
-            <div class="col-md-6">
-                {!! Form::text('email', @$email, array("class" => "form-control",
-                'placeholder' => 'email@example.com')) !!}
+            <div class="col-md-1">
+                {!! Form::text('phone_prefix', "+7", array("class" => "form-control",
+                    'placeholder' => '+7','readonly' => true)) !!}
+            </div>
+            <div class="col-md-5">
+                {!! Form::text('phone_number', @$phone_number, array("class" => "form-control",
+                'placeholder' => '777 426 05 76')) !!}
             </div>
         </div>
 
