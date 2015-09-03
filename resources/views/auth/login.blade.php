@@ -4,18 +4,26 @@
 
     {!! Form::open(array('url' => url('auth/login'), 'class' => 'form form-horizontal')) !!}
 
+        <!--<div class="form-group">
 
+            {!! Form::label('email', 'E-Mail адрес', array('class' => 'col-md-4 control-label')) !!}
+
+            <div class="col-md-3">
+                {!! Form::text('email', @$email, array("class" => "form-control",
+                'placeholder' => 'email@example.com')) !!}
+            </div>
+        </div>-->
 
         <div class="form-group">
 
-            {!! Form::label('phone_number', 'или телефон', array('class' => 'col-md-4 control-label')) !!}
+            {!! Form::label('phone_number', 'Сотовый телефон', array('class' => 'col-md-4  col-xs-12  col-sm-12 control-label')) !!}
 
-            <div class="col-md-1">
+            <div class="col-md-1 col-sm-4 col-xs-4">
                 {!! Form::text('phone_prefix', "+7", array("class" => "form-control",
                     'placeholder' => '+7','readonly' => true)) !!}
             </div>
-            <div class="col-md-5">
-                {!! Form::text('phone_number', @$phone_number, array("class" => "form-control",
+            <div class="col-md-2 col-sm-8 col-xs-8">
+                {!! Form::number('phone_number', @$phone_number, array("class" => "form-control",
                 'placeholder' => '777 426 05 76')) !!}
             </div>
         </div>
@@ -23,7 +31,7 @@
         <div class="form-group">
             {!! Form::label('password', 'Пароль', array('class' => 'col-md-4 control-label')) !!}
 
-            <div class="col-md-6">
+            <div class="col-md-3">
                 {!! Form::password('password', array("class" => "form-control",
                 'placeholder' => 'My23Cool12Passwd1!')) !!}
             </div>

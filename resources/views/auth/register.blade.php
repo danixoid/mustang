@@ -44,13 +44,15 @@
             </div>
         </div>
 
-        <!--
         <div class="form-group">
             <label class="col-md-4 control-label">Телефон</label>
-            <div class="col-md-6">
-                <input type="text" class="form-control" name="phone" value="{{ old('phone') }}">
+            <div class="col-md-1">
+                <input readonly="true" value="+7" class="form-control" />
             </div>
-        </div>-->
+            <div class="col-md-5">
+                <input type="number" class="form-control" size="10" name="phone_number" value="{{ old('phone_number') }}">
+            </div>
+        </div>
 
         <div class="form-group">
             <label class="col-md-4 control-label">Пароль</label>

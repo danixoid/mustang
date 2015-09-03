@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Phone;
 use App\Models\User;
 use Validator;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
@@ -51,6 +52,7 @@ class AuthController extends Controller {
             'name' => 'required|max:255',
             'surname' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
+            'phone_number' => 'required|string|size:10|unique:phones',
             'password' => 'required|confirmed|min:6',
         ]);
     }
@@ -71,6 +73,11 @@ class AuthController extends Controller {
             'password' => bcrypt($data['password']),
         ]);
 
+        Phone::create([
+            'user_id' => $user->id,
+            'phone_number' => $data['phone_number']
+        ]);
+
         //dd($user);
         return $user;
     }
@@ -87,7 +94,7 @@ class AuthController extends Controller {
     public function postLogin(Request $request)
     {
         $this->validate($request, [
-            'phone_number' => 'required_without:email|required_if:email,|numeric',
+            'phone_number' => 'required_without:email|required_if:email,|string|size:10',
             'email' => 'required_without:phone_number|required_if:phone_number,|email',
             'password' => 'required',
         ]);
