@@ -1,5 +1,9 @@
 @extends('app')
 
+@section('title')
+    Подтверждение номера телефона +7{!! $phone->phone_number !!}
+@endsection
+
 @section('meta')
     <meta name="_token" content="{{ csrf_token() }}"/>
 @endsection
@@ -42,11 +46,7 @@
 
 @section('content')
 
-    <?php
-        $phone = \App\Models\Phone::find($phone_id);
-    ?>
-
-    {!! Form::open(array('route' => array('sms.token.confirm',$phone_id),
+    {!! Form::open(array('route' => array('sms.token.confirm',$phone->id),
         'method' => 'post','class' => 'form-horizontal')) !!}
     {!! Form::hidden('user_id',Auth::user()->id) !!}
 
@@ -68,8 +68,4 @@
 
     <div id="error"></div>
 
-@endsection
-
-@section('title')
-    Подтверждение номера телефона +7{!! $phone->phone_number !!}
 @endsection

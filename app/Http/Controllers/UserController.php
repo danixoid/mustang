@@ -253,7 +253,7 @@ class UserController extends Controller {
                 ->withInput();
         }
 
-        return view("sms/make_token",['phone_id' => $id]);
+        return view("sms/make_token",['phone' => $phone]);
     }
 
     /**
