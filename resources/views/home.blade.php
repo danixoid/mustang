@@ -13,6 +13,18 @@
             {!! link_to_route('user.edit','Добавьте телефоны',
                 ['id' => Auth::user()->id],array('class' => 'btn btn-link')) !!}
         </li>
+    @else
+        <?php
+        $phones = \App\Models\Phone::where('user_id',Auth::user()->id)
+            ->where('confirmed','=',0)
+            ->get();
+        ?>
+        @foreach($phones as $phone)
+        <li>
+            {!! link_to_route('sms.token','Подтвердите номер телефона: +7' . $phone->phone_number,
+                ['id' => $phone->id], array('class' => 'btn btn-link')) !!}
+        </li>
+        @endforeach
     @endif
 
     @if(!Auth::user()->picture)

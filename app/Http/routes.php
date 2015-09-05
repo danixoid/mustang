@@ -80,6 +80,11 @@ Route:: get('tracking/{id}/ajax_form',['as' => 'tracking.ajax.form', 'uses' => '
 Route:: post('track/{lat}/{lng}/store',['as' => 'track.latlng.store', 'uses' => 'JsonController@trackLatLngStore']);
 Route:: post('track/store',['as' => 'track.store', 'uses' => 'TrackController@store']);
 
+// ПЕРЕДАЧА SMS
+Route:: get('sms/token/{id}',['as' => 'sms.token', 'uses' => 'UserController@smsToken']);
+Route:: post('sms/token/{id}/send',['as' => 'sms.token.send', 'uses' => 'JsonController@sendSmsToken']);
+Route:: post('sms/token/{id}/confirm',['as' => 'sms.token.confirm', 'uses' => 'UserController@confirmSmsToken']);
+
 // ДЛЯ МОБИЛЬНОГО ПРИЛОЖЕНИЯ И AJAX-ЗАПРОСОВ
 Route::any('json/profile',['as' => 'json.profile', 'uses' => 'JsonController@index']);
 Route::post('json/trucks/radius',['as' => 'json.trucks.radius', 'uses' => 'JsonController@inRadius']);
@@ -87,7 +92,7 @@ Route::post('json/trucks/bounds',['as' => 'json.trucks.bounds', 'uses' => 'JsonC
 Route::post('json/{id}/truck',['as' => 'json.truck.get', 'uses' => 'JsonController@getTruckJson']);
 Route::post('json/legal',['as' => 'json.legal', 'uses' => 'JsonController@autocompleteLegals']);
 Route::post('json/trucks/search',['as' => 'json.trucks.search', 'uses' => 'JsonController@trucks']);
-Route::any('json/trucks/query',['as' => 'json.trucks.query', 'uses' => 'JsonController@trucksQuery']);
+Route::post('json/trucks/query',['as' => 'json.trucks.query', 'uses' => 'JsonController@trucksQuery']);
 Route::post('json/truck/types',['as' => 'json.truck.types', 'uses' => 'JsonController@truckTypes']);
 Route::post('json/statuses',['as' => 'json.statuses', 'uses' => 'JsonController@statuses']);
 Route::post('json/countries',['as' => 'json.countries', 'uses' => 'JsonController@countries']);

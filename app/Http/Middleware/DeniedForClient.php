@@ -32,7 +32,12 @@ class DeniedForClient {
      */
     public function handle($request, Closure $next)
     {
-        if(count($this->auth->user()->phones) == 0  ||
+        $phone_confirmed = $this->auth->user()
+            ->whereHas('phones',
+                function($q) { return $q->where('confirmed','>',0);})
+            ->first();
+        if(//count($this->auth->user()->phones) == 0  ||
+            $phone_confirmed == null                ||
             !$this->auth->user()->country           ||
             !$this->auth->user()->legal             ||
             count($this->auth->user()->legal->files) == 0

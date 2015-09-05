@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -226,6 +227,77 @@ class UserController extends Controller {
         }
 
         return redirect()->back();
+    }
+
+    /**
+     * View the specified resource from storage.
+     *
+     * @param $id
+     * @return Response
+     */
+    public function smsToken($id)
+    {
+        $phone = Phone::find($id);
+
+        if (!$phone) {
+            return redirect()->back()
+                ->with('warning','Ошибка! Номер не существует.')
+                ->withInput();
+        }
+
+        if ($phone->user_id != Auth::user()->id &&
+            Auth::user()->is_admin == 0) {
+
+            return redirect()->back()
+                ->with('message','Запрещено!')
+                ->withInput();
+        }
+
+        return view("sms/make_token",['phone_id' => $id]);
+    }
+
+    /**
+     * Confirm phone number by sms.
+     *
+     * @param $id
+     * @return Response
+     */
+    public function confirmSmsToken($id)
+    {
+        $phone = Phone::find($id);
+
+        if (!$phone) {
+            return redirect()->back()
+                ->with('warning','Ошибка! Номер не существует.')
+                ->withInput();
+        }
+
+        if ($phone->user_id != Auth::user()->id &&
+            Auth::user()->is_admin == 0) {
+
+            return redirect()->back()
+                ->with('message','Запрещено!')
+                ->withInput();
+        }
+
+        if (Session::has('token')) {
+            $token = Session::pull('token', '');
+
+            if($token == Input::get('token')) {
+
+                $phone->confirmed = 1;
+                $phone->save();
+
+                return redirect()->route('home')
+                    ->with('message','Номер телефона +7' . $phone->phone_number . ' успешно активирован!')
+                    ->withInput();
+            }
+
+        }
+
+        return redirect()->back()
+            ->with('warning','Неверно введен токен!')
+            ->withInput();
     }
 
     /**

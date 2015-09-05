@@ -3,6 +3,7 @@
 
 use App\Models\Country;
 use App\Models\Legal;
+use App\Models\Phone;
 use App\Models\Status;
 use App\Models\Track;
 use App\Models\Tracking;
@@ -11,6 +12,7 @@ use App\Models\TruckType;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Session;
 
 class JsonController extends Controller {
 
@@ -166,6 +168,62 @@ class JsonController extends Controller {
         }
 
         return array("success" => true, "error" => "");
+    }
+
+    /**
+     * Send sms with token message.
+     *
+     * @param $id
+     * @return Response
+     */
+    public function sendSmsToken($id)
+    {
+        $phone = Phone::find($id);
+
+        if (!$phone) {
+            return array('error'=>'Ошибка! Номер не существует.');
+        }
+
+        if ($phone->user_id != Auth::user()->id &&
+            Auth::user()->is_admin == 0) {
+
+            return array('error'=>'Запрещено!');
+        }
+
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        $length = 4;
+
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+
+        Session::put('token', $randomString);
+
+        $url = 'http://smsc.kz/sys/send.php';
+        $data = array(
+            'login' => 'danixoid',
+            'psw' => 'qrg7t8rhqy',
+            'phones' => '+7'.$phone->phone_number,
+            'mes' => 'Code for Mustang App "'. $randomString .'"',
+            'fmt' => 3,
+        );
+
+
+
+        $options = array(
+            'http' => array(
+                'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+                'method'  => 'POST',
+                'content' => http_build_query($data),
+            ),
+        );
+        $context  = stream_context_create($options);
+        //$result = file_get_contents($url, false, $context);
+
+
+        return ['mes' => $randomString];//$result;
     }
 
 }
