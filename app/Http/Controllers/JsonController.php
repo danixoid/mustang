@@ -227,4 +227,36 @@ class JsonController extends Controller {
         return $result;
     }
 
+    public function smsTokenVerify ($id) {
+
+        $phone = Phone::find($id);
+
+        if (!$phone) {
+            return array('success' => false, "message" => "'Ошибка! Номер не существует");
+        }
+
+        if ($phone->user_id != Auth::user()->id &&
+            Auth::user()->is_admin == 0) {
+
+            return array('success' => false, "message" => "Запрещено активировать чужие телефоны");
+        }
+
+        if (Session::has('token')) {
+            $token = Session::pull('token', '');
+
+            if($token == Input::get('token')) {
+
+                $phone->confirmed = 1;
+                $phone->save();
+
+                return array('success' => true, 'message' => 'Номер телефона +7'
+                    . $phone->phone_number . ' успешно активирован!');
+            }
+
+            return array('success' => false, "message" => "Токен не совпал");
+        }
+
+        return array('success' => false, "message" => "Токен в сессии не сохранен");
+    }
+
 }

@@ -84,6 +84,7 @@ Route:: post('track/store',['as' => 'track.store', 'uses' => 'TrackController@st
 Route:: get('sms/token/{id}',['as' => 'sms.token', 'uses' => 'UserController@smsToken']);
 Route:: post('sms/token/{id}/send',['as' => 'sms.token.send', 'uses' => 'JsonController@sendSmsToken']);
 Route:: post('sms/token/{id}/confirm',['as' => 'sms.token.confirm', 'uses' => 'UserController@confirmSmsToken']);
+Route:: post('sms/token/{id}/verify',['as' => 'sms.token.verify', 'uses' => 'JsonController@smsTokenVerify']);
 
 // ДЛЯ МОБИЛЬНОГО ПРИЛОЖЕНИЯ И AJAX-ЗАПРОСОВ
 Route::any('json/profile',['as' => 'json.profile', 'uses' => 'JsonController@index']);
