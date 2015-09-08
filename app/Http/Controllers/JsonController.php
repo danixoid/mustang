@@ -208,6 +208,7 @@ class JsonController extends Controller {
             'phones' => '+7'.$phone->phone_number,
             'mes' => 'Code for Mustang App "'. $randomString .'"',
             'fmt' => 3,
+            'sender' => 'MUSTANGAPP',
         );
 
 
