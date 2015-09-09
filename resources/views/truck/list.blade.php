@@ -31,7 +31,7 @@
 
                         <div class="checkbox">
                             <label>
-                                {!! Form::checkbox('tracker', old('tracker'),old('tracker') != '') !!}
+                                {!! Form::checkbox('tracked', old('tracked'),old('tracked') != '') !!}
                                 Только отслеживаемые
                             </label>
                         </div>

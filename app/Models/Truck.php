@@ -66,11 +66,11 @@ class Truck extends Model {
         }
 
         $city = array_key_exists('city',$inputs) ? $inputs['city'] : '';
-        $tracker_cnt = array_key_exists('tracker',$inputs) ? 0 : -1;
+        $tracker_cnt = array_key_exists('tracked',$inputs) ? 0 : -1;
         $phones_cnt = array_key_exists('phones',$inputs) ? 0 : -1;
         $legal_cnt = array_key_exists('legal',$inputs) ? 0 : -1;
 
-        $query = $query->has('user.tracker','>',$tracker_cnt)
+        $query = $query->has('user.tracked','>',$tracker_cnt)
             ->has('user.phones','>',$phones_cnt)
             ->has('user.legal','>',$legal_cnt)
             ->whereHas('user.track', function ($q) use ($city)
