@@ -1,19 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="752a0b31-7ed2-46de-9be3-3bf4ada66828" name="Default" comment="Full update">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/phpspec.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dataSources.xml" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/mustang.iml" afterPath="$PROJECT_DIR$/.idea/mustang.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/php.xml" afterPath="$PROJECT_DIR$/.idea/php.xml" />
+    <list default="true" id="752a0b31-7ed2-46de-9be3-3bf4ada66828" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/JsonController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/JsonController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Models/Truck.php" afterPath="$PROJECT_DIR$/app/Models/Truck.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Models/User.php" afterPath="$PROJECT_DIR$/app/Models/User.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/google/maps/distance.blade.php" afterPath="$PROJECT_DIR$/resources/views/google/maps/distance.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/google/maps/in_bounds.blade.php" afterPath="$PROJECT_DIR$/resources/views/google/maps/in_bounds.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/google/maps/in_radius.blade.php" afterPath="$PROJECT_DIR$/resources/views/google/maps/in_radius.blade.php" />
     </list>
     <ignored path="mustang.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -79,8 +68,8 @@
       <file leaf-file-name="JsonController.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/JsonController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="746">
-              <caret line="205" column="34" lean-forward="true" selection-start-line="205" selection-start-column="34" selection-end-line="205" selection-end-column="34" />
+            <state relative-caret-position="260">
+              <caret line="178" column="5" lean-forward="true" selection-start-line="178" selection-start-column="5" selection-end-line="178" selection-end-column="5" />
               <folding>
                 <element signature="e#40#63#0#PHP" expanded="true" />
               </folding>
@@ -4052,14 +4041,7 @@
       <workItem from="1485232730857" duration="5929000" />
       <workItem from="1486115851286" duration="7237000" />
       <workItem from="1486453809448" duration="2144000" />
-      <workItem from="1490629557305" duration="1034000" />
-    </task>
-    <task id="LOCAL-00039" summary="Full update">
-      <created>1435308365339</created>
-      <option name="number" value="00039" />
-      <option name="presentableId" value="LOCAL-00039" />
-      <option name="project" value="LOCAL" />
-      <updated>1435308365339</updated>
+      <workItem from="1490629557305" duration="1146000" />
     </task>
     <task id="LOCAL-00040" summary="Full update">
       <created>1435386263654</created>
@@ -4397,11 +4379,18 @@
       <option name="project" value="LOCAL" />
       <updated>1441705491877</updated>
     </task>
-    <option name="localTasksCounter" value="88" />
+    <task id="LOCAL-00088" summary="api key for google maps">
+      <created>1490630635525</created>
+      <option name="number" value="00088" />
+      <option name="presentableId" value="LOCAL-00088" />
+      <option name="project" value="LOCAL" />
+      <updated>1490630635525</updated>
+    </task>
+    <option name="localTasksCounter" value="89" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="16344000" />
+    <option name="totallyTimeSpent" value="16456000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -4477,7 +4466,8 @@
     <MESSAGE value="JSON findtruck" />
     <MESSAGE value="JSON Controller and models" />
     <MESSAGE value="Full update" />
-    <option name="LAST_COMMIT_MESSAGE" value="Full update" />
+    <MESSAGE value="api key for google maps" />
+    <option name="LAST_COMMIT_MESSAGE" value="api key for google maps" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -4887,8 +4877,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/JsonController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="746">
-          <caret line="205" column="34" lean-forward="true" selection-start-line="205" selection-start-column="34" selection-end-line="205" selection-end-column="34" />
+        <state relative-caret-position="260">
+          <caret line="178" column="5" lean-forward="true" selection-start-line="178" selection-start-column="5" selection-end-line="178" selection-end-column="5" />
           <folding>
             <element signature="e#40#63#0#PHP" expanded="true" />
           </folding>
