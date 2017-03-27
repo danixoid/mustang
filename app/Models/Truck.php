@@ -7,7 +7,7 @@ class Truck extends Model {
     protected $guarded = ['id'];
 
     public function user() {
-        return $this->belongsTo('App\Models\User', 'id', 'truck_id');
+        return $this->hasOne('App\Models\User', 'truck_id', 'id');
     }
 
     public function files() {
@@ -15,22 +15,22 @@ class Truck extends Model {
     }
 
     public function picture() {
-        return $this->hasOne('App\Models\File','id','picture_id');
+        return $this->belongsTo('App\Models\File','picture_id','id');
     }
 
     public function country()
     {
-        return $this->hasOne('App\Models\Country','id','country_id');
+        return $this->belongsTo('App\Models\Country','country_id','id');
     }
 
     public function status()
     {
-        return $this->hasOne('App\Models\Status','id','status_id');
+        return $this->belongsTo('App\Models\Status','status_id','id');
     }
 
     public function truckType()
     {
-        return $this->hasOne('App\Models\TruckType','id','truck_type_id');
+        return $this->belongsTo('App\Models\TruckType','truck_type_id','id');
     }
 
     public function scopeRequestFields($query,$inputs)

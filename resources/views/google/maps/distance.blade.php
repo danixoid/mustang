@@ -2,7 +2,7 @@
 
 @section('javascript')
 
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places&key=AIzaSyB4uLQ4JnafmoA030S27XXXeGm6-6Z8pOg"></script>
     <script>
 
         var rendererOptions = {

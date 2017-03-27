@@ -36,8 +36,7 @@ class JsonController extends Controller {
 	public function index()
 	{
         return User::getCurrent(Auth::user()->id)
-            ->firstOrFail()
-            ->toJson();
+            ->first();
 	}
 
     public function inRadius()

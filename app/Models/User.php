@@ -74,12 +74,12 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
     public function truck()
     {
-        return $this->hasOne('App\Models\Truck','id','truck_id');
+        return $this->belongsTo('App\Models\Truck','truck_id','id');
     }
 
     public function track()
     {
-        return $this->hasOne('App\Models\Track','id','track_id');
+        return $this->belongsTo('App\Models\Track','track_id','id');
     }
 
     public function tracks()
@@ -173,8 +173,9 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
         return $query
             ->where("id", $id)
-            ->has("truck")
-            ->has("track")
+            ->with("truck")
+            ->with("truck.truckType")
+            ->with("track")
             ->with($this->usersRels);
     }
 
