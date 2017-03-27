@@ -84,8 +84,8 @@
       <file leaf-file-name="distance.blade.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/views/google/maps/distance.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="72">
-              <caret line="4" column="117" lean-forward="true" selection-start-line="4" selection-start-column="96" selection-end-line="4" selection-end-column="117" />
+            <state relative-caret-position="66">
+              <caret line="4" column="4" lean-forward="false" selection-start-line="4" selection-start-column="4" selection-end-line="4" selection-end-column="128" />
               <folding />
             </state>
           </provider>
@@ -94,8 +94,18 @@
       <file leaf-file-name="in_bounds.blade.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/views/google/maps/in_bounds.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="324">
-              <caret line="28" column="98" lean-forward="true" selection-start-line="28" selection-start-column="98" selection-end-line="28" selection-end-column="163" />
+            <state relative-caret-position="342">
+              <caret line="29" column="4" lean-forward="false" selection-start-line="28" selection-start-column="4" selection-end-line="29" selection-end-column="4" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="in_radius.blade.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/views/google/maps/in_radius.blade.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="414">
+              <caret line="29" column="4" lean-forward="false" selection-start-line="29" selection-start-column="4" selection-end-line="29" selection-end-column="4" />
               <folding />
             </state>
           </provider>
@@ -104,22 +114,12 @@
       <file leaf-file-name="tracking.blade.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/resources/views/google/maps/tracking.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="208">
-              <caret line="33" column="163" lean-forward="false" selection-start-line="33" selection-start-column="163" selection-end-line="33" selection-end-column="163" />
+            <state relative-caret-position="226">
+              <caret line="34" column="4" lean-forward="false" selection-start-line="34" selection-start-column="4" selection-end-line="34" selection-end-column="4" />
               <folding>
-                <marker date="1490631430186" expanded="true" signature="4930:5037" ph="..." />
-                <marker date="1490631430186" expanded="true" signature="4945:5035" ph="..." />
+                <marker date="1490632170979" expanded="true" signature="4886:4993" ph="..." />
+                <marker date="1490632170979" expanded="true" signature="4901:4991" ph="..." />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="in_radius.blade.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/views/google/maps/in_radius.blade.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="396">
-              <caret line="28" column="119" lean-forward="false" selection-start-line="28" selection-start-column="119" selection-end-line="28" selection-end-column="119" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -134,8 +134,8 @@
       <find>getCurrent</find>
       <find>GetCurrent</find>
       <find>track</find>
-      <find>places</find>
       <find>maps</find>
+      <find>places</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -4090,14 +4090,7 @@
       <workItem from="1485232730857" duration="5929000" />
       <workItem from="1486115851286" duration="7237000" />
       <workItem from="1486453809448" duration="2144000" />
-      <workItem from="1490629557305" duration="1875000" />
-    </task>
-    <task id="LOCAL-00043" summary="Full update">
-      <created>1436521636769</created>
-      <option name="number" value="00043" />
-      <option name="presentableId" value="LOCAL-00043" />
-      <option name="project" value="LOCAL" />
-      <updated>1436521636769</updated>
+      <workItem from="1490629557305" duration="2616000" />
     </task>
     <task id="LOCAL-00044" summary="Full update">
       <created>1436521720146</created>
@@ -4435,11 +4428,18 @@
       <option name="project" value="LOCAL" />
       <updated>1490630794012</updated>
     </task>
-    <option name="localTasksCounter" value="92" />
+    <task id="LOCAL-00092" summary="api key for google maps&#10;product id">
+      <created>1490631445088</created>
+      <option name="number" value="00092" />
+      <option name="presentableId" value="LOCAL-00092" />
+      <option name="project" value="LOCAL" />
+      <updated>1490631445088</updated>
+    </task>
+    <option name="localTasksCounter" value="93" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="17185000" />
+    <option name="totallyTimeSpent" value="17926000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -4516,7 +4516,8 @@
     <MESSAGE value="JSON Controller and models" />
     <MESSAGE value="Full update" />
     <MESSAGE value="api key for google maps" />
-    <option name="LAST_COMMIT_MESSAGE" value="api key for google maps" />
+    <MESSAGE value="api key for google maps&#10;product id" />
+    <option name="LAST_COMMIT_MESSAGE" value="api key for google maps&#10;product id" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -4905,35 +4906,35 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/google/maps/distance.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="4" column="117" lean-forward="true" selection-start-line="4" selection-start-column="96" selection-end-line="4" selection-end-column="117" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/google/maps/in_radius.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="28" column="119" lean-forward="false" selection-start-line="28" selection-start-column="119" selection-end-line="28" selection-end-column="119" />
+        <state relative-caret-position="66">
+          <caret line="4" column="4" lean-forward="false" selection-start-line="4" selection-start-column="4" selection-end-line="4" selection-end-column="128" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/google/maps/in_bounds.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="28" column="98" lean-forward="true" selection-start-line="28" selection-start-column="98" selection-end-line="28" selection-end-column="163" />
+        <state relative-caret-position="342">
+          <caret line="29" column="4" lean-forward="false" selection-start-line="28" selection-start-column="4" selection-end-line="29" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/google/maps/in_radius.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="414">
+          <caret line="29" column="4" lean-forward="false" selection-start-line="29" selection-start-column="4" selection-end-line="29" selection-end-column="4" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/google/maps/tracking.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="208">
-          <caret line="33" column="163" lean-forward="false" selection-start-line="33" selection-start-column="163" selection-end-line="33" selection-end-column="163" />
+        <state relative-caret-position="226">
+          <caret line="34" column="4" lean-forward="false" selection-start-line="34" selection-start-column="4" selection-end-line="34" selection-end-column="4" />
           <folding>
-            <marker date="1490631430186" expanded="true" signature="4930:5037" ph="..." />
-            <marker date="1490631430186" expanded="true" signature="4945:5035" ph="..." />
+            <marker date="1490632170979" expanded="true" signature="4886:4993" ph="..." />
+            <marker date="1490632170979" expanded="true" signature="4901:4991" ph="..." />
           </folding>
         </state>
       </provider>
